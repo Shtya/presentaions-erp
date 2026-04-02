@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cloudilic | حلول الأعمال المتكاملة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: '#691F2C',
+          'brand-dark': '#4A1520',
+          'brand-deep': '#3A1018',
+          gold: '#B6915E',
+          'gold-light': '#D4AA7D',
+          'gold-pale': '#EAD9DC',
+          cream: '#F8F6F4',
+        },
+        fontFamily: {
+          arabic: ['Cairo', 'Tajawal', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Cairo','Tajawal',sans-serif;
+  background:#F8F6F4;color:#1F2937;
+  direction:rtl;text-align:right;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+:root{
+  --brand:#691F2C;--brand-dark:#4A1520;--brand-deep:#3A1018;--brand-light:#8B2D3D;
+  --gold:#B6915E;--gold-light:#D4AA7D;--gold-pale:#EAD9DC;
+  --cream:#F8F6F4;--border:#E8E3DE;
+  --charcoal:#1F2937;--gray:#6B7280;
+  --radius:18px;--radius-lg:24px;
+  --shadow:0 4px 24px rgba(105,31,44,0.07),0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg:0 20px 60px rgba(105,31,44,0.16),0 6px 16px rgba(0,0,0,0.07);
+}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#F8F6F4;}
+::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--brand),var(--gold));border-radius:4px;}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;
+  background:linear-gradient(90deg,var(--brand),var(--gold),var(--gold-light));
+  transform-origin:left;transform:scaleX(0);transition:transform 0.1s linear;
+}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(44px);transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1),transform 0.85s cubic-bezier(0.16,1,0.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-l{opacity:0;transform:translateX(50px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-l.visible{opacity:1;transform:translateX(0);}
+.reveal-r{opacity:0;transform:translateX(-50px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-r.visible{opacity:1;transform:translateX(0);}
+.reveal-s{opacity:0;transform:scale(0.9);transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1),transform 0.75s cubic-bezier(0.16,1,0.3,1);}
+.reveal-s.visible{opacity:1;transform:scale(1);}
+.d1{transition-delay:.08s!important}.d2{transition-delay:.16s!important}
+.d3{transition-delay:.24s!important}.d4{transition-delay:.32s!important}
+.d5{transition-delay:.40s!important}.d6{transition-delay:.48s!important}
+
+/* ── NAVBAR – desktop hidden, mobile only ── */
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  transition:background .4s,box-shadow .4s,backdrop-filter .4s,transform .4s cubic-bezier(0.16,1,0.3,1);
+  transform:translateY(0);
+  display:none; /* hidden on desktop */
+}
+#navbar.hide-nav{ transform:translateY(-110%); }
+#navbar.show-nav{ transform:translateY(0); }
+#navbar.scrolled{
+  background:rgba(248,246,244,0.97);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 2px 28px rgba(105,31,44,0.09);
+  border-bottom:1px solid rgba(214,211,209,0.5);
+}
+@media(max-width:900px){
+  #navbar{ display:block; }
+}
+
+/* ── SIDENAV ── */
+#sidenav{
+  position:fixed;left:20px;top:50%;transform:translateY(-50%);
+  z-index:900;display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.snav-arrow{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(105,31,44,0.1);border:1.5px solid rgba(105,31,44,0.2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--brand);font-size:.75rem;
+  transition:all .25s;
+  /* hidden on desktop, shown on mobile */
+  display:none;
+}
+.snav-arrow:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+.snav-dots{display:flex;flex-direction:column;gap:10px;padding:10px 0;}
+.snav-item{position:relative;display:flex;align-items:center;cursor:pointer;}
+.snav-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:rgba(105,31,44,0.2);border:2px solid rgba(105,31,44,0.25);
+  transition:all .35s cubic-bezier(0.16,1,0.3,1);flex-shrink:0;
+}
+.snav-item.active .snav-dot,.snav-item:hover .snav-dot{
+  background:var(--brand);border-color:var(--brand);
+  transform:scale(1.4);box-shadow:0 0 0 4px rgba(105,31,44,0.15);
+}
+.snav-label{
+  position:absolute;left:calc(100% + 12px);
+  background:var(--brand);color:#fff;
+  font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:6px;
+  white-space:nowrap;pointer-events:none;
+  opacity:0;transform:translateX(-6px);
+  transition:all .25s;box-shadow:0 4px 12px rgba(105,31,44,0.3);
+}
+.snav-label::before{
+  content:'';position:absolute;right:100%;top:50%;transform:translateY(-50%);
+  border:5px solid transparent;border-right-color:var(--brand);
+}
+.snav-item.active .snav-label,.snav-item:hover .snav-label{opacity:1;transform:translateX(0);}
+
+@media(max-width:900px){
+  #sidenav{display:none!important;}
+}
+@media(max-width:768px){
+  #sidenav{display:none!important;}
+}
+
+/* Mobile sidenav with arrows */
+#mob-sidenav{
+  position:fixed;left:12px;top:50%;transform:translateY(-50%);
+  z-index:900;display:none;flex-direction:column;align-items:center;gap:0;
+}
+@media(max-width:900px){
+  #mob-sidenav{display:flex;}
+}
+.mob-snav-arrow{
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(105,31,44,0.12);border:1.5px solid rgba(105,31,44,0.22);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--brand);font-size:.75rem;
+  transition:all .25s;
+}
+.mob-snav-arrow:hover{background:var(--brand);color:#fff;}
+.mob-snav-dots{display:flex;flex-direction:column;gap:8px;padding:8px 0;}
+.mob-snav-item{position:relative;display:flex;align-items:center;cursor:pointer;}
+.mob-snav-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(105,31,44,0.2);border:1.5px solid rgba(105,31,44,0.25);
+  transition:all .3s;
+}
+.mob-snav-item.active .mob-snav-dot{
+  background:var(--brand);border-color:var(--brand);
+  transform:scale(1.45);box-shadow:0 0 0 3px rgba(105,31,44,0.15);
+}
+
+/* ── SECTION TAG ── */
+.section-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(105,31,44,0.07);border:1px solid rgba(105,31,44,0.17);
+  color:var(--brand);font-size:.72rem;font-weight:800;
+  padding:5px 14px;border-radius:50px;letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:14px;
+}
+.section-tag-gold{
+  background:rgba(182,145,94,0.1);border-color:rgba(182,145,94,0.3);
+  color:var(--gold-light);
+}
+.gold-rule{
+  width:52px;height:3px;
+  background:linear-gradient(90deg,var(--brand),var(--gold));
+  border-radius:2px;margin:18px auto 0;
+}
+.sep{height:1px;background:linear-gradient(90deg,transparent,rgba(182,145,94,0.3),rgba(105,31,44,0.12),transparent);}
+
+/* ── GRADIENT TEXT ── */
+.gt-brand{
+  background:linear-gradient(135deg,var(--brand),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.gt-gold{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── HERO ── */
+.hero-bg{
+  background:linear-gradient(145deg,#1F0A0F 0%,#3A1018 25%,var(--brand) 60%,var(--brand-dark) 100%);
+  position:relative;overflow:hidden;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+.hero-orb{
+  position:absolute;border-radius:50%;filter:blur(90px);
+  pointer-events:none;animation:orb-float 9s ease-in-out infinite;
+}
+@keyframes orb-float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-28px) scale(1.06);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer-move{from{background-position:200% center;}to{background-position:-200% center;}}
+.ha{animation:fadeUp .95s cubic-bezier(0.16,1,0.3,1) both;}
+.ha-1{animation-delay:.15s}.ha-2{animation-delay:.35s}.ha-3{animation-delay:.55s}
+.ha-4{animation-delay:.75s}.ha-5{animation-delay:.95s}
+.shimmer-title{
+  background:linear-gradient(90deg,#EAD9DC 0%,#fff 35%,var(--gold) 55%,#EAD9DC 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer-move 4.5s linear infinite;
+}
+.hero-stat{
+  border-radius:18px;padding:22px 16px;text-align:center;
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(10px);
+  transition:transform .3s,box-shadow .3s;
+}
+.hero-stat:hover{transform:translateY(-5px);}
+@keyframes bounce-scroll{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+.bounce{animation:bounce-scroll 2.2s ease-in-out infinite;}
+
+/* ── ABOUT ── */
+.feat-row{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:16px 20px;background:#fff;border:1px solid var(--border);
+  border-radius:14px;box-shadow:var(--shadow);
+  transition:border-color .3s,box-shadow .3s;
+}
+.feat-row:hover{border-color:rgba(105,31,44,0.2);box-shadow:0 8px 28px rgba(105,31,44,0.1);}
+.icon-box{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+  box-shadow:0 6px 18px rgba(105,31,44,0.28);color:#fff;font-size:1.1rem;
+}
+.icon-box-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));box-shadow:0 6px 18px rgba(182,145,94,0.28);}
+
+/* ── CHALLENGES ── */
+.bg-dots{
+  background-color:#F0EBE7;
+  background-image:radial-gradient(circle at 1px 1px,rgba(105,31,44,0.06) 1px,transparent 0);
+  background-size:26px 26px;
+}
+.ch-card{
+  background:linear-gradient(135deg,#fff 0%,rgba(234,217,220,0.18) 100%);
+  border-radius:var(--radius);
+  border:1px solid rgba(105,31,44,0.12);
+  border-right:3px solid var(--brand);
+  padding:26px 24px;
+  box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.ch-card::before{
+  content:'';position:absolute;top:-30px;left:-30px;
+  width:100px;height:100px;border-radius:50%;
+  background:rgba(105,31,44,0.03);pointer-events:none;
+}
+.ch-card:hover{transform:translateX(-5px);box-shadow:0 10px 36px rgba(105,31,44,0.12);border-color:rgba(105,31,44,0.28);}
+
+/* ── ENHANCED PROCESS STEPPER ── */
+.stepper-wrap{
+  position:relative;
+  display:flex;
+  align-items:stretch;
+  gap:0;
+  padding:0;
+}
+.stepper-wrap::before{
+  content:'';
+  position:absolute;
+  top:44px;
+  right:0;left:0;
+  height:2px;
+  background:linear-gradient(90deg,rgba(105,31,44,0.08),var(--brand),var(--gold),rgba(182,145,94,0.1));
+  z-index:0;
+}
+.step-col{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+  z-index:1;
+  text-align:center;
+  padding:0 12px;
+}
+.step-icon-wrap{
+  position:relative;
+  width:88px;height:88px;
+  margin-bottom:20px;
+}
+.step-icon-bg{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 180deg at 50% 50%,rgba(105,31,44,0.18) 0deg,rgba(182,145,94,0.08) 360deg);
+  animation:spin-slow 12s linear infinite;
+}
+.step-icon-bg-last{
+  background:conic-gradient(from 180deg at 50% 50%,rgba(182,145,94,0.25) 0deg,rgba(105,31,44,0.08) 360deg);
+}
+@keyframes spin-slow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.step-icon-inner{
+  position:absolute;
+  inset:8px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 28px rgba(105,31,44,0.38);
+  transition:transform .4s,box-shadow .4s;
+}
+.step-icon-inner-last{
+  background:linear-gradient(135deg,var(--gold),#8B6840);
+  box-shadow:0 8px 28px rgba(182,145,94,0.45);
+}
+.step-col:hover .step-icon-inner{
+  transform:scale(1.1);
+  box-shadow:0 14px 40px rgba(105,31,44,0.5);
+}
+.step-col:hover .step-icon-inner-last{
+  box-shadow:0 14px 40px rgba(182,145,94,0.6);
+}
+.step-num-badge{
+  position:absolute;
+  top:-4px;right:-4px;
+  width:24px;height:24px;border-radius:50%;
+  background:#fff;
+  border:2px solid var(--brand);
+  color:var(--brand);
+  font-size:.62rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(105,31,44,0.2);
+  z-index:2;
+}
+.step-num-badge-last{border-color:var(--gold);color:var(--gold);}
+.step-title{
+  font-size:.95rem;font-weight:900;color:var(--charcoal);
+  letter-spacing:.01em;margin-bottom:4px;
+}
+.step-line-h{
+  position:absolute;
+  top:44px;
+  width:100%;
+  height:2px;
+  left:-50%;
+  background:linear-gradient(90deg,rgba(182,145,94,0.1),var(--brand));
+  pointer-events:none;
+}
+
+/* Mobile stepper */
+@media(max-width:768px){
+  .stepper-wrap{flex-direction:column;gap:0;align-items:stretch;}
+  .stepper-wrap::before{
+    top:0;bottom:0;
+    right:44px;left:auto;
+    width:2px;height:auto;
+    background:linear-gradient(to bottom,rgba(105,31,44,0.1),var(--brand),var(--gold),rgba(182,145,94,0.1));
+  }
+  .step-col{flex-direction:row;text-align:right;align-items:center;gap:16px;padding:0 0 28px 0;}
+  .step-col:last-child{padding-bottom:0;}
+  .step-icon-wrap{width:72px;height:72px;flex-shrink:0;margin-bottom:0;}
+  .step-line-h{display:none;}
+}
+
+/* ── HIGHLIGHT CARD (ما الذي ستحصل عليه) ── */
+.highlight-card{
+  position:relative;
+  border-radius:28px;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid rgba(105,31,44,0.1);
+  box-shadow:0 20px 60px rgba(105,31,44,0.08);
+}
+.highlight-card-header{
+  background:linear-gradient(135deg,#1F0A0F 0%,var(--brand-dark) 40%,var(--brand) 100%);
+  padding:40px 48px 36px;
+  position:relative;overflow:hidden;
+}
+.highlight-card-header::before{
+  content:'';position:absolute;
+  top:-80px;left:-80px;width:300px;height:300px;border-radius:50%;
+  background:rgba(255,255,255,0.03);pointer-events:none;
+}
+.highlight-card-header::after{
+  content:'';position:absolute;
+  bottom:-60px;right:-40px;width:200px;height:200px;border-radius:50%;
+  background:rgba(182,145,94,0.07);pointer-events:none;
+}
+.highlight-grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:36px 36px;
+  pointer-events:none;
+}
+.highlight-card-body{padding:36px 48px;}
+@media(max-width:768px){
+  .highlight-card-header{padding:28px 24px;}
+  .highlight-card-body{padding:24px;}
+}
+.feat-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:18px 20px;
+  background:#FAFAF9;
+  border:1px solid rgba(105,31,44,0.07);
+  border-radius:16px;
+  transition:border-color .3s,box-shadow .3s,background .3s,transform .3s;
+}
+.feat-item:hover{
+  background:#fff;
+  border-color:rgba(105,31,44,0.18);
+  box-shadow:0 6px 24px rgba(105,31,44,0.08);
+  transform:translateY(-2px);
+}
+.feat-item-check{
+  width:32px;height:32px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.feat-item-check-brand{background:linear-gradient(135deg,var(--brand),var(--brand-dark));box-shadow:0 4px 14px rgba(105,31,44,0.28);}
+.feat-item-check-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));box-shadow:0 4px 14px rgba(182,145,94,0.28);}
+
+/* ── WHY US ── */
+.dark-section{
+  background:linear-gradient(145deg,#1F0A0F 0%,#3A1018 40%,var(--brand-dark) 80%,#1F0A0F 100%);
+  position:relative;overflow:hidden;
+}
+.dark-section::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 15% 50%,rgba(182,145,94,0.07) 0%,transparent 55%),
+             radial-gradient(circle at 85% 20%,rgba(105,31,44,0.18) 0%,transparent 50%);
+}
+.why-card{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:var(--radius);padding:32px 26px;text-align:center;
+  transition:all .38s;
+}
+.why-card:hover{background:rgba(255,255,255,0.09);transform:translateY(-6px);}
+.why-card-featured{
+  background:linear-gradient(135deg,rgba(105,31,44,0.5),rgba(74,21,32,0.7));
+  border:1px solid rgba(105,31,44,0.5);
+  box-shadow:0 12px 40px rgba(105,31,44,0.25);
+}
+.why-card-featured:hover{transform:translateY(-6px);}
+
+/* ── TEAM ORG ── */
+.org-node{
+  background:#fff;border:1px solid var(--border);
+  border-radius:16px;padding:18px 20px;
+  display:inline-flex;flex-direction:column;align-items:center;
+  text-align:center;min-width:140px;
+  box-shadow:var(--shadow);
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.org-node:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:rgba(105,31,44,0.22);}
+.org-node-ceo{
+  background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+  border:none;color:#fff;min-width:180px;padding:22px 28px;
+  box-shadow:0 12px 40px rgba(105,31,44,0.3);
+}
+.org-node-mgr{border-top:3px solid var(--brand);}
+.org-node-sub{border-top:2px solid rgba(182,145,94,0.4);font-size:.82rem;}
+.org-avatar{
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;font-weight:900;color:#fff;
+  margin-bottom:10px;flex-shrink:0;
+}
+.org-connector-v{width:2px;background:linear-gradient(to bottom,var(--brand),rgba(105,31,44,0.2));margin:0 auto;}
+.org-connector-h{height:2px;background:linear-gradient(90deg,rgba(105,31,44,0.15),var(--brand),rgba(105,31,44,0.15));}
+
+/* ── PARTNERS ── */
+.partner-card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px 16px;text-align:center;
+  box-shadow:var(--shadow);
+  transition:transform .35s,box-shadow .35s,border-color .35s;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  position:relative;overflow:hidden;
+}
+.partner-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:3px;background:linear-gradient(90deg,var(--brand),var(--gold));
+  transform:scaleX(0);transform-origin:right;
+  transition:transform .35s;
+}
+.partner-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:rgba(105,31,44,0.22);}
+.partner-card:hover::after{transform:scaleX(1);}
+.partner-logo{
+  width:64px;height:64px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;
+  background:linear-gradient(135deg,rgba(105,31,44,0.06),rgba(182,145,94,0.07));
+  border:1px solid rgba(105,31,44,0.08);
+}
+
+/* ── ACHIEVEMENTS ── */
+.stat-card{
+  background:linear-gradient(135deg,var(--brand) 0%,var(--brand-dark) 100%);
+  border-radius:var(--radius);color:#fff;text-align:center;
+  padding:36px 20px;position:relative;overflow:hidden;
+  box-shadow:0 12px 40px rgba(105,31,44,0.26);
+  transition:transform .38s,box-shadow .38s;
+}
+.stat-card:nth-child(even){
+  background:linear-gradient(135deg,var(--gold) 0%,#8B6840 100%);
+  box-shadow:0 12px 40px rgba(182,145,94,0.28);
+}
+.stat-card:hover{transform:translateY(-7px);}
+.stat-card::before{content:'';position:absolute;top:-44px;left:-44px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.stat-card::after{content:'';position:absolute;bottom:-30px;right:-30px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.stat-inline{display:flex;align-items:baseline;justify-content:center;gap:2px;}
+
+/* ── PROJECTS ── */
+.proj-card{
+  background:#fff;border-radius:var(--radius-lg);overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  transition:transform .4s cubic-bezier(0.16,1,0.3,1),box-shadow .4s;
+  position:relative;
+}
+.proj-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:4px;background:linear-gradient(90deg,var(--brand),var(--gold));
+  transform:scaleX(0);transform-origin:right;
+  transition:transform .4s cubic-bezier(0.16,1,0.3,1);
+}
+.proj-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);}
+.proj-card:hover::after{transform:scaleX(1);}
+.proj-detail-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.3);
+  color:#fff;font-size:.75rem;font-weight:700;
+  padding:7px 16px;border-radius:50px;
+  cursor:pointer;
+  transition:background .25s,transform .25s;
+  letter-spacing:.04em;
+}
+.proj-detail-btn:hover{background:rgba(255,255,255,0.25);transform:scale(1.04);}
+
+/* ── PROJECT PANEL ── */
+#proj-overlay{
+  position:fixed;inset:0;z-index:2000;
+  display:flex;align-items:stretch;
+  pointer-events:none;
+}
+#proj-overlay.open{pointer-events:all;}
+#proj-overlay-backdrop{
+  position:absolute;inset:0;
+  background:rgba(26,8,15,0.72);
+  backdrop-filter:blur(6px);
+  opacity:0;
+  transition:opacity .45s cubic-bezier(0.16,1,0.3,1);
+}
+#proj-overlay.open #proj-overlay-backdrop{opacity:1;}
+#proj-panel{
+  position:relative;z-index:1;
+  width:min(860px,96vw);
+  max-height:100vh;
+  overflow-y:auto;
+  margin-right:auto;
+  background:#F8F6F4;
+  padding:0;
+  transform:translateX(-100%);
+  transition:transform .55s cubic-bezier(0.16,1,0.3,1);
+}
+#proj-overlay.open #proj-panel{transform:translateX(0);}
+#proj-panel::-webkit-scrollbar{width:4px;}
+#proj-panel::-webkit-scrollbar-thumb{background:var(--brand);border-radius:4px;}
+.panel-close-btn{
+  position:sticky;top:0;z-index:10;
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 28px;
+  background:rgba(248,246,244,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.panel-close-icon{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:1.1rem;cursor:pointer;
+  box-shadow:0 4px 14px rgba(105,31,44,0.36);
+  transition:transform .25s,box-shadow .25s;
+  border:none;flex-shrink:0;
+}
+.panel-close-icon:hover{transform:rotate(90deg) scale(1.1);box-shadow:0 8px 24px rgba(105,31,44,0.5);}
+.panel-hero{padding:40px 36px 32px;position:relative;overflow:hidden;color:#fff;}
+.panel-section{padding:28px 36px;border-bottom:1px solid var(--border);}
+.panel-section:last-child{border-bottom:none;}
+.panel-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:12px;
+}
+.panel-label i{font-size:.8rem;}
+.panel-label-gold{color:var(--gold);}
+.panel-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.panel-feature-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px 16px;
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;
+  transition:border-color .25s,box-shadow .25s;
+}
+.panel-feature-item:hover{border-color:rgba(105,31,44,0.2);box-shadow:var(--shadow);}
+.panel-impact-bar{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;
+  background:linear-gradient(135deg,rgba(105,31,44,0.05),rgba(182,145,94,0.06));
+  border:1px solid rgba(105,31,44,0.1);
+  border-radius:14px;
+  margin-bottom:10px;
+}
+.panel-metric{
+  min-width:56px;height:40px;border-radius:10px;
+  background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.78rem;font-weight:900;color:#fff;flex-shrink:0;
+}
+.panel-metric-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:#3A1018;
+}
+.flow-step{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 0;
+  border-bottom:1px dashed rgba(105,31,44,0.1);
+}
+.flow-step:last-child{border-bottom:none;}
+.flow-num{
+  min-width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.68rem;font-weight:900;color:#fff;flex-shrink:0;margin-top:2px;
+}
+
+/* ── CLOSING ── */
+.closing-bg{
+  background:linear-gradient(150deg,#1F0A0F 0%,#3A1018 30%,var(--brand) 65%,var(--brand-dark) 100%);
+  position:relative;overflow:hidden;
+}
+
+/* ── MOBILE NAV ── */
+#mob-menu{
+  overflow:hidden;
+  max-height:0;
+  transition:max-height .45s cubic-bezier(0.16,1,0.3,1),opacity .35s ease;
+  opacity:0;
+  background:rgba(26,8,15,0.97);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid rgba(105,31,44,0.25);
+}
+#mob-menu.open{max-height:600px;opacity:1;}
+.mob-menu-inner{padding:16px 16px 24px;}
+.mob-link{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 16px;
+  font-weight:600;color:rgba(255,255,255,0.78);font-size:.88rem;
+  border-radius:10px;
+  transition:background .2s,color .2s;
+  margin-bottom:3px;
+  text-decoration:none;
+}
+.mob-link i{font-size:.95rem;color:var(--gold);opacity:.7;width:20px;text-align:center;}
+.mob-link:hover{background:rgba(105,31,44,0.28);color:#fff;}
+
+/* ── HAMBURGER ── */
+.ham-icon{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:38px;height:38px;padding:8px;
+  background:none;border:none;cursor:pointer;
+  border-radius:10px;transition:background .2s;
+}
+.ham-icon:hover{background:rgba(255,255,255,0.08);}
+.ham-bar{
+  width:22px;height:2px;border-radius:2px;
+  background:rgba(255,255,255,0.9);
+  display:block;transform-origin:center;
+  transition:transform .35s cubic-bezier(0.16,1,0.3,1),opacity .25s,width .3s;
+}
+#navbar.scrolled .ham-bar{background:var(--brand);}
+.ham-icon.open .ham-bar:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham-icon.open .ham-bar:nth-child(2){opacity:0;transform:scaleX(0);}
+.ham-icon.open .ham-bar:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .org-connector-h{display:none;}
+}
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr!important;}
+  .why-grid{grid-template-columns:1fr 1fr!important;}
+}
+@media(max-width:768px){
+  .challenges-grid{grid-template-columns:1fr!important;}
+  .why-grid{grid-template-columns:1fr!important;}
+  .proj-cols{grid-template-columns:1fr!important;}
+  .feat-panel-grid{grid-template-columns:1fr!important;}
+  .achievements-grid{grid-template-columns:1fr 1fr!important;}
+  .partner-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .partners-grid-3{grid-template-columns:1fr 1fr!important;}
+  .panel-hero{padding:28px 20px 22px;}
+  .panel-section{padding:22px 20px;}
+  .panel-grid-2{grid-template-columns:1fr;}
+  .panel-close-btn{padding:14px 20px;}
+  #proj-panel{width:100vw;}
+  .hero-stats-grid{grid-template-columns:1fr 1fr!important;}
+}
+@media(max-width:640px){
+  .achievements-grid{grid-template-columns:1fr 1fr!important;}
+  .hero-stats-grid{grid-template-columns:1fr 1fr!important;}
+  .org-node{min-width:100px;padding:12px 10px;font-size:.8rem;}
+  .org-node-ceo{min-width:140px;padding:16px 18px;}
+  .partners-grid-3{grid-template-columns:1fr!important;}
+}
+@media(max-width:480px){
+  .partner-grid{grid-template-columns:1fr 1fr!important;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ═══════ NAVBAR (mobile only) ═══════ -->
+<nav id="navbar">
+  <div style="max-width:1280px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(105,31,44,0.4);">
+        <i class="fa-solid fa-cloud" style="font-size:1rem;color:#fff;"></i>
+      </div>
+      <div>
+        <div id="nav-logo-text" style="font-weight:900;font-size:.9rem;color:rgba(255,255,255,0.95);line-height:1.1;transition:color .4s;">Cloudilic</div>
+        <div id="nav-logo-sub" style="font-size:.6rem;color:rgba(255,255,255,0.48);font-weight:500;transition:color .4s;letter-spacing:.04em;">Business Solutions</div>
+      </div>
+    </div>
+    <button class="ham-icon" id="ham-btn" onclick="toggleMob()" aria-label="قائمة" style="display:flex;">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+  </div>
+  <div id="mob-menu">
+    <div class="mob-menu-inner">
+      <a href="#about" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-circle-info"></i>من نحن</a>
+      <a href="#challenges" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-triangle-exclamation"></i>التحديات</a>
+      <a href="#solution" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-circle-check"></i>الحل</a>
+      <a href="#why" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-shield-halved"></i>لماذا نحن</a>
+      <a href="#team" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-users"></i>الفريق</a>
+      <a href="#partners" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-handshake"></i>الشركاء</a>
+      <a href="#achievements" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-star"></i>إنجازاتنا</a>
+      <a href="#projects" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-desktop"></i>مشاريعنا</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ DESKTOP SIDENAV (bullets only, no arrows) ═══════ -->
+<div id="sidenav">
+  <div class="snav-dots">
+    <div class="snav-item active" data-target="hero"><span class="snav-dot"></span><span class="snav-label">الرئيسية</span></div>
+    <div class="snav-item" data-target="about"><span class="snav-dot"></span><span class="snav-label">من نحن</span></div>
+    <div class="snav-item" data-target="challenges"><span class="snav-dot"></span><span class="snav-label">التحديات</span></div>
+    <div class="snav-item" data-target="solution"><span class="snav-dot"></span><span class="snav-label">الحل</span></div>
+    <div class="snav-item" data-target="why"><span class="snav-dot"></span><span class="snav-label">لماذا نحن</span></div>
+    <div class="snav-item" data-target="team"><span class="snav-dot"></span><span class="snav-label">الفريق</span></div>
+    <div class="snav-item" data-target="partners"><span class="snav-dot"></span><span class="snav-label">الشركاء</span></div>
+    <div class="snav-item" data-target="achievements"><span class="snav-dot"></span><span class="snav-label">الإنجازات</span></div>
+    <div class="snav-item" data-target="projects"><span class="snav-dot"></span><span class="snav-label">المشاريع</span></div>
+    <div class="snav-item" data-target="closing"><span class="snav-dot"></span><span class="snav-label">الختام</span></div>
+  </div>
+</div>
+
+<!-- ═══════ MOBILE SIDENAV (with arrows) ═══════ -->
+<div id="mob-sidenav">
+  <button class="mob-snav-arrow" id="mob-snav-up" aria-label="القسم السابق">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+  <div class="mob-snav-dots" id="mob-snav-dots">
+    <div class="mob-snav-item active" data-target="hero"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="about"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="challenges"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="solution"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="why"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="team"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="partners"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="achievements"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="projects"><span class="mob-snav-dot"></span></div>
+    <div class="mob-snav-item" data-target="closing"><span class="mob-snav-dot"></span></div>
+  </div>
+  <button class="mob-snav-arrow" id="mob-snav-down" aria-label="القسم التالي">
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+</div>
+
+<!-- ═══════ PROJECT PANEL ═══════ -->
+<div id="proj-overlay" role="dialog" aria-modal="true">
+  <div id="proj-overlay-backdrop" onclick="closeProjectPanel()"></div>
+  <div id="proj-panel">
+    <div class="panel-close-btn">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div id="panel-badge" style="font-size:.7rem;font-weight:800;padding:4px 12px;border-radius:50px;background:rgba(105,31,44,0.08);color:var(--brand);">مشروع 01</div>
+        <div id="panel-title-small" style="font-size:.85rem;font-weight:700;color:var(--charcoal);"></div>
+      </div>
+      <button class="panel-close-icon" onclick="closeProjectPanel()" title="إغلاق">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div id="panel-content"></div>
+  </div>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<section id="hero" class="hero-bg" style="padding-top:0;">
+  <div class="hero-grid"></div>
+  <div class="hero-orb" style="width:480px;height:480px;background:radial-gradient(circle,rgba(182,145,94,0.13),transparent);top:-120px;right:-120px;"></div>
+  <div class="hero-orb" style="width:380px;height:380px;background:radial-gradient(circle,rgba(105,31,44,0.22),transparent);bottom:-80px;left:-80px;animation-delay:3.5s;"></div>
+  <div class="hero-orb" style="width:260px;height:260px;background:radial-gradient(circle,rgba(182,145,94,0.09),transparent);top:38%;left:18%;animation-delay:6s;"></div>
+
+  <svg style="position:absolute;bottom:0;left:0;width:280px;opacity:.05;pointer-events:none;" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="150" cy="150" r="140" stroke="#B6915E" stroke-width="1.5" stroke-dasharray="8 6"/>
+    <circle cx="150" cy="150" r="100" stroke="#691F2C" stroke-width="1" stroke-dasharray="4 8"/>
+    <circle cx="150" cy="150" r="60" stroke="#B6915E" stroke-width=".8"/>
+    <circle cx="150" cy="150" r="20" fill="#691F2C" opacity=".4"/>
+    <line x1="150" y1="10" x2="150" y2="290" stroke="#B6915E" stroke-width=".5" opacity=".4"/>
+    <line x1="10" y1="150" x2="290" y2="150" stroke="#B6915E" stroke-width=".5" opacity=".4"/>
+  </svg>
+
+  <div style="max-width:900px;margin:0 auto;padding:80px 20px 80px;text-align:center;position:relative;z-index:10;">
+    <div class="ha ha-1" style="display:inline-flex;align-items:center;gap:8px;background:rgba(182,145,94,0.12);border:1px solid rgba(182,145,94,0.3);color:var(--gold-light);padding:8px 20px;border-radius:50px;font-size:.78rem;font-weight:700;letter-spacing:.06em;margin-bottom:28px;">
+      <i class="fa-solid fa-star" style="font-size:.8rem;"></i>
+      حلول متكاملة للشركات القطرية
+    </div>
+
+    <h1 class="ha ha-2 shimmer-title" style="font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;letter-spacing:-.01em;margin-bottom:20px;line-height:1.15;">
+      عرض Cloudilic لشركتك
+    </h1>
+
+    <div class="ha ha-3" style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;">
+      <div style="flex:1;max-width:70px;height:1px;background:linear-gradient(90deg,transparent,rgba(182,145,94,0.6));"></div>
+      <i class="fa-solid fa-diamond" style="color:var(--gold);font-size:.75rem;"></i>
+      <div style="flex:1;max-width:70px;height:1px;background:linear-gradient(90deg,rgba(182,145,94,0.6),transparent);"></div>
+    </div>
+
+    <p class="ha ha-3" style="font-size:clamp(1.1rem,3vw,1.8rem);font-weight:700;color:var(--gold-light);letter-spacing:.1em;margin-bottom:16px;">
+      تنظيم — تحكم — نمو
+    </p>
+    <p class="ha ha-4" style="font-size:clamp(.9rem,2vw,1.05rem);color:rgba(255,255,255,0.65);max-width:560px;margin:0 auto 44px;line-height:2;font-weight:400;">
+      نقدم لك نظاماً متكاملاً يوحّد عمليات شركتك، يمنحك رؤية لحظية دقيقة، ويضع القرار الصحيح بين يديك في أي وقت ومن أي مكان.
+    </p>
+
+    <!-- Stats -->
+    <div class="ha ha-4 hero-stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:520px;margin:0 auto 40px;">
+      <div class="hero-stat">
+        <div style="display:flex;align-items:center;justify-content:center;gap:4px;line-height:1;margin-bottom:8px;">
+          <i class="fa-solid fa-plus" style="font-size:1.1rem;color:var(--gold-light);"></i>
+          <span style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:#fff;line-height:1;" class="counter" data-target="50">0</span>
+        </div>
+        <div style="height:2px;width:32px;background:linear-gradient(90deg,var(--gold),var(--gold-light));margin:0 auto 8px;border-radius:2px;"></div>
+        <div style="font-size:clamp(.68rem,2vw,.78rem);color:rgba(255,255,255,0.55);font-weight:500;">مشروع منجز</div>
+      </div>
+      <div class="hero-stat" style="border-color:rgba(182,145,94,0.35);">
+        <div style="display:flex;align-items:center;justify-content:center;gap:2px;line-height:1;margin-bottom:8px;">
+          <span style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:var(--gold-light);line-height:1;" class="counter" data-target="98">0</span>
+          <i class="fa-solid fa-percent" style="font-size:1.1rem;color:var(--gold-light);"></i>
+        </div>
+        <div style="height:2px;width:32px;background:linear-gradient(90deg,var(--gold),var(--gold-light));margin:0 auto 8px;border-radius:2px;"></div>
+        <div style="font-size:clamp(.68rem,2vw,.78rem);color:rgba(255,255,255,0.55);font-weight:500;">رضا العملاء</div>
+      </div>
+      <div class="hero-stat">
+        <div style="display:flex;align-items:center;justify-content:center;gap:4px;line-height:1;margin-bottom:8px;">
+          <i class="fa-solid fa-plus" style="font-size:1.1rem;color:var(--gold-light);"></i>
+          <span style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:#fff;line-height:1;" class="counter" data-target="8">0</span>
+        </div>
+        <div style="height:2px;width:32px;background:linear-gradient(90deg,var(--gold),var(--gold-light));margin:0 auto 8px;border-radius:2px;"></div>
+        <div style="font-size:clamp(.68rem,2vw,.78rem);color:rgba(255,255,255,0.55);font-weight:500;">سنوات خبرة</div>
+      </div>
+    </div>
+
+    <!-- CTA removed (presentation only) -->
+    <div class="ha ha-5 bounce" style="margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.25);cursor:pointer;" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+      <span style="font-size:.7rem;letter-spacing:.08em;">اسحب للاستكشاف</span>
+      <div style="width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,0.25),transparent);"></div>
+    </div>
+  </div>
+
+  <div style="position:absolute;bottom:0;left:0;right:0;">
+    <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" fill="#F8F6F4" preserveAspectRatio="none" style="display:block;height:56px;">
+      <path d="M0,56L60,48C120,40,240,24,360,18.7C480,13,600,21,720,28C840,35,960,40,1080,37.3C1200,35,1320,26,1380,21.3L1440,17L1440,56L0,56Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════ ABOUT ═══════ -->
+<section id="about" style="padding:96px 0;background:#F8F6F4;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;">
+    <div class="about-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
+      <div class="reveal">
+        <div class="section-tag"><i class="fa-solid fa-circle" style="font-size:.45rem;"></i> من نحن</div>
+        <h2 style="font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;color:var(--charcoal);line-height:1.25;margin-bottom:18px;">
+          نبنـي الأنظمة التي <span class="gt-brand">تُحرّك الأعمال</span>
+        </h2>
+        <p style="color:#4B5563;font-size:clamp(.92rem,2vw,1.05rem);line-height:2;margin-bottom:26px;">
+          نحن شركة متخصصة في تطوير حلول برمجية متكاملة وإدارة الأعمال الرقمية. نفهم بعمق تحديات السوق الخليجي ونعمل بشكل وثيق مع عملائنا لبناء أنظمة عملية تُحقق نتائج حقيقية قابلة للقياس.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="feat-row">
+            <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;">خبرة موثوقة في السوق الخليجي</div><div style="color:#6B7280;font-size:.88rem;line-height:1.75;">سنوات من العمل في تطوير أنظمة ERP المخصصة لأسواق قطر والخليج</div></div>
+          </div>
+          <div class="feat-row">
+            <div class="icon-box icon-box-gold"><i class="fa-solid fa-chart-line"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;">نتائج قابلة للقياس</div><div style="color:#6B7280;font-size:.88rem;line-height:1.75;">نقدم حلولاً عملية مع مؤشرات أداء واضحة تعكس نجاح النظام وأثره الحقيقي</div></div>
+          </div>
+          <div class="feat-row">
+            <div class="icon-box"><i class="fa-solid fa-users"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;">شراكة استراتيجية حقيقية</div><div style="color:#6B7280;font-size:.88rem;line-height:1.75;">لسنا مجرد مورّدين – نحن شركاء نمو نرافقك في كل مرحلة من مراحل التطوير</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-l">
+        <div style="background:linear-gradient(145deg,var(--brand),#3A1018);border-radius:26px;padding:40px 36px;color:#fff;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:-40px;left:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
+          <div style="position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(182,145,94,0.07);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:.7rem;font-weight:800;color:var(--gold-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">ما يميزنا</div>
+            <div style="font-size:clamp(1rem,3vw,1.4rem);font-weight:800;margin-bottom:28px;line-height:1.45;">شركة رائدة في تقنيات إدارة الأعمال الرقمية للسوق الخليجي</div>
+            <div style="display:flex;flex-direction:column;gap:18px;">
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.09);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:var(--gold-light);flex-shrink:0;">01</div>
+                <div><div style="font-weight:700;margin-bottom:3px;">خبرة تقنية متعمقة</div><div style="font-size:.82rem;color:rgba(255,255,255,0.6);line-height:1.7;">فريق متخصص يمتلك خبرة أكثر من 8 سنوات في بناء أنظمة ERP</div></div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.09);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:var(--gold-light);flex-shrink:0;">02</div>
+                <div><div style="font-weight:700;margin-bottom:3px;">أنظمة مرنة وقابلة للتوسع</div><div style="font-size:.82rem;color:rgba(255,255,255,0.6);line-height:1.7;">تنمو معك كلما نمت شركتك دون الحاجة لتغيير النظام</div></div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.09);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:var(--gold-light);flex-shrink:0;">03</div>
+                <div><div style="font-weight:700;margin-bottom:3px;">دعم فني متكامل على مدار الساعة</div><div style="font-size:.82rem;color:rgba(255,255,255,0.6);line-height:1.7;">لن تواجه أي مشكلة وحيداً — نحن دائماً بجانبك</div></div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;">
+              <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:14px;text-align:center;">
+                <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><i class="fa-solid fa-plus" style="font-size:.9rem;color:var(--gold-light);"></i><span style="font-size:1.8rem;font-weight:900;color:var(--gold-light);" class="counter" data-target="50">0</span></div>
+                <div style="font-size:.72rem;color:rgba(255,255,255,0.5);margin-top:2px;">مشروع منجز</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:14px;text-align:center;">
+                <div style="font-size:1.8rem;font-weight:900;color:var(--gold-light);">4 دول</div>
+                <div style="font-size:.72rem;color:rgba(255,255,255,0.5);margin-top:2px;">نطاق عملنا</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep" style="max-width:480px;margin:0 auto;"></div>
+
+<!-- ═══════ CHALLENGES ═══════ -->
+<section id="challenges" class="bg-dots" style="padding:96px 0;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;">
+    <div class="reveal" style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag" style="display:inline-flex;"><i class="fa-solid fa-triangle-exclamation" style="font-size:.72rem;"></i> التحديات</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--charcoal);margin-bottom:14px;">
+        التحديات التي قد تواجه <span class="gt-brand">شركتك</span>
+      </h2>
+      <p style="color:var(--gray);font-size:clamp(.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9;">كلما نمت شركتك، تزداد التعقيدات — ومع ذلك يظل فريقك يعمل بأدوات غير متكاملة</p>
+      <div class="gold-rule"></div>
+    </div>
+    <div class="challenges-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+      <div class="ch-card reveal d1">
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:1.1rem;box-shadow:0 6px 18px rgba(105,31,44,0.25);"><i class="fa-solid fa-eye-slash"></i></div>
+          <div>
+            <h3 style="font-weight:800;font-size:clamp(.92rem,2vw,1.05rem);color:var(--charcoal);margin-bottom:8px;">فقدان السيطرة على العمليات اليومية</h3>
+            <p style="color:var(--gray);font-size:clamp(.82rem,2vw,.9rem);line-height:1.85;">شركتك قد تواجه صعوبة في متابعة ما يجري داخل الأقسام المختلفة دون الحاجة لمكالمات أو اجتماعات متكررة.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ch-card reveal d2">
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:1.1rem;box-shadow:0 6px 18px rgba(105,31,44,0.25);"><i class="fa-solid fa-user-magnifying-glass"></i></div>
+          <div>
+            <h3 style="font-weight:800;font-size:clamp(.92rem,2vw,1.05rem);color:var(--charcoal);margin-bottom:8px;">صعوبة متابعة الطلبات والعملاء</h3>
+            <p style="color:var(--gray);font-size:clamp(.82rem,2vw,.9rem);line-height:1.85;">قد يكون من الصعب على فريقك معرفة حالة كل طلب أو عميل في الوقت الفعلي مما يُضعف تجربة العميل وثقته.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ch-card reveal d3">
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:1.1rem;box-shadow:0 6px 18px rgba(105,31,44,0.25);"><i class="fa-solid fa-database"></i></div>
+          <div>
+            <h3 style="font-weight:800;font-size:clamp(.92rem,2vw,1.05rem);color:var(--charcoal);margin-bottom:8px;">تشتت البيانات بين أنظمة متعددة</h3>
+            <p style="color:var(--gray);font-size:clamp(.82rem,2vw,.9rem);line-height:1.85;">كلما زاد حجم العمل أصبحت المتابعة أصعب — خصوصاً حين تكون البيانات موزعة بين إكسيل وبرامج منفصلة.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ch-card reveal d4">
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:1.1rem;box-shadow:0 6px 18px rgba(105,31,44,0.25);"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div>
+            <h3 style="font-weight:800;font-size:clamp(.92rem,2vw,1.05rem);color:var(--charcoal);margin-bottom:8px;">أخطاء بشرية وتأخر في القرارات</h3>
+            <p style="color:var(--gray);font-size:clamp(.82rem,2vw,.9rem);line-height:1.85;">الإدارة اليدوية تفتح الباب للأخطاء، والتقارير المتأخرة تعني قرارات خاطئة — وهذا يكلّف شركتك وقتاً ومالاً.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SOLUTION ═══════ -->
+<section id="solution" style="padding:96px 0;background:#F8F6F4;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;">
+    <div class="reveal" style="text-align:center;margin-bottom:60px;">
+      <div class="section-tag" style="display:inline-flex;"><i class="fa-solid fa-circle-check" style="font-size:.72rem;"></i> كيف نحل هذه المشاكل</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--charcoal);margin-bottom:14px;">
+        <span class="gt-brand">Cloudilic</span> يربط كل شيء
+      </h2>
+      <p style="color:var(--gray);font-size:clamp(.88rem,2vw,1rem);max-width:540px;margin:0 auto;line-height:1.9;">نقدم لك حلاً شاملاً يوحّد أقسام شركتك في منصة واحدة ذكية ويمنحك الرؤية الكاملة</p>
+      <div class="gold-rule"></div>
+    </div>
+
+    <!-- ═══ ENHANCED STEPPER ═══ -->
+    <div class="reveal" style="margin-bottom:72px;padding:0 12px;">
+      <div class="stepper-wrap">
+        <!-- Step 1 -->
+        <div class="step-col">
+          <div class="step-icon-wrap">
+            <div class="step-icon-bg"></div>
+            <div class="step-icon-inner">
+              <i class="fa-solid fa-link" style="font-size:1.4rem;color:#fff;"></i>
+            </div>
+            <div class="step-num-badge">1</div>
+          </div>
+          <div class="step-title">ربط الأقسام</div>
+          <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--brand),var(--gold));border-radius:2px;margin:8px auto 0;"></div>
+        </div>
+        <!-- Step 2 -->
+        <div class="step-col">
+          <div class="step-icon-wrap">
+            <div class="step-icon-bg"></div>
+            <div class="step-icon-inner">
+              <i class="fa-solid fa-chart-column" style="font-size:1.4rem;color:#fff;"></i>
+            </div>
+            <div class="step-num-badge">2</div>
+          </div>
+          <div class="step-title">توحيد البيانات</div>
+          <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--brand),var(--gold));border-radius:2px;margin:8px auto 0;"></div>
+        </div>
+        <!-- Step 3 -->
+        <div class="step-col">
+          <div class="step-icon-wrap">
+            <div class="step-icon-bg"></div>
+            <div class="step-icon-inner">
+              <i class="fa-solid fa-eye" style="font-size:1.4rem;color:#fff;"></i>
+            </div>
+            <div class="step-num-badge">3</div>
+          </div>
+          <div class="step-title">رؤية لحظية</div>
+          <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--brand),var(--gold));border-radius:2px;margin:8px auto 0;"></div>
+        </div>
+        <!-- Step 4 -->
+        <div class="step-col">
+          <div class="step-icon-wrap">
+            <div class="step-icon-bg step-icon-bg-last"></div>
+            <div class="step-icon-inner step-icon-inner-last">
+              <i class="fa-solid fa-rocket" style="font-size:1.4rem;color:#fff;"></i>
+            </div>
+            <div class="step-num-badge step-num-badge-last">4</div>
+          </div>
+          <div class="step-title">نمو مستدام</div>
+          <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin:8px auto 0;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ HIGHLIGHT CARD ═══ -->
+    <div class="highlight-card reveal">
+      <div class="highlight-card-header">
+        <div class="highlight-grid-bg"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+            <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(182,145,94,0.15);border:1px solid rgba(182,145,94,0.3);color:var(--gold-light);padding:6px 16px;border-radius:50px;font-size:.72rem;font-weight:800;letter-spacing:.06em;">
+              <i class="fa-solid fa-star"></i> ما الذي ستحصل عليه
+            </div>
+          </div>
+          <h3 style="font-size:clamp(1.3rem,3.5vw,2rem);font-weight:900;color:#fff;line-height:1.3;max-width:800px;">
+            كل ما تحتاجه لإدارة شركتك <span style="color:var(--gold-light);">بكفاءة عالية</span>
+          </h3>
+          <p style="color:rgba(255,255,255,0.55);font-size:clamp(.85rem,2vw,.95rem);margin-top:10px;max-width:500px;line-height:1.8;">
+            منصة متكاملة تغطي كل جانب من جوانب عملك اليومي في مكان واحد
+          </p>
+        </div>
+      </div>
+
+      <div class="highlight-card-body">
+        <div class="feat-panel-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="feat-item">
+            <div class="feat-item-check feat-item-check-brand"><i class="fa-solid fa-check" style="color:#fff;font-size:.8rem;"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;font-size:.95rem;">إدارة كاملة للطلبات والمبيعات</div><div style="color:var(--gray);font-size:.85rem;line-height:1.7;">من أول طلب حتى التسليم والفاتورة — كل شيء موثق وقابل للتتبع</div></div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-item-check feat-item-check-brand"><i class="fa-solid fa-check" style="color:#fff;font-size:.8rem;"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;font-size:.95rem;">متابعة المخزون والمخازن بدقة</div><div style="color:var(--gray);font-size:.85rem;line-height:1.7;">تحكم كامل في الكميات مع تنبيهات تلقائية عند النقص</div></div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-item-check feat-item-check-gold"><i class="fa-solid fa-check" style="color:#3A1018;font-size:.8rem;"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;font-size:.95rem;">تقارير تدعم القرارات الاستراتيجية</div><div style="color:var(--gray);font-size:.85rem;line-height:1.7;">لوحات بيانية واضحة تمنحك صورة شاملة عن أداء شركتك</div></div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-item-check feat-item-check-gold"><i class="fa-solid fa-check" style="color:#3A1018;font-size:.8rem;"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;font-size:.95rem;">تقليل الأخطاء وزيادة الكفاءة</div><div style="color:var(--gray);font-size:.85rem;line-height:1.7;">أتمتة المهام المتكررة وتقليل الاعتماد على الإجراءات اليدوية</div></div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-item-check feat-item-check-brand"><i class="fa-solid fa-check" style="color:#fff;font-size:.8rem;"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;font-size:.95rem;">إدارة الموارد البشرية والرواتب</div><div style="color:var(--gray);font-size:.85rem;line-height:1.7;">نظام متكامل لإدارة فريق عملك بكفاءة وشفافية</div></div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-item-check feat-item-check-brand"><i class="fa-solid fa-check" style="color:#fff;font-size:.8rem;"></i></div>
+            <div><div style="font-weight:700;color:var(--charcoal);margin-bottom:3px;font-size:.95rem;">التكامل مع الأنظمة الخارجية</div><div style="color:var(--gray);font-size:.85rem;line-height:1.7;">نربطك بأنظمة الدفع والشحن والبوابات الحكومية بسلاسة</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ WHY US ═══════ -->
+<section id="why" class="dark-section" style="padding:96px 0;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1;">
+    <div class="reveal" style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag section-tag-gold" style="display:inline-flex;"><i class="fa-solid fa-shield-halved" style="font-size:.72rem;"></i> لماذا تختارنا</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:#fff;margin-bottom:14px;">
+        ليس مجرد نظام — <span class="gt-gold">شراكة نمو حقيقية</span>
+      </h2>
+      <p style="color:rgba(255,255,255,0.52);font-size:clamp(.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9;">نفهم احتياجات السوق الخليجي ونقدم حلولاً مُصمَّمة خصيصاً لعملياتك</p>
+      <div class="gold-rule"></div>
+    </div>
+    <div class="why-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <div class="why-card reveal d1">
+        <div style="width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 28px rgba(105,31,44,0.4);">
+          <i class="fa-solid fa-globe" style="font-size:1.6rem;color:#fff;"></i>
+        </div>
+        <h3 style="font-weight:800;font-size:clamp(1rem,2.5vw,1.1rem);color:#fff;margin-bottom:12px;">نفهم السوق الخليجي</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:clamp(.82rem,1.8vw,.92rem);line-height:1.85;">خبرة متعمقة في بيئة الأعمال القطرية ومتطلباتها التشغيلية الخاصة والأنظمة المحلية</p>
+      </div>
+      <div class="why-card why-card-featured reveal d2">
+        <div style="width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 28px rgba(182,145,94,0.4);">
+          <i class="fa-solid fa-list-check" style="font-size:1.5rem;color:#3A1018;"></i>
+        </div>
+        <h3 style="font-weight:800;font-size:clamp(1rem,2.5vw,1.1rem);color:#fff;margin-bottom:12px;">حلول عملية لا تعقيد</h3>
+        <p style="color:rgba(255,255,255,0.72);font-size:clamp(.82rem,1.8vw,.92rem);line-height:1.85;">نركز على ما يُحدث فارقاً حقيقياً في عملك بعيداً عن التعقيدات التقنية غير الضرورية</p>
+        <div style="margin-top:16px;display:inline-block;background:rgba(182,145,94,0.25);color:var(--gold-light);font-size:.72rem;font-weight:800;padding:5px 14px;border-radius:50px;border:1px solid rgba(182,145,94,0.3);">الأكثر تأثيراً</div>
+      </div>
+      <div class="why-card reveal d3">
+        <div style="width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,var(--brand),var(--gold));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 28px rgba(105,31,44,0.3);">
+          <i class="fa-solid fa-chart-line" style="font-size:1.5rem;color:#fff;"></i>
+        </div>
+        <h3 style="font-weight:800;font-size:clamp(1rem,2.5vw,1.1rem);color:#fff;margin-bottom:12px;">نظام ينمو معك</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:clamp(.82rem,1.8vw,.92rem);line-height:1.85;">بنية مرنة وقابلة للتوسع مع نمو شركتك دون الحاجة لتغيير النظام بالكامل أو توقف العمل</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TEAM ═══════ -->
+<section id="team" style="padding:96px 0;background:#F8F6F4;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;">
+    <div class="reveal" style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag" style="display:inline-flex;"><i class="fa-solid fa-users" style="font-size:.72rem;"></i> فريقنا</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--charcoal);margin-bottom:14px;">
+        وراء كل نظام ناجح <span class="gt-brand">فريق متميز</span>
+      </h2>
+      <p style="color:var(--gray);font-size:clamp(.88rem,2vw,1rem);max-width:480px;margin:0 auto;line-height:1.9;">هيكل تنظيمي متكامل يضمن تسليماً استثنائياً لكل مشروع</p>
+      <div class="gold-rule"></div>
+    </div>
+
+    <div class="reveal" style="overflow-x:auto;padding-bottom:12px;">
+      <div style="min-width:640px;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="org-node org-node-ceo">
+            <div class="org-avatar" style="background:rgba(255,255,255,0.18);width:60px;height:60px;font-size:1.3rem;"><i class="fa-solid fa-user-tie"></i></div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,0.6);margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;">المدير التنفيذي</div>
+            <div style="font-weight:800;font-size:.95rem;">أحمد الحربي</div>
+            <div style="font-size:.72rem;color:var(--gold-light);margin-top:3px;">قيادة الاستراتيجية والنمو</div>
+          </div>
+          <div class="org-connector-v" style="height:36px;"></div>
+          <div style="display:flex;align-items:flex-start;width:100%;max-width:820px;position:relative;">
+            <div class="org-connector-h" style="position:absolute;top:0;right:12%;left:12%;"></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:0 8px;">
+              <div class="org-connector-v" style="height:30px;"></div>
+              <div class="org-node org-node-mgr" style="width:100%;max-width:175px;">
+                <div class="org-avatar" style="background:linear-gradient(135deg,var(--brand),var(--gold));width:48px;height:48px;font-size:.95rem;"><i class="fa-solid fa-briefcase"></i></div>
+                <div style="font-size:.65rem;color:var(--gold);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em;">مديرة مشاريع</div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--charcoal);">سارة القحطاني</div>
+              </div>
+              <div class="org-connector-v" style="height:24px;"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;max-width:175px;">
+                <div class="org-node org-node-sub" style="padding:10px 8px;font-size:.75rem;min-width:0;">
+                  <div class="org-avatar" style="width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--gold-light));font-size:.7rem;margin-bottom:6px;">خ</div>
+                  <div style="font-weight:600;color:var(--charcoal);">خالد العمري</div>
+                  <div style="font-size:.65rem;color:#9CA3AF;margin-top:2px;">مدير مشروع</div>
+                </div>
+                <div class="org-node org-node-sub" style="padding:10px 8px;font-size:.75rem;min-width:0;">
+                  <div class="org-avatar" style="width:32px;height:32px;background:linear-gradient(135deg,var(--brand-dark),var(--gold));font-size:.7rem;margin-bottom:6px;">ر</div>
+                  <div style="font-weight:600;color:var(--charcoal);">ريم الزهراني</div>
+                  <div style="font-size:.65rem;color:#9CA3AF;margin-top:2px;">منسقة</div>
+                </div>
+              </div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:0 8px;">
+              <div class="org-connector-v" style="height:30px;"></div>
+              <div class="org-node org-node-mgr" style="width:100%;max-width:175px;">
+                <div class="org-avatar" style="background:linear-gradient(135deg,var(--brand),var(--brand-dark));width:48px;height:48px;font-size:.95rem;"><i class="fa-solid fa-code"></i></div>
+                <div style="font-size:.65rem;color:var(--brand);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em;">رئيس تقنية</div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--charcoal);">عمر الشمري</div>
+              </div>
+              <div class="org-connector-v" style="height:24px;"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;max-width:175px;">
+                <div class="org-node org-node-sub" style="padding:10px 8px;font-size:.75rem;min-width:0;">
+                  <div class="org-avatar" style="width:32px;height:32px;background:linear-gradient(135deg,var(--brand),var(--gold));font-size:.7rem;margin-bottom:6px;">أ</div>
+                  <div style="font-weight:600;color:var(--charcoal);">أحمد السيف</div>
+                  <div style="font-size:.65rem;color:#9CA3AF;margin-top:2px;">مطور أول</div>
+                </div>
+                <div class="org-node org-node-sub" style="padding:10px 8px;font-size:.75rem;min-width:0;">
+                  <div class="org-avatar" style="width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--brand-dark));font-size:.7rem;margin-bottom:6px;">ل</div>
+                  <div style="font-weight:600;color:var(--charcoal);">لمى الحمود</div>
+                  <div style="font-size:.65rem;color:#9CA3AF;margin-top:2px;">مطورة واجهات</div>
+                </div>
+              </div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:0 8px;">
+              <div class="org-connector-v" style="height:30px;"></div>
+              <div class="org-node org-node-mgr" style="width:100%;max-width:175px;">
+                <div class="org-avatar" style="background:linear-gradient(135deg,var(--gold),#8B6840);width:48px;height:48px;font-size:.95rem;"><i class="fa-solid fa-chart-bar"></i></div>
+                <div style="font-size:.65rem;color:var(--gold);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em;">محلل</div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--charcoal);">فهد الدوسري</div>
+                <div style="font-size:.7rem;color:var(--brand);margin-top:2px;">محلل الأعمال</div>
+              </div>
+              <div class="org-connector-v" style="height:24px;"></div>
+              <div style="width:100%;max-width:175px;">
+                <div class="org-node org-node-sub" style="padding:10px 8px;font-size:.75rem;">
+                  <div class="org-avatar" style="width:32px;height:32px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));font-size:.7rem;margin-bottom:6px;"><i class="fa-solid fa-chart-pie" style="font-size:.7rem;"></i></div>
+                  <div style="font-weight:600;color:var(--charcoal);">فريق التحليل</div>
+                  <div style="font-size:.65rem;color:#9CA3AF;margin-top:2px;">3 محللين</div>
+                </div>
+              </div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:0 8px;">
+              <div class="org-connector-v" style="height:30px;"></div>
+              <div class="org-node org-node-mgr" style="width:100%;max-width:175px;">
+                <div class="org-avatar" style="background:linear-gradient(135deg,#3A1018,var(--gold));width:48px;height:48px;font-size:.95rem;"><i class="fa-solid fa-headset"></i></div>
+                <div style="font-size:.65rem;color:var(--brand);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em;">مديرة دعم</div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--charcoal);">نورة العتيبي</div>
+              </div>
+              <div class="org-connector-v" style="height:24px;"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;max-width:175px;">
+                <div class="org-node org-node-sub" style="padding:10px 8px;font-size:.75rem;min-width:0;">
+                  <div class="org-avatar" style="width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--brand));font-size:.65rem;margin-bottom:6px;"><i class="fa-solid fa-headset" style="font-size:.65rem;"></i></div>
+                  <div style="font-weight:600;color:var(--charcoal);">دعم فني</div>
+                  <div style="font-size:.65rem;color:#9CA3AF;margin-top:2px;">5 أفراد</div>
+                </div>
+                <div class="org-node org-node-sub" style="padding:10px 8px;font-size:.75rem;min-width:0;">
+                  <div class="org-avatar" style="width:32px;height:32px;background:linear-gradient(135deg,var(--brand-dark),var(--gold-light));font-size:.65rem;margin-bottom:6px;"><i class="fa-solid fa-graduation-cap" style="font-size:.65rem;"></i></div>
+                  <div style="font-weight:600;color:var(--charcoal);">التدريب</div>
+                  <div style="font-size:.65rem;color:#9CA3AF;margin-top:2px;">3 مدربين</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep" style="max-width:480px;margin:0 auto;"></div>
+
+<!-- ═══════ PARTNERS ═══════ -->
+<section id="partners" style="padding:88px 0;background:linear-gradient(135deg,#F8F6F4,#F0EBE7);">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;">
+    <div class="reveal" style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag" style="display:inline-flex;"><i class="fa-solid fa-handshake" style="font-size:.72rem;"></i> شركاؤنا</div>
+      <h2 style="font-size:clamp(1.5rem,4vw,2.4rem);font-weight:900;color:var(--charcoal);margin-bottom:12px;">
+        شركاء <span class="gt-brand">موثوقون عالمياً</span>
+      </h2>
+      <p style="color:var(--gray);font-size:clamp(.85rem,2vw,.95rem);max-width:500px;margin:0 auto;line-height:1.9;">نتعاون مع جهات رائدة لتقديم أفضل الحلول التقنية لعملائنا</p>
+      <div class="gold-rule"></div>
+    </div>
+    <div class="partner-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+      <div class="partner-card reveal d1">
+        <div class="partner-logo"><i class="fa-solid fa-cloud" style="font-size:2rem;color:var(--brand);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">Cloud Partner</div>
+      </div>
+      <div class="partner-card reveal d2">
+        <div class="partner-logo"><i class="fa-solid fa-lock" style="font-size:2rem;color:var(--gold);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">Security Partner</div>
+      </div>
+      <div class="partner-card reveal d3">
+        <div class="partner-logo"><i class="fa-solid fa-credit-card" style="font-size:2rem;color:var(--brand);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">Payment Gateway</div>
+      </div>
+      <div class="partner-card reveal d4">
+        <div class="partner-logo"><i class="fa-solid fa-mobile-screen" style="font-size:2rem;color:var(--gold);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">Development Partner</div>
+      </div>
+      <div class="partner-card reveal d2">
+        <div class="partner-logo"><i class="fa-solid fa-tower-broadcast" style="font-size:2rem;color:var(--brand);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">Telecom Partner</div>
+      </div>
+      <div class="partner-card reveal d3">
+        <div class="partner-logo"><i class="fa-solid fa-building-columns" style="font-size:2rem;color:var(--gold);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">Government Partner</div>
+      </div>
+      <div class="partner-card reveal d4">
+        <div class="partner-logo"><i class="fa-solid fa-earth-asia" style="font-size:2rem;color:var(--brand);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">Regional Partner</div>
+      </div>
+      <div class="partner-card reveal d5">
+        <div class="partner-logo"><i class="fa-solid fa-robot" style="font-size:2rem;color:var(--gold);"></i></div>
+        <div style="font-weight:800;color:var(--charcoal);font-size:.9rem;">AI &amp; Automation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ACHIEVEMENTS ═══════ -->
+<section id="achievements" class="dark-section" style="padding:96px 0;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1;">
+    <div class="reveal" style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag section-tag-gold" style="display:inline-flex;"><i class="fa-solid fa-star" style="font-size:.72rem;"></i> إنجازاتنا</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:#fff;margin-bottom:12px;">
+        أرقام <span class="gt-gold">تتحدث عن نفسها</span>
+      </h2>
+      <p style="color:rgba(255,255,255,0.48);font-size:clamp(.88rem,2vw,1rem);max-width:480px;margin:0 auto;">إنجازات مبنية على ثقة عملائنا ونتائج حقيقية قابلة للقياس</p>
+      <div class="gold-rule"></div>
+    </div>
+
+    <div class="achievements-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:36px;">
+      <div class="stat-card reveal d1">
+        <div style="position:relative;z-index:1;">
+          <div style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px;"><i class="fa-solid fa-folder-open" style="font-size:.85rem;"></i> مشروع</div>
+          <div class="stat-inline">
+            <span class="counter" data-target="50" style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;line-height:1;">0</span>
+            <i class="fa-solid fa-plus" style="color:var(--gold-light);font-size:1.3rem;font-weight:900;line-height:1;margin-right:2px;"></i>
+          </div>
+          <div style="font-size:.8rem;color:rgba(255,255,255,0.6);margin-top:10px;font-weight:500;">مشروع منجز بنجاح</div>
+        </div>
+      </div>
+      <div class="stat-card reveal d2">
+        <div style="position:relative;z-index:1;">
+          <div style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px;"><i class="fa-solid fa-face-smile" style="font-size:.85rem;"></i> عميل</div>
+          <div class="stat-inline">
+            <span class="counter" data-target="30" style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;line-height:1;">0</span>
+            <i class="fa-solid fa-plus" style="color:rgba(255,255,255,0.85);font-size:1.3rem;font-weight:900;line-height:1;margin-right:2px;"></i>
+          </div>
+          <div style="font-size:.8rem;color:rgba(255,255,255,0.65);margin-top:10px;font-weight:500;">عميل راضٍ ونشط</div>
+        </div>
+      </div>
+      <div class="stat-card reveal d3">
+        <div style="position:relative;z-index:1;">
+          <div style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px;"><i class="fa-solid fa-star" style="font-size:.85rem;"></i> رضا</div>
+          <div class="stat-inline">
+            <span class="counter" data-target="98" style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;line-height:1;">0</span>
+            <i class="fa-solid fa-percent" style="color:var(--gold-light);font-size:1.3rem;font-weight:900;line-height:1;margin-right:2px;"></i>
+          </div>
+          <div style="font-size:.8rem;color:rgba(255,255,255,0.6);margin-top:10px;font-weight:500;">نسبة رضا العملاء</div>
+        </div>
+      </div>
+      <div class="stat-card reveal d4">
+        <div style="position:relative;z-index:1;">
+          <div style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px;"><i class="fa-solid fa-medal" style="font-size:.85rem;"></i> خبرة</div>
+          <div class="stat-inline">
+            <span class="counter" data-target="8" style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;line-height:1;">0</span>
+            <i class="fa-solid fa-plus" style="color:rgba(255,255,255,0.85);font-size:1.3rem;font-weight:900;line-height:1;margin-right:2px;"></i>
+          </div>
+          <div style="font-size:.8rem;color:rgba(255,255,255,0.65);margin-top:10px;font-weight:500;">سنوات من الخبرة</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="partners-grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">
+      <div class="reveal d1" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:22px;transition:all .35s;" onmouseover="this.style.background='rgba(255,255,255,0.09)';this.style.transform='translateY(-4px)'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.transform='translateY(0)'">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(182,145,94,0.15);border:1px solid rgba(182,145,94,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-solid fa-trophy" style="color:var(--gold-light);font-size:1.2rem;"></i></div>
+          <div>
+            <div style="font-weight:700;color:#fff;font-size:.92rem;">أفضل حل ERP خليجي 2023</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,0.44);margin-top:3px;">اتحاد الأعمال الرقمية الخليجي</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal d2" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:22px;transition:all .35s;" onmouseover="this.style.background='rgba(255,255,255,0.09)';this.style.transform='translateY(-4px)'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.transform='translateY(0)'">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(182,145,94,0.15);border:1px solid rgba(182,145,94,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-solid fa-award" style="color:var(--gold-light);font-size:1.2rem;"></i></div>
+          <div>
+            <div style="font-weight:700;color:#fff;font-size:.92rem;">شهادة جودة ISO معتمدة</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,0.44);margin-top:3px;">معايير دولية أعلى مستوى</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal d3" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:22px;transition:all .35s;" onmouseover="this.style.background='rgba(255,255,255,0.09)';this.style.transform='translateY(-4px)'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.transform='translateY(0)'">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(182,145,94,0.15);border:1px solid rgba(182,145,94,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-solid fa-earth-asia" style="color:var(--gold-light);font-size:1.2rem;"></i></div>
+          <div>
+            <div style="font-weight:700;color:#fff;font-size:.92rem;">حضور في 5 دول خليجية</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,0.44);margin-top:3px;">قطر، الإمارات، السعودية، الكويت، عُمان</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div class="reveal d4" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:22px;">
+        <div style="font-size:.68rem;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-clock" style="font-size:.8rem;"></i> تسليم في الموعد</div>
+        <div style="color:#fff;font-size:clamp(.88rem,2vw,1rem);font-weight:600;line-height:1.7;">95% من مشاريعنا سُلِّمت في الموعد المحدد أو قبله</div>
+      </div>
+      <div class="reveal d5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:22px;">
+        <div style="font-size:.68rem;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-chart-line" style="font-size:.8rem;"></i> تحسين الكفاءة</div>
+        <div style="color:#fff;font-size:clamp(.88rem,2vw,1rem);font-weight:600;line-height:1.7;">عملاؤنا يحققون تحسناً وسطه 40% في الكفاءة التشغيلية</div>
+      </div>
+      <div class="reveal d6" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:22px;">
+        <div style="font-size:.68rem;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-headset" style="font-size:.8rem;"></i> دعم ما بعد التسليم</div>
+        <div style="color:#fff;font-size:clamp(.88rem,2vw,1rem);font-weight:600;line-height:1.7;">دعم تقني على مدار الساعة لضمان استمرارية عملك</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PROJECTS ═══════ -->
+<section id="projects" style="padding:96px 0;background:#F8F6F4;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;">
+    <div class="reveal" style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag" style="display:inline-flex;"><i class="fa-solid fa-desktop" style="font-size:.72rem;"></i> مشاريعنا</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--charcoal);margin-bottom:14px;">
+        نجاحات حقيقية <span class="gt-brand">مع عملائنا</span>
+      </h2>
+      <p style="color:var(--gray);font-size:clamp(.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9;">كل مشروع كان تحدياً حقيقياً تحوّل إلى نجاح قابل للقياس بفضل نهجنا العملي</p>
+      <div class="gold-rule"></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:28px;">
+      <!-- Project 1 -->
+      <div class="proj-card reveal">
+        <div style="padding:28px 30px 22px;background:linear-gradient(135deg,var(--brand) 0%,#3A1018 100%);color:#fff;position:relative;overflow:hidden;">
+          <div style="position:absolute;bottom:-20px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                <div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:4px 14px;font-size:.72rem;font-weight:800;letter-spacing:.06em;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-store"></i> مشروع 01</div>
+                <div style="color:var(--gold-light);font-size:.8rem;font-weight:600;">قطاع التجزئة – قطر</div>
+              </div>
+              <button class="proj-detail-btn" onclick="openProjectPanel(0)">
+                <i class="fa-solid fa-circle-info"></i> تفاصيل المشروع
+              </button>
+            </div>
+            <h3 style="font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;margin-bottom:6px;">نظام ERP لسلسلة متاجر الأناقة</h3>
+            <p style="color:rgba(255,255,255,0.62);font-size:clamp(.8rem,2vw,.9rem);">توحيد عمليات المبيعات والمخزون على امتداد 12 فرع في قطر</p>
+          </div>
+        </div>
+        <div class="proj-cols" style="display:grid;grid-template-columns:1fr 1fr 1fr;">
+          <div style="padding:24px;border-left:1px solid #F0EBE7;">
+            <div style="font-size:.68rem;font-weight:800;color:var(--gold);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-circle-question"></i> التحدي</div>
+            <p style="color:#4B5563;font-size:clamp(.82rem,1.8vw,.9rem);line-height:1.85;">الشركة كانت تعاني من عدم توافق المخزون بين الفروع وأخطاء يدوية متكررة في الفواتير وصعوبة متابعة الأداء.</p>
+          </div>
+          <div style="padding:24px;border-left:1px solid #F0EBE7;">
+            <div style="font-size:.68rem;font-weight:800;color:var(--brand);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-lightbulb"></i> الحل</div>
+            <p style="color:#4B5563;font-size:clamp(.82rem,1.8vw,.9rem);line-height:1.85;">نظام ERP يربط الفروع في منصة واحدة مع لوحة تحكم مركزية ونظام طلبات آلي وCRM متكامل.</p>
+          </div>
+          <div style="padding:24px;background:linear-gradient(135deg,#F8F6F4,rgba(234,217,220,0.15));">
+            <div style="font-size:.68rem;font-weight:800;color:var(--gold);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-trophy"></i> النتيجة</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="min-width:52px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;font-weight:900;color:#fff;gap:1px;"><i class="fa-solid fa-arrow-trend-down" style="font-size:.6rem;"></i>80<i class="fa-solid fa-percent" style="font-size:.6rem;"></i></div>
+                <span style="color:var(--charcoal);font-size:clamp(.8rem,1.8vw,.88rem);font-weight:600;">تقليل الأخطاء</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="min-width:52px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;font-weight:900;color:#3A1018;">3×</div>
+                <span style="color:var(--charcoal);font-size:clamp(.8rem,1.8vw,.88rem);font-weight:600;">سرعة التسليم</span>
+              </div>
+              <div style="background:var(--gold-pale);border-radius:10px;padding:10px 14px;margin-top:4px;text-align:center;"><div style="font-size:.82rem;font-weight:700;color:var(--brand);">"غيّر طريقة إدارتنا بالكامل"</div><div style="font-size:.7rem;color:#9CA3AF;margin-top:2px;">— المدير التنفيذي</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="proj-card reveal d2">
+        <div style="padding:28px 30px 22px;background:linear-gradient(135deg,var(--gold) 0%,var(--brand-dark) 100%);color:#fff;position:relative;overflow:hidden;">
+          <div style="position:absolute;bottom:-20px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:4px 14px;font-size:.72rem;font-weight:800;letter-spacing:.06em;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-building"></i> مشروع 02</div>
+                <div style="color:rgba(255,255,255,0.85);font-size:.8rem;font-weight:600;">قطاع الخدمات – الخليج</div>
+              </div>
+              <button class="proj-detail-btn" onclick="openProjectPanel(1)">
+                <i class="fa-solid fa-circle-info"></i> تفاصيل المشروع
+              </button>
+            </div>
+            <h3 style="font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;margin-bottom:6px;">نظام إدارة عمليات شركة خدمية</h3>
+            <p style="color:rgba(255,255,255,0.65);font-size:clamp(.8rem,2vw,.9rem);">أتمتة المهام اليومية وتتبع الأداء في الوقت الفعلي لأكثر من 200 عميل</p>
+          </div>
+        </div>
+        <div class="proj-cols" style="display:grid;grid-template-columns:1fr 1fr 1fr;">
+          <div style="padding:24px;border-left:1px solid #F0EBE7;">
+            <div style="font-size:.68rem;font-weight:800;color:var(--gold);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-circle-question"></i> التحدي</div>
+            <p style="color:#4B5563;font-size:clamp(.82rem,1.8vw,.9rem);line-height:1.85;">الشركة كانت تعتمد على الورق والإكسيل لإدارة 200+ عميل مما أدى لفقدان طلبات وتأخر في الخدمة.</p>
+          </div>
+          <div style="padding:24px;border-left:1px solid #F0EBE7;">
+            <div style="font-size:.68rem;font-weight:800;color:var(--brand);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-lightbulb"></i> الحل</div>
+            <p style="color:#4B5563;font-size:clamp(.82rem,1.8vw,.9rem);line-height:1.85;">منصة رقمية متكاملة لإدارة الطلبات وتتبع الفريق الميداني وإصدار التقارير التلقائية اليومية.</p>
+          </div>
+          <div style="padding:24px;background:linear-gradient(135deg,#F8F6F4,rgba(216,195,165,0.12));">
+            <div style="font-size:.68rem;font-weight:800;color:var(--gold);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-trophy"></i> النتيجة</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="min-width:52px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.68rem;font-weight:900;color:#fff;gap:1px;">45<i class="fa-solid fa-percent" style="font-size:.6rem;"></i></div>
+                <span style="color:var(--charcoal);font-size:clamp(.8rem,1.8vw,.88rem);font-weight:600;">زيادة الإنتاجية</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="min-width:52px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.58rem;font-weight:900;color:#3A1018;">صفر</div>
+                <span style="color:var(--charcoal);font-size:clamp(.8rem,1.8vw,.88rem);font-weight:600;">طلبات ضائعة</span>
+              </div>
+              <div style="background:var(--gold-pale);border-radius:10px;padding:10px 14px;margin-top:4px;text-align:center;"><div style="font-size:.82rem;font-weight:700;color:var(--brand);">"عدنا للتحكم في أعمالنا"</div><div style="font-size:.7rem;color:#9CA3AF;margin-top:2px;">— المدير المالي</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CLOSING (no contact info, no CTAs) ═══════ -->
+<section id="closing" class="closing-bg" style="padding:100px 0;position:relative;">
+  <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(182,145,94,0.09) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+
+  <div style="max-width:860px;margin:0 auto;padding:0 24px;text-align:center;position:relative;z-index:1;">
+    <div class="reveal" style="display:flex;align-items:center;justify-content:center;gap:10px;max-width:160px;margin:0 auto 40px;">
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(182,145,94,0.55));"></div>
+      <i class="fa-solid fa-star" style="color:var(--gold);font-size:.9rem;"></i>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(182,145,94,0.55),transparent);"></div>
+    </div>
+
+    <div class="reveal d1" style="display:inline-flex;align-items:center;gap:8px;background:rgba(182,145,94,0.12);border:1px solid rgba(182,145,94,0.25);color:var(--gold-light);padding:8px 20px;border-radius:50px;font-size:.78rem;font-weight:700;letter-spacing:.06em;margin-bottom:24px;">
+      <i class="fa-solid fa-presentation-screen" style="font-size:.85rem;"></i>
+      ختام العرض التقديمي
+    </div>
+
+    <h2 class="reveal d2" style="font-size:clamp(1.7rem,5vw,3.2rem);font-weight:900;color:#fff;line-height:1.3;margin-bottom:20px;">
+      شكراً لكم — نحن جاهزون<br/>
+      <span class="gt-gold">لنبدأ معكم الرحلة</span>
+    </h2>
+
+    <p class="reveal d3" style="color:rgba(255,255,255,0.62);font-size:clamp(.9rem,2vw,1.1rem);line-height:2;max-width:620px;margin:0 auto 16px;font-weight:400;">
+      يسعدنا تقديم هذا العرض لكم. نحن متحمسون لمناقشة كيف يمكن لـ Cloudilic أن يُحدث فارقاً حقيقياً في عمليات شركتكم وأهدافكم المستقبلية.
+    </p>
+    <p class="reveal d3" style="color:rgba(255,255,255,0.48);font-size:clamp(.85rem,2vw,1rem);line-height:1.9;max-width:580px;margin:0 auto 56px;font-weight:400;">
+      الخطوة التالية بين يديكم — نطوّر نظاماً مُصمَّماً خصيصاً لشركتكم، يناسب أسلوب عملكم ويدعم نموكم المستقبلي.
+    </p>
+
+    <div class="reveal d4" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:32px;">
+      <div style="font-size:.66rem;font-weight:700;color:rgba(255,255,255,0.26);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;">ثقة وخبرة مُثبَتة</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(12px,3vw,28px);">
+        <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.42);font-size:clamp(.75rem,2vw,.85rem);font-weight:600;"><i class="fa-solid fa-shield-check" style="color:var(--gold);"></i> حلول آمنة وموثوقة</div>
+        <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.42);font-size:clamp(.75rem,2vw,.85rem);font-weight:600;"><i class="fa-solid fa-clock" style="color:var(--gold);"></i> تسليم في الموعد</div>
+        <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.42);font-size:clamp(.75rem,2vw,.85rem);font-weight:600;"><i class="fa-solid fa-headset" style="color:var(--gold);"></i> دعم على مدار الساعة</div>
+        <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.42);font-size:clamp(.75rem,2vw,.85rem);font-weight:600;"><i class="fa-solid fa-users" style="color:var(--gold);"></i> فريق متخصص</div>
+      </div>
+    </div>
+
+    <!-- Cloudilic branding footer -->
+    <div class="reveal" style="margin-top:48px;display:flex;align-items:center;justify-content:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(105,31,44,0.4);">
+        <i class="fa-solid fa-cloud" style="font-size:1rem;color:#fff;"></i>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:900;font-size:.95rem;color:rgba(255,255,255,0.8);">Cloudilic</div>
+        <div style="font-size:.65rem;color:rgba(255,255,255,0.3);font-weight:500;letter-spacing:.04em;">Business Solutions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ═══════════════════════════════════════
+// PROJECT DATA
+// ═══════════════════════════════════════
+const projects = [
+  {
+    badge:'مشروع 01',sector:'قطاع التجزئة – قطر',
+    title:'نظام ERP لسلسلة متاجر الأناقة',
+    subtitle:'توحيد عمليات 12 فرع في منصة واحدة ذكية',
+    gradient:'linear-gradient(135deg,var(--brand),#3A1018)',
+    icon:'fa-solid fa-store',
+    overview:'سلسلة متاجر أزياء راقية تمتلك 12 فرعاً في قطر كانت تعاني من شتات البيانات وعدم التزامن بين الفروع. قدمنا لها نظام Cloudilic ERP الشامل الذي وحّد جميع العمليات في منصة واحدة.',
+    problem:'كانت الشركة تدير كل فرع بشكل منفصل باستخدام إكسيل وأنظمة متفرقة، مما أدى إلى تعارضات في المخزون وأخطاء في الفواتير وعدم القدرة على اتخاذ قرارات استراتيجية مبنية على بيانات دقيقة.',
+    flow:[
+      {title:'جمع المتطلبات',desc:'تحليل عمليات كل فرع وتحديد نقاط الضعف والاحتياجات الفعلية'},
+      {title:'تصميم الحل',desc:'بناء هيكل النظام المتكامل لربط المبيعات والمخزون والمحاسبة والعملاء'},
+      {title:'التطوير والاختبار',desc:'تطوير النظام على مراحل مع اختبار شامل في كل مرحلة'},
+      {title:'التدريب والإطلاق',desc:'تدريب الفريق وإطلاق تدريجي فرع تلو الآخر لضمان الاستمرارية'},
+      {title:'المتابعة والتحسين',desc:'دعم فني مستمر وتحسينات بناءً على التغذية الراجعة من المستخدمين'}
+    ],
+    features:[
+      {icon:'fa-solid fa-store',title:'إدارة الفروع',desc:'لوحة تحكم مركزية تعرض أداء كل فرع في الوقت الفعلي'},
+      {icon:'fa-solid fa-boxes-stacked',title:'مخزون موحّد',desc:'تزامن تلقائي للمخزون بين الفروع مع تنبيهات النقص'},
+      {icon:'fa-solid fa-heart-circle-check',title:'CRM متكامل',desc:'إدارة علاقات العملاء وتاريخ مشترياتهم عبر الفروع'},
+      {icon:'fa-solid fa-file-invoice',title:'فوترة ذكية',desc:'إصدار الفواتير آلياً مع تتبع المدفوعات والمستحقات'},
+      {icon:'fa-solid fa-chart-bar',title:'تقارير وتحليلات',desc:'تقارير يومية وشهرية وتحليل مقارن بين الفروع'},
+      {icon:'fa-solid fa-shield-halved',title:'صلاحيات دقيقة',desc:'تحديد صلاحيات كل موظف بدقة حسب دوره ومستواه'}
+    ],
+    impact:[
+      {metric:'80%',label:'تقليل الأخطاء اليدوية في الفواتير والمخزون',gold:false},
+      {metric:'3×',label:'زيادة سرعة تسليم الطلبات وخدمة العملاء',gold:true},
+      {metric:'40%',label:'تحسن في الكفاءة التشغيلية العامة للشركة',gold:false},
+      {metric:'100%',label:'رؤية فورية على أداء جميع الفروع في آنٍ واحد',gold:true}
+    ],
+    quote:'"غيّر طريقة إدارتنا بالكامل — الآن نرى كل شيء في لحظة واحدة"',
+    quotePerson:'المدير التنفيذي، سلسلة متاجر الأناقة'
+  },
+  {
+    badge:'مشروع 02',sector:'قطاع الخدمات – الخليج',
+    title:'نظام إدارة عمليات شركة خدمية',
+    subtitle:'أتمتة شاملة لإدارة أكثر من 200 عميل يومياً',
+    gradient:'linear-gradient(135deg,var(--gold),var(--brand-dark))',
+    icon:'fa-solid fa-building',
+    overview:'شركة خدمية متوسطة الحجم تدير أكثر من 200 عميل نشط يومياً. كانت تعتمد كلياً على الورق والإكسيل مما جعل التوسع أمراً صعباً. قدمنا منصة رقمية متكاملة غيّرت طريقة عملهم جذرياً.',
+    problem:'فقدان الطلبات، تأخر الاستجابة، وعدم قدرة الإدارة على متابعة أداء الفريق الميداني في الوقت الفعلي. النمو كان يعني مزيداً من الفوضى لا مزيداً من الكفاءة.',
+    flow:[
+      {title:'تحليل سير العمل الحالي',desc:'رسم خريطة كاملة لجميع العمليات اليومية وتحديد نقاط الاختناق'},
+      {title:'تصميم المنصة الرقمية',desc:'بناء نظام يتلاءم مع طبيعة الخدمة ويدعم العمل الميداني والمكتبي معاً'},
+      {title:'التكامل مع الأنظمة القائمة',desc:'ربط النظام الجديد بأنظمة الدفع والاتصالات الموجودة مسبقاً'},
+      {title:'الإطلاق التدريجي',desc:'إطلاق على مراحل بدءاً بفريق صغير ثم التوسع التدريجي'},
+      {title:'القياس والتحسين المستمر',desc:'متابعة المؤشرات وتحسين النظام بناءً على البيانات الفعلية'}
+    ],
+    features:[
+      {icon:'fa-solid fa-list-check',title:'إدارة الطلبات',desc:'استقبال وتتبع ومعالجة الطلبات بشكل آلي وشفاف'},
+      {icon:'fa-solid fa-map-location-dot',title:'تتبع الفريق الميداني',desc:'متابعة الموقع والمهام المنجزة لكل فرد في الميدان'},
+      {icon:'fa-solid fa-bell',title:'تنبيهات تلقائية',desc:'إشعارات فورية عند تأخر الطلبات أو وجود مشكلات'},
+      {icon:'fa-solid fa-file-chart-column',title:'تقارير يومية آلية',desc:'تقارير أداء يومية تُرسل تلقائياً للإدارة كل صباح'},
+      {icon:'fa-solid fa-headset',title:'بوابة العملاء',desc:'بوابة رقمية للعملاء لمتابعة طلباتهم بأنفسهم'},
+      {icon:'fa-solid fa-circle-dollar-to-slot',title:'إدارة الفواتير',desc:'إصدار وإرسال الفواتير إلكترونياً مع متابعة التحصيل'}
+    ],
+    impact:[
+      {metric:'45%',label:'زيادة إنتاجية الفريق الميداني قياساً بما قبله',gold:false},
+      {metric:'صفر',label:'طلبات ضائعة أو منسية بعد تطبيق النظام',gold:true},
+      {metric:'60%',label:'تقليل وقت معالجة كل طلب من البداية حتى الإغلاق',gold:false},
+      {metric:'98%',label:'رضا العملاء بعد تفعيل بوابة التتبع الذاتي',gold:true}
+    ],
+    quote:'"عدنا للتحكم في أعمالنا — كل طلب يصل، يُنجز، ويُحصَّل بدون أخطاء"',
+    quotePerson:'المدير المالي، الشركة الخدمية'
+  }
+];
+
+function buildPanelContent(p){
+  const flowHTML=p.flow.map((s,i)=>`
+    <div class="flow-step">
+      <div class="flow-num">${i+1}</div>
+      <div><div style="font-weight:700;color:var(--charcoal);font-size:.9rem;margin-bottom:3px;">${s.title}</div><div style="color:var(--gray);font-size:.83rem;line-height:1.7;">${s.desc}</div></div>
+    </div>`).join('');
+
+  const featHTML=p.features.map(f=>`
+    <div class="panel-feature-item">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="${f.icon}" style="color:#fff;font-size:.9rem;"></i>
+      </div>
+      <div><div style="font-weight:700;color:var(--charcoal);font-size:.88rem;margin-bottom:2px;">${f.title}</div><div style="color:var(--gray);font-size:.8rem;line-height:1.65;">${f.desc}</div></div>
+    </div>`).join('');
+
+  const impactHTML=p.impact.map(m=>`
+    <div class="panel-impact-bar">
+      <div class="panel-metric${m.gold?' panel-metric-gold':''}">${m.metric}</div>
+      <div style="color:var(--charcoal);font-size:.88rem;font-weight:600;line-height:1.6;">${m.label}</div>
+    </div>`).join('');
+
+  return `
+    <div class="panel-hero" style="background:${p.gradient};">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025)1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025)1px,transparent 1px);background-size:40px 40px;pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.2);border-radius:50px;padding:5px 14px;font-size:.7rem;font-weight:800;color:#fff;letter-spacing:.05em;margin-bottom:14px;">
+          <i class="${p.icon}"></i> ${p.sector}
+        </div>
+        <h2 style="font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;color:#fff;margin-bottom:8px;line-height:1.25;">${p.title}</h2>
+        <p style="color:rgba(255,255,255,0.68);font-size:clamp(.85rem,2vw,.95rem);">${p.subtitle}</p>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label"><i class="fa-solid fa-file-lines"></i> نظرة عامة على المشروع</div>
+      <p style="color:var(--charcoal);font-size:clamp(.88rem,2vw,.95rem);line-height:1.9;font-weight:500;">${p.overview}</p>
+    </div>
+    <div class="panel-section" style="background:rgba(105,31,44,0.03);">
+      <div class="panel-label"><i class="fa-solid fa-triangle-exclamation"></i> المشكلة التي حلّها</div>
+      <p style="color:#4B5563;font-size:clamp(.86rem,2vw,.93rem);line-height:1.9;">${p.problem}</p>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label"><i class="fa-solid fa-sitemap"></i> رحلة النظام من البداية للنهاية</div>
+      <div style="margin-top:4px;">${flowHTML}</div>
+    </div>
+    <div class="panel-section" style="background:rgba(248,246,244,0.6);">
+      <div class="panel-label"><i class="fa-solid fa-star"></i> الميزات الرئيسية</div>
+      <div class="panel-grid-2" style="margin-top:8px;">${featHTML}</div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label panel-label-gold"><i class="fa-solid fa-trophy"></i> الأثر والنتائج القابلة للقياس</div>
+      <div style="margin-top:8px;">${impactHTML}</div>
+    </div>
+    <div class="panel-section" style="background:linear-gradient(135deg,var(--brand),var(--brand-dark));">
+      <div style="text-align:center;padding:8px 0;">
+        <div style="font-size:2.8rem;color:rgba(255,255,255,0.15);line-height:1;margin-bottom:-10px;font-family:Georgia,serif;">"</div>
+        <p style="color:#fff;font-size:clamp(.92rem,2vw,1.05rem);font-weight:600;line-height:1.85;max-width:560px;margin:0 auto 12px;">${p.quote}</p>
+        <div style="font-size:.75rem;color:var(--gold-light);font-weight:700;">${p.quotePerson}</div>
+      </div>
+    </div>`;
+}
+
+function openProjectPanel(index){
+  const p=projects[index];
+  document.getElementById('panel-badge').textContent=p.badge;
+  document.getElementById('panel-title-small').textContent=p.title;
+  document.getElementById('panel-content').innerHTML=buildPanelContent(p);
+  document.getElementById('proj-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeProjectPanel(){
+  document.getElementById('proj-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeProjectPanel();
+});
+
+// ═══════════════════════════════════════
+// SECTIONS ARRAY
+// ═══════════════════════════════════════
+const SECTIONS=['hero','about','challenges','solution','why','team','partners','achievements','projects','closing'];
+
+// ═══════════════════════════════════════
+// MOBILE MENU
+// ═══════════════════════════════════════
+let mobOpen=false;
+function toggleMob(){
+  mobOpen=!mobOpen;
+  document.getElementById('mob-menu').classList.toggle('open',mobOpen);
+  document.getElementById('ham-btn').classList.toggle('open',mobOpen);
+}
+function closeMob(){
+  mobOpen=false;
+  document.getElementById('mob-menu').classList.remove('open');
+  document.getElementById('ham-btn').classList.remove('open');
+}
+
+// ═══════════════════════════════════════
+// NAVBAR: mobile show/hide on scroll direction
+// ═══════════════════════════════════════
+const navbar=document.getElementById('navbar');
+const navLogoText=document.getElementById('nav-logo-text');
+const navLogoSub=document.getElementById('nav-logo-sub');
+let lastScrollY=0;
+let ticking=false;
+
+function handleNavScroll(){
+  const scrollY=window.scrollY;
+  // scrolled style
+  if(scrollY>60){
+    navbar.classList.add('scrolled');
+    navLogoText.style.color='var(--brand)';
+    navLogoSub.style.color='rgba(105,31,44,0.48)';
+  } else {
+    navbar.classList.remove('scrolled');
+    navLogoText.style.color='rgba(255,255,255,0.95)';
+    navLogoSub.style.color='rgba(255,255,255,0.48)';
+  }
+  // hide on scroll down, show on scroll up
+  if(scrollY>lastScrollY && scrollY>80){
+    navbar.classList.add('hide-nav');
+    closeMob();
+  } else {
+    navbar.classList.remove('hide-nav');
+  }
+  lastScrollY=scrollY;
+  ticking=false;
+}
+
+window.addEventListener('scroll',()=>{
+  if(!ticking){ requestAnimationFrame(handleNavScroll); ticking=true; }
+},{passive:true});
+
+// ═══════════════════════════════════════
+// PROGRESS BAR
+// ═══════════════════════════════════════
+const pbar=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{
+  const total=document.body.scrollHeight-window.innerHeight;
+  pbar.style.transform=`scaleX(${window.scrollY/total})`;
+},{passive:true});
+
+// ═══════════════════════════════════════
+// REVEAL ON SCROLL
+// ═══════════════════════════════════════
+const revObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:.1,rootMargin:'0px 0px -36px 0px'});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.reveal-s').forEach(el=>revObs.observe(el));
+
+// ═══════════════════════════════════════
+// SMOOTH SCROLL
+// ═══════════════════════════════════════
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+  });
+});
+
+// ═══════════════════════════════════════
+// ACTIVE SECTION TRACKING
+// ═══════════════════════════════════════
+const snavItems=document.querySelectorAll('.snav-item');
+const mobSnavItems=document.querySelectorAll('.mob-snav-item');
+
+function getCurrentSection(){
+  let current=SECTIONS[0];
+  SECTIONS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el && window.scrollY>=el.offsetTop-180) current=id;
+  });
+  return current;
+}
+
+function updateActive(){
+  const current=getCurrentSection();
+  snavItems.forEach(item=>{
+    item.classList.toggle('active',item.dataset.target===current);
+  });
+  mobSnavItems.forEach(item=>{
+    item.classList.toggle('active',item.dataset.target===current);
+  });
+}
+window.addEventListener('scroll',updateActive,{passive:true});
+updateActive();
+
+snavItems.forEach(item=>{
+  item.addEventListener('click',()=>{
+    const t=document.getElementById(item.dataset.target);
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+mobSnavItems.forEach(item=>{
+  item.addEventListener('click',()=>{
+    const t=document.getElementById(item.dataset.target);
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+// ═══════════════════════════════════════
+// MOBILE SIDENAV ARROWS
+// ═══════════════════════════════════════
+function scrollToSectionIndex(idx){
+  const id=SECTIONS[Math.max(0,Math.min(idx,SECTIONS.length-1))];
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('mob-snav-up').addEventListener('click',()=>{
+  const cur=getCurrentSection();
+  const idx=SECTIONS.indexOf(cur);
+  scrollToSectionIndex(idx-1);
+});
+document.getElementById('mob-snav-down').addEventListener('click',()=>{
+  const cur=getCurrentSection();
+  const idx=SECTIONS.indexOf(cur);
+  scrollToSectionIndex(idx+1);
+});
+
+// ═══════════════════════════════════════
+// KEYBOARD ARROW KEYS
+// ═══════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('proj-overlay').classList.contains('open')) return;
+  if(e.key==='ArrowUp'){
+    e.preventDefault();
+    const cur=getCurrentSection();
+    scrollToSectionIndex(SECTIONS.indexOf(cur)-1);
+  } else if(e.key==='ArrowDown'){
+    e.preventDefault();
+    const cur=getCurrentSection();
+    scrollToSectionIndex(SECTIONS.indexOf(cur)+1);
+  }
+});
+
+// ═══════════════════════════════════════
+// COUNTER ANIMATION
+// ═══════════════════════════════════════
+const counterObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !e.target.dataset.counted){
+      e.target.dataset.counted='1';
+      const target=parseInt(e.target.dataset.target);
+      const dur=1800;
+      const start=performance.now();
+      const update=(now)=>{
+        const p=Math.min((now-start)/dur,1);
+        const eased=1-Math.pow(1-p,3);
+        e.target.textContent=Math.floor(eased*target);
+        if(p<1) requestAnimationFrame(update);
+        else e.target.textContent=target;
+      };
+      requestAnimationFrame(update);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.counter').forEach(el=>counterObs.observe(el));
+</script>
+</body>
+</html>
