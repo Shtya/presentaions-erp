@@ -1721,7 +1721,7 @@
       </div>
     </section>
 
-    <!-- ═══ SLIDE 8 – النتائج ═══ -->
+    <!-- ═══ SLIDE 5 – النتائج ═══ -->
     <section id="outcomes" style="padding: 96px 0; background: #f8f6f4">
       <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
         <div class="reveal" style="text-align: center; margin-bottom: 56px">
@@ -1779,15 +1779,15 @@
       </div>
     </section>
 
-    <!-- ═══ SLIDE 10 – لماذا Cloudilic ═══ -->
+    <!-- ═══ SLIDE 6 – لماذا Cloudilic ═══ -->
     <section id="why" class="bg-dots" style="padding: 96px 0">
       <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
         <div class="reveal" style="text-align: center; margin-bottom: 56px">
           <div class="section-tag" style="display: inline-flex">
             <i class="fa-solid fa-shield-halved" style="font-size: 0.72rem"></i>
-            لماذا Cloudilic
+            لماذا <span style="font-family: 'Inter', sans-serif">Cloudilic</span>
           </div>
-          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">لماذا <span class="gt-brand">Cloudilic</span></h2>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">لماذا <span style="font-family: 'Inter', sans-serif" class="gt-brand">Cloudilic</span></h2>
           <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 520px; margin: 0 auto; line-height: 1.9">لأننا لا نقدم حلاً تقنياً فقط، بل نبني معك شراكة واضحة تدعم النمو وتحقق نتائج يمكن الاعتماد عليها.</p>
           <div class="gold-rule"></div>
         </div>
@@ -1843,512 +1843,757 @@
       </div>
     </section>
 
-    <!-- ═══ SLIDE 11 – الفريق ═══ -->
+    <!-- ═══ SLIDE 7 – الفريق ═══ -->
     <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+      :root {
+        --cr: #6b1f2d;
+        --crdk: #3a0f18;
+        --crmid: #8a2a3d;
+        --go: #b6915e;
+        --golt: #d4aa7d;
+        --godk: #8a6a3a;
+        --golight: #f5ede0;
+        --ink: #141219;
+        --mist: #f4f1ee;
+        --mdk: #e9e2db;
+        --line: #cfc5bb;
+        --lgo: #c8a46a;
+        --ldk: #7a5560;
+        --wh: #ffffff;
+        --shadow-sm: 0 2px 8px rgba(20, 18, 25, 0.07);
+        --shadow-md: 0 6px 20px rgba(20, 18, 25, 0.1);
+        --shadow-lg: 0 14px 40px rgba(20, 18, 25, 0.13);
       }
-
-      body {
-        background: linear-gradient(160deg, #f9f6f3 0%, #ede5de 100%);
+      .team {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--mist);
+        color: var(--ink);
         min-height: 100vh;
       }
 
-      .section {
-        padding: 56px 24px 72px;
-        direction: rtl;
+      #team {
+        padding: 48px 24px 64px;
+        background: radial-gradient(ellipse 55% 40% at 8% 5%, rgba(107, 31, 45, 0.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 94% 95%, rgba(182, 145, 94, 0.09) 0%, transparent 60%), radial-gradient(ellipse 35% 30% at 50% 50%, rgba(182, 145, 94, 0.04) 0%, transparent 70%), linear-gradient(165deg, #f8f6f4 0%, #f0ebe7 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      #team::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(107, 31, 45, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(107, 31, 45, 0.025) 1px, transparent 1px);
+        background-size: 56px 56px;
+        pointer-events: none;
+      }
+      #team::after {
+        content: '';
+        position: absolute;
+        top: -120px;
+        right: -80px;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(182, 145, 94, 0.06) 0%, transparent 70%);
+        pointer-events: none;
       }
 
-      .header {
+      /* ── Header ─────────────────────────────────────────── */
+      .t-header {
         text-align: center;
-        margin-bottom: 52px;
+        margin-bottom: 36px;
+        position: relative;
+        z-index: 2;
       }
-
-      .tag {
+      .t-eyebrow {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        background: rgba(105, 31, 44, 0.08);
-        border: 1px solid rgba(105, 31, 44, 0.18);
-        color: #691f2c;
-        font-family: 'Inter', sans-serif;
-        font-size: 10px;
+        gap: 10px;
+        font-size: 9.5px;
         font-weight: 700;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
-        padding: 5px 16px;
-        border-radius: 999px;
-        margin-bottom: 14px;
-      }
-
-      .title {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(1.6rem, 4vw, 2.3rem);
-        font-weight: 600;
-        color: #1f2937;
+        color: var(--godk);
         margin-bottom: 10px;
-        direction: rtl;
+      }
+      .t-eyebrow::before,
+      .t-eyebrow::after {
+        content: '';
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--go));
+      }
+      .t-eyebrow::after {
+        background: linear-gradient(90deg, var(--go), transparent);
+      }
+      .t-title {
+        font-family: 'Fraunces', serif;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 800;
+        color: var(--ink);
+        line-height: 1.15;
+      }
+      .t-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--cr);
+      }
+      .t-sub {
+        margin-top: 8px;
+        font-size: 13px;
+        color: #9a9290;
+        font-weight: 400;
+        letter-spacing: 0.01em;
       }
 
-      .title span {
-        background: linear-gradient(135deg, #691f2c, #b6915e);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .gold-rule {
-        width: 44px;
-        height: 3px;
-        background: linear-gradient(90deg, #691f2c, #b6915e);
-        border-radius: 2px;
-        margin: 12px auto 0;
-      }
-
-      .canvas-wrap {
-        display: flex;
-        justify-content: center;
+      /* ── Chart Scroll ────────────────────────────────────── */
+      .chart-scroll {
         overflow-x: auto;
         padding-bottom: 8px;
-      }
-
-      .canvas {
         position: relative;
+        z-index: 2;
       }
-
+      .chart-scroll::-webkit-scrollbar {
+        height: 3px;
+      }
+      .chart-scroll::-webkit-scrollbar-thumb {
+        background: var(--line);
+        border-radius: 4px;
+      }
+      .org-canvas {
+        position: relative;
+        margin: 0 auto;
+      }
       .org-svg {
         position: absolute;
         inset: 0;
-        pointer-events: none;
         overflow: visible;
+        pointer-events: none;
+        z-index: 0;
       }
 
-      /* Card base */
+      /* ── Cards ───────────────────────────────────────────── */
       .card {
         position: absolute;
-        background: #fff;
-        border: 1px solid #e8ddd6;
-        border-radius: 18px;
+        border-radius: 12px;
+        background: var(--wh);
+        border: 1px solid var(--mdk);
+        padding: 12px 10px 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding: 20px 16px 18px;
-        box-shadow:
-          0 4px 22px rgba(105, 31, 44, 0.07),
-          0 1px 4px rgba(0, 0, 0, 0.04);
+        box-shadow: var(--shadow-sm);
         transition:
-          transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         cursor: default;
-        overflow: hidden;
-        animation: fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
-      }
-      .card::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #691f2c, #b6915e);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 1;
+        animation: fadeUp 0.46s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
       .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 48px rgba(105, 31, 44, 0.13);
-      }
-      .card:hover::after {
-        transform: scaleX(1);
-      }
-
-      .card-root {
-        background: linear-gradient(150deg, #6b1f2d 0%, #3a1018 100%);
-        border: none;
-        box-shadow: 0 16px 52px rgba(105, 31, 44, 0.28);
-      }
-      .card-root::after {
-        display: none;
-      }
-      .card-root:hover {
-        box-shadow: 0 26px 64px rgba(105, 31, 44, 0.36);
         transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        z-index: 20;
       }
 
-      .card-gold {
-        border-color: rgba(182, 145, 94, 0.5);
-        background: linear-gradient(160deg, #fffcf6 60%, #fdf3e4 100%);
-        box-shadow: 0 6px 28px rgba(182, 145, 94, 0.15);
+      /* CEO */
+      .v-ceo {
+        background: linear-gradient(148deg, var(--crdk) 0%, var(--cr) 55%, #8a2535 100%);
+        border: none;
+        border-radius: 16px;
+        box-shadow:
+          0 14px 48px rgba(107, 31, 45, 0.3),
+          0 2px 0 rgba(255, 255, 255, 0.07) inset;
       }
-      .card-gold::after {
-        background: linear-gradient(90deg, #b6915e, #d4aa7d);
-      }
-      .card-gold:hover {
-        box-shadow: 0 20px 50px rgba(182, 145, 94, 0.22);
-      }
-
-      .card-sub {
-        border-radius: 14px;
-        padding: 15px 12px 13px;
+      .v-ceo:hover {
+        box-shadow: 0 22px 60px rgba(107, 31, 45, 0.38);
       }
 
-      /* Avatar ring */
+      /* Tier-1 Lead (red style) */
+      .v-lead {
+        border: 1px solid rgba(107, 31, 45, 0.16);
+        background: linear-gradient(155deg, #fff 55%, #fdf7f2 100%);
+        box-shadow: var(--shadow-sm);
+      }
+      /* Tier-1 Lead (gold style - You) */
+      .v-leadgo {
+        border: 1.5px solid rgba(182, 145, 94, 0.35);
+        background: linear-gradient(155deg, #fffcf8 55%, #fdf5e8 100%);
+        box-shadow: 0 5px 20px rgba(182, 145, 94, 0.13);
+      }
+
+      /* Sub-lead cards */
+      .v-sublead-red {
+        background: linear-gradient(150deg, #fff 50%, #fef6f4 100%);
+        border: 1px solid rgba(107, 31, 45, 0.13);
+        box-shadow: var(--shadow-sm);
+      }
+      .v-sublead-go {
+        background: linear-gradient(150deg, #fffefb 50%, #fef8ed 100%);
+        border: 1px solid rgba(182, 145, 94, 0.28);
+        box-shadow: 0 3px 12px rgba(182, 145, 94, 0.1);
+      }
+
+      /* Leaf cards */
+      .v-leaf-red {
+        background: #fff;
+        border: 1px solid #ede5e0;
+        border-radius: 10px;
+        padding: 9px 8px 8px;
+      }
+      .v-leaf-go {
+        background: linear-gradient(155deg, #fffefb 0%, #fef7e8 100%);
+        border: 1px solid rgba(182, 145, 94, 0.22);
+        border-radius: 10px;
+        padding: 9px 8px 8px;
+        box-shadow: 0 2px 8px rgba(182, 145, 94, 0.08);
+      }
+
+      /* ── Avatars ─────────────────────────────────────────── */
       .av {
         border-radius: 50%;
         padding: 2.5px;
         display: inline-block;
-        margin-bottom: 11px;
+        margin-bottom: 7px;
+        flex-shrink: 0;
       }
-      .av-brand {
-        background: linear-gradient(140deg, #691f2c, #b6915e);
+      .av-cr {
+        background: linear-gradient(135deg, var(--cr), var(--go));
       }
-      .av-gold {
-        background: linear-gradient(140deg, #b6915e, #d4aa7d);
+      .av-go {
+        background: linear-gradient(135deg, var(--go), var(--golt));
       }
-      .av-deep {
-        background: linear-gradient(140deg, #3a1018, #b6915e);
+      .av-dk {
+        background: linear-gradient(135deg, var(--crdk), var(--godk));
       }
-      .av-root {
-        background: linear-gradient(140deg, rgba(255, 255, 255, 0.45), rgba(182, 145, 94, 0.7));
+      .av-wh {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(212, 170, 125, 0.6));
+      }
+      .av-gr {
+        background: linear-gradient(135deg, #d2cac2, #b8aba0);
       }
       .av img {
         border-radius: 50%;
         display: block;
         object-fit: cover;
+        background: #e4dcd5;
       }
 
-      /* Typography */
-      .c-pos {
-        font-family: 'Inter', sans-serif;
-        font-size: 9.5px;
-        font-weight: 600;
-        letter-spacing: 0.09em;
+      /* ── Text inside cards ───────────────────────────────── */
+      .role {
+        font-size: 7px;
+        font-weight: 700;
+        letter-spacing: 0.11em;
         text-transform: uppercase;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
+        line-height: 1.3;
       }
-      .c-name {
-        font-family: 'Inter', sans-serif;
-        font-size: 13.5px;
+      .name {
+        font-size: 10.5px;
         font-weight: 700;
         line-height: 1.3;
-        color: #1f2937;
+        color: var(--ink);
       }
-      .c-name-root {
-        font-size: 15px;
-        font-weight: 800;
+      .role-wh {
+        color: rgba(255, 255, 255, 0.52);
+      }
+      .name-wh {
         color: #fff;
+        font-size: 11.5px;
+        font-weight: 800;
       }
-      .c-pos-root {
-        color: rgba(255, 255, 255, 0.5);
+      .role-cr {
+        color: var(--cr);
       }
-      .c-pos-brand {
-        color: #b6915e;
+      .role-go {
+        color: var(--godk);
       }
-      .c-pos-gold {
-        color: #9a7840;
+      .role-dim {
+        color: #a89f98;
       }
 
-      /* You badge */
-      .you-badge {
+      .ceo-tag {
+        display: inline-block;
+        margin-bottom: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.52);
+        font-size: 6.5px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 2px 9px;
+        border-radius: 999px;
+      }
+      .you {
         position: absolute;
-        top: -12px;
+        top: -9px;
         left: 50%;
         transform: translateX(-50%);
-        background: linear-gradient(135deg, #691f2c, #b6915e);
+        background: linear-gradient(135deg, var(--cr), var(--go));
         color: #fff;
-        font-family: 'Inter', sans-serif;
-        font-size: 8px;
+        font-size: 6.5px;
         font-weight: 800;
-        letter-spacing: 0.1em;
-        padding: 3px 13px;
+        letter-spacing: 0.13em;
+        padding: 2px 10px;
         border-radius: 999px;
         white-space: nowrap;
-        box-shadow: 0 4px 14px rgba(105, 31, 44, 0.3);
-        z-index: 10;
+        box-shadow: 0 3px 10px rgba(107, 31, 45, 0.28);
+        z-index: 5;
       }
 
+      /* ── Animations ──────────────────────────────────────── */
       @keyframes fadeUp {
         from {
           opacity: 0;
-          transform: translateY(16px);
+          transform: translateY(13px);
         }
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
-      .d1 {
-        animation-delay: 0.05s;
+      .a0 {
+        animation-delay: 0.03s;
       }
-      .d2 {
+      .a1 {
+        animation-delay: 0.07s;
+      }
+      .a2 {
         animation-delay: 0.12s;
       }
-      .d3 {
-        animation-delay: 0.2s;
+      .a3 {
+        animation-delay: 0.17s;
       }
-      .d4 {
-        animation-delay: 0.28s;
+      .a4 {
+        animation-delay: 0.22s;
       }
-      .d5 {
-        animation-delay: 0.36s;
+      .a5 {
+        animation-delay: 0.27s;
       }
-      .d6 {
-        animation-delay: 0.44s;
+      .a6 {
+        animation-delay: 0.32s;
       }
-      .d7 {
+      .a7 {
+        animation-delay: 0.37s;
+      }
+      .a8 {
+        animation-delay: 0.42s;
+      }
+      .a9 {
+        animation-delay: 0.47s;
+      }
+      .a10 {
         animation-delay: 0.52s;
       }
-      .d8 {
-        animation-delay: 0.6s;
+      .a11 {
+        animation-delay: 0.57s;
       }
-      .d9 {
-        animation-delay: 0.68s;
+      .a12 {
+        animation-delay: 0.62s;
+      }
+      .a13 {
+        animation-delay: 0.67s;
+      }
+      .a14 {
+        animation-delay: 0.72s;
+      }
+      .a15 {
+        animation-delay: 0.77s;
+      }
+      .a16 {
+        animation-delay: 0.82s;
+      }
+      .a17 {
+        animation-delay: 0.87s;
       }
     </style>
-    <div class="section" style="padding: 96px 0; background: #f8f6f4" id="team">
-      <div style="max-width: 1420px; margin: 0 auto">
-        <div class="flex items-center flex-col mb-12">
-          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 8px">فريق متكامل من <span class="gt-brand">الخبرات المتخصصة</span></h2>
+
+    <section id="team" class="team">
+      <div style="max-width: 1500px; margin: 0 auto; position: relative">
+        <!-- Header -->
+        <div class="reveal" style="font-family: Cairo; text-align: center; margin-bottom: 60px">
+          <div class="section-tag" style="display: inline-flex"><i class="fa-solid fa-circle-check" style="font-size: 0.72rem"></i> فريقنا</div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">الفريق الذي يقف وراء <span class="gt-brand">تنفيذ هذا النظام</span></h2>
+          <div class="gold-rule"></div>
         </div>
 
-        <div class="canvas-wrap">
-          <div class="canvas" id="orgCanvas">
+        <!-- Org Chart -->
+        <div class="chart-scroll">
+          <div class="org-canvas" id="orgCanvas">
             <svg class="org-svg" id="orgSvg"></svg>
 
-            <!-- CEO -->
-            <div class="card card-root d1" id="c-ceo" style="width: 200px">
-              <div class="av av-root"><img src="./imgs/ahmed-al-bassyouni.jpg" style="width: 70px; height: 70px" alt="Ahmed Al-Bassyouni" /></div>
-              <div class="c-pos c-pos-root">CEO &amp; Founder</div>
-              <div class="c-name c-name-root">Ahmed Al-Bassyouni</div>
+            <!-- ═══ CEO ═══ -->
+            <div class="card v-ceo a0" id="c-ceo" style="width: 190px">
+              <div class="highlight-grid-bg"></div>
+              <div class="ceo-tag">Founder & Chief Executive</div>
+              <div class="av av-wh"><img src="./imgs/ahmed-al-bassyouni.jpg" style="width: 58px; height: 58px" alt="" /></div>
+              <div class="role role-wh">CEO</div>
+              <div class="name name-wh">Ahmed Al-Bassyouni</div>
             </div>
 
-            <!-- Ahmed Gharabawy -->
-            <div class="card d3" id="c-ag" style="width: 168px">
-              <div class="av av-brand"><img src="./imgs/el8rbawy.png" style="width: 56px; height: 56px" alt="Ahmed Gharabawy" /></div>
-              <div class="c-pos c-pos-brand">Senior Software Engineer</div>
-              <div class="c-name">Ahmed Gharabawy</div>
+            <!-- ═══ TIER 1: two branch leads ═══ -->
+
+            <!-- Branch A: Ahmed Gharabawy -->
+            <div class="card v-lead a2" id="c-ag" style="width: 152px">
+              <div class="av av-cr"><img src="./imgs/el8rbawy.png" style="width: 46px; height: 46px" alt="" /></div>
+              <div class="role role-cr">Sr. Software Engineer</div>
+              <div class="name">Ahmed Gharabawy</div>
             </div>
 
-            <!-- Ahmed Abdelrhman (YOU) -->
-            <div class="card card-gold d3" id="c-aa" style="width: 184px; padding-top: 28px">
-              <div class="av av-gold"><img src="./imgs/ahmed.png" style="width: 60px; height: 60px" alt="Ahmed Abdelrhman" /></div>
-              <div class="c-pos c-pos-gold">Senior Full Stack Engineer</div>
-              <div class="c-name">Ahmed Abdelrhman</div>
+            <!-- Branch B: Ahmed Abdelrhman (You) -->
+            <div class="card v-leadgo a2" id="c-aa" style="width: 152px; padding-top: 22px">
+              <div class="you">You</div>
+              <div class="av av-go"><img src="./imgs/ahmed.png" style="width: 48px; height: 48px" alt="" /></div>
+              <div class="role role-go">Sr. Full Stack Engineer</div>
+              <div class="name">Ahmed Abdelrhman</div>
             </div>
 
-            <!-- Marina -->
-            <div class="card d4" id="c-mn" style="width: 156px">
-              <div class="av av-brand"><img src="https://ui-avatars.com/api/?name=Marina&background=691f2c&color=d4aa7d&size=108&bold=true&font-size=0.45" style="width: 56px; height: 56px" alt="Marina" /></div>
-              <div class="c-pos c-pos-brand">Accountant &amp; Lawyer</div>
-              <div class="c-name">Marina</div>
+            <!-- ═══ GHARABAWY SUB-LEADS (Tier 2A) ═══ -->
+            <div class="card v-sublead-red a4" id="c-fa" style="width: 136px">
+              <div class="av av-cr"><img src="https://ui-avatars.com/api/?name=Farid+A&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-cr" style="font-size: 6.5px">Sr. Software Engineer</div>
+              <div class="name" style="font-size: 10.5px">Farid Azzam</div>
             </div>
 
-            <!-- Ebtisam -->
-            <div class="card d4" id="c-eb" style="width: 156px">
-              <div class="av av-brand"><img src="https://ui-avatars.com/api/?name=Ebtisam&background=691f2c&color=d4aa7d&size=108&bold=true&font-size=0.45" style="width: 56px; height: 56px" alt="Ebtisam" /></div>
-              <div class="c-pos c-pos-brand">Content Specialist</div>
-              <div class="c-name">Ebtisam</div>
+            <!-- Sub-lead 2: Mohamed Atef (leads AI group) -->
+            <div class="card v-sublead-red a4" id="c-mat" style="width: 136px">
+              <div class="av av-cr"><img src="./imgs/madatef.png" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-cr" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 10.5px">Mohamed Atef</div>
             </div>
 
-            <!-- Omar Al-Bassyouni -->
-            <div class="card d3" id="c-ob" style="width: 168px">
-              <div class="av av-deep"><img src="https://ui-avatars.com/api/?name=Omar+Al-Bassyouni&background=3a1018&color=d4aa7d&size=108&bold=true&font-size=0.38" style="width: 56px; height: 56px" alt="Omar Al-Bassyouni" /></div>
-              <div class="c-pos c-pos-brand">COO &amp; Founder</div>
-              <div class="c-name">Omar Al-Bassyouni</div>
+            <!-- ═══ GHARABAWY LEAVES under Farid ═══ -->
+            <div class="card v-leaf-red a7" id="c-mal" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/mahmoud-ali.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Software Engineer</div>
+              <div class="name" style="font-size: 9.5px">Mahmoud Ali</div>
             </div>
 
-            <!-- Farid Azzam -->
-            <div class="card card-sub d7" id="c-fa" style="width: 142px">
-              <div class="av av-brand"><img src="https://ui-avatars.com/api/?name=Farid+Azzam&background=4a1520&color=d4aa7d&size=88&bold=true&font-size=0.42" style="width: 46px; height: 46px" alt="Farid Azzam" /></div>
-              <div class="c-pos c-pos-brand" style="font-size: 8.5px">Senior Software Engineer</div>
-              <div class="c-name" style="font-size: 12px">Farid Azzam</div>
+            <!-- ═══ GHARABAWY LEAVES under Atef (AI trio) ═══ -->
+            <div class="card v-leaf-red a7" id="c-km" style="width: 118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=Kareem+M&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 9.5px">Kareem Mohamed</div>
+            </div>
+            <div class="card v-leaf-red a8" id="c-ms" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/mahmoud-shoieb.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 9.5px">Mahmoud Shoeib</div>
+            </div>
+            <div class="card v-leaf-red a9" id="c-ye" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/yousef-eslam.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 9.5px">Youssef Essam</div>
             </div>
 
-            <!-- Mahmoud Ali -->
-            <div class="card card-sub d8" id="c-ma" style="width: 142px">
-              <div class="av av-brand"><img src="./imgs/mahmoud-ali.png" style="width: 46px; height: 46px" alt="Mahmoud Ali" /></div>
-              <div class="c-pos c-pos-brand" style="font-size: 8.5px">Software Engineer</div>
-              <div class="c-name" style="font-size: 12px">Mahmoud Ali</div>
+            <!-- ═══ MY TEAM SUB-LEADS (Tier 2B) ═══ -->
+            <!-- Sub-lead 1: Mostafa Tamer (leads Dev pair) -->
+            <div class="card v-sublead-go a4" id="c-mt" style="width: 136px">
+              <div class="av av-go"><img src="https://ui-avatars.com/api/?name=M+T&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-go" style="font-size: 6.5px">Full Stack Developer</div>
+              <div class="name" style="font-size: 10.5px">Mostafa Tamer</div>
             </div>
 
-            <!-- Abdullah Ghazy -->
-            <div class="card card-sub card-gold d7" id="c-ab" style="width: 150px">
-              <div class="av av-gold"><img src="https://ui-avatars.com/api/?name=Abdullah+Ghazy&background=b6915e&color=fff&size=88&bold=true&font-size=0.42" style="width: 46px; height: 46px" alt="Abdullah Ghazy" /></div>
-              <div class="c-pos c-pos-gold" style="font-size: 8.5px">Full Stack Developer</div>
-              <div class="c-name" style="font-size: 12px">Abdullah Ghazy</div>
+            <!-- Sub-lead 2: Yosra (leads Design & QA) -->
+            <div class="card v-sublead-go a4" id="c-yo" style="width: 136px">
+              <div class="av av-go"><img src="https://ui-avatars.com/api/?name=Yosra&background=a07840&color=fff&size=80&bold=true&font-size=0.38" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-go" style="font-size: 6.5px">UI/UX Designer</div>
+              <div class="name" style="font-size: 10.5px">Yosra</div>
             </div>
 
-            <!-- Mohammed Esam -->
-            <div class="card card-sub card-gold d8" id="c-me" style="width: 150px">
-              <div class="av av-gold"><img src="https://ui-avatars.com/api/?name=Mohammed+Esam&background=b6915e&color=fff&size=88&bold=true&font-size=0.42" style="width: 46px; height: 46px" alt="Mohammed Esam" /></div>
-              <div class="c-pos c-pos-gold" style="font-size: 8.5px">Mobile App Developer</div>
-              <div class="c-name" style="font-size: 12px">Mohammed Esam</div>
+            <!-- ═══ MY TEAM LEAVES under Mostafa ═══ -->
+            <div class="card v-leaf-go a7" id="c-mab" style="width: 118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=M+As&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Frontend Developer</div>
+              <div class="name" style="font-size: 9.5px">Mahmoud Abdelrhman</div>
+            </div>
+            <div class="card v-leaf-go a8" id="c-hh" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/hossam-hassan.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Backend Developer</div>
+              <div class="name" style="font-size: 9.5px">Hossam Hassan</div>
             </div>
 
-            <!-- Mohamed Waheed -->
-            <div class="card card-sub d7" id="c-mw" style="width: 142px">
-              <div class="av av-deep"><img src="https://ui-avatars.com/api/?name=Mohamed+Waheed&background=3a1018&color=d4aa7d&size=88&bold=true&font-size=0.42" style="width: 46px; height: 46px" alt="Mohamed Waheed" /></div>
-              <div class="c-pos c-pos-brand" style="font-size: 8.5px">Sales Automation</div>
-              <div class="c-name" style="font-size: 12px">Mohamed Waheed</div>
+            <!-- ═══ MY TEAM LEAVES under Yosra ═══ -->
+            <div class="card v-leaf-go a7" id="c-me2" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/mohammed-essam.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Mobile Developer</div>
+              <div class="name" style="font-size: 9.5px">Mohamed Essam</div>
             </div>
-
-            <!-- Salman Gamal -->
-            <div class="card card-sub d8" id="c-sg" style="width: 142px">
-              <div class="av av-deep"><img src="https://ui-avatars.com/api/?name=Salman+Gamal&background=3a1018&color=d4aa7d&size=88&bold=true&font-size=0.42" style="width: 46px; height: 46px" alt="Salman Gamal" /></div>
-              <div class="c-pos c-pos-brand" style="font-size: 8.5px">Full Stack Marketer</div>
-              <div class="c-name" style="font-size: 12px">Salman Gamal</div>
+            <div class="card v-leaf-go a8" id="c-km2" style="width: 118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=Kareem+M&background=d4c4a8&color=4a2a10&size=56&bold=true&font-size=0.42" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">QA Engineer</div>
+              <div class="name" style="font-size: 9.5px">Kareem Mohamed</div>
             </div>
           </div>
+          <!-- end orgCanvas -->
         </div>
+        <!-- end chart-scroll -->
       </div>
-    </div>
+    </section>
 
     <script>
       (function () {
-        const GAP_H = 24;
-        const ROW_GAP = 68;
+        /* ── Layout constants ───────────────────────────── */
+        const HG = 14; // horizontal gap between sibling subtrees
+        const VG = 48; // vertical gap: parent bottom → child row top
+        const VGS = 10; // vertical gap between stacked child rows
 
-        const el = id => document.getElementById(id);
-        const W = id => el(id).offsetWidth;
-        const H = id => el(id).offsetHeight;
+        const $ = id => document.getElementById(id);
+        const W = id => $(id).offsetWidth;
+        const H = id => $(id).offsetHeight;
 
-        const tier1 = [
-          { id: 'c-ag', subs: ['c-fa', 'c-ma'] },
-          { id: 'c-aa', subs: ['c-ab', 'c-me'] },
-          { id: 'c-mn', subs: [] },
-          { id: 'c-eb', subs: [] },
-          { id: 'c-ob', subs: ['c-mw', 'c-sg'] },
-        ];
+        /*
+         * TREE DEFINITION
+         * The hierarchy:
+         *
+         * CEO
+         * ├── Ahmed Gharabawy
+         * │   ├── Farid Azzam (sub-lead)
+         * │   │   └── Mahmoud Ali
+         * │   └── Mohamed Atef (sub-lead / AI lead)
+         * │       ├── Kareem Mohamed
+         * │       ├── Mahmoud Shoeib
+         * │       └── Youssef Essam
+         * └── Ahmed Abdelrhman (You)
+         *     ├── Mostafa Tamer (sub-lead / Dev lead)
+         *     │   ├── Mahmoud Abdelrhman
+         *     │   └── Hossam Hassan
+         *     └── Yosra (sub-lead / Design lead)
+         *         ├── Mohamed Essam
+         *         └── Kareem Mohamed (QA)
+         */
+        const TREE = {
+          id: 'c-ceo',
+          rows: [
+            [
+              {
+                id: 'c-ag',
+                rows: [
+                  [
+                    {
+                      id: 'c-fa',
+                      rows: [[{ id: 'c-mal', rows: [] }]],
+                    },
+                    {
+                      id: 'c-mat',
+                      rows: [
+                        [
+                          { id: 'c-km', rows: [] },
+                          { id: 'c-ms', rows: [] },
+                          { id: 'c-ye', rows: [] },
+                        ],
+                      ],
+                    },
+                  ],
+                ],
+              },
+              {
+                id: 'c-aa',
+                rows: [
+                  [
+                    {
+                      id: 'c-mt',
+                      rows: [
+                        [
+                          { id: 'c-mab', rows: [] },
+                          { id: 'c-hh', rows: [] },
+                        ],
+                      ],
+                    },
+                    {
+                      id: 'c-yo',
+                      rows: [
+                        [
+                          { id: 'c-me2', rows: [] },
+                          { id: 'c-km2', rows: [] },
+                        ],
+                      ],
+                    },
+                  ],
+                ],
+              },
+            ],
+          ],
+        };
 
-        requestAnimationFrame(() => requestAnimationFrame(layout));
-
-        function layout() {
-          const canvas = el('orgCanvas');
-          const svg = el('orgSvg');
-
-          const cols = tier1.map(col => {
-            const t1w = W(col.id);
-            const subsTotalW = col.subs.reduce((acc, s, i) => acc + W(s) + (i > 0 ? GAP_H : 0), 0);
-            return Math.max(t1w, subsTotalW);
+        /* ── Recursive subtree width ─────────────────────── */
+        function subW(node) {
+          const self = W(node.id);
+          if (!node.rows.length) return self;
+          let maxRow = 0;
+          node.rows.forEach(row => {
+            const rw = row.reduce((s, c, i) => s + subW(c) + (i > 0 ? HG : 0), 0);
+            if (rw > maxRow) maxRow = rw;
           });
+          return Math.max(self, maxRow);
+        }
 
-          const totalW = cols.reduce((a, b) => a + b, 0) + GAP_H * (cols.length - 1);
-          const ceoW = W('c-ceo');
-          const canvasW = Math.max(totalW, ceoW);
+        /* ── Place cards ─────────────────────────────────── */
+        function place(node, cx, top) {
+          const e = $(node.id);
+          e.style.left = Math.round(cx - W(node.id) / 2) + 'px';
+          e.style.top = Math.round(top) + 'px';
+          e.__cx = cx;
+          if (!node.rows.length) return;
 
-          const ROW0_TOP = 0;
-          const ROW1_TOP = H('c-ceo') + ROW_GAP;
-          const maxTier1H = Math.max(...tier1.map(c => H(c.id)));
-          const ROW2_TOP = ROW1_TOP + maxTier1H + ROW_GAP;
-
-          const ceoLeft = (canvasW - ceoW) / 2;
-          const tier1StartX = (canvasW - totalW) / 2;
-          let curX = tier1StartX;
-          const colPositions = cols.map(cw => {
-            const x = curX;
-            curX += cw + GAP_H;
-            return x;
-          });
-
-          posCard('c-ceo', ceoLeft, ROW0_TOP);
-
-          tier1.forEach((col, i) => {
-            const colW = cols[i];
-            const colX = colPositions[i];
-            const t1x = colX + (colW - W(col.id)) / 2;
-            posCard(col.id, t1x, ROW1_TOP);
-
-            if (col.subs.length > 0) {
-              const subsTotalW = col.subs.reduce((acc, s, si) => acc + W(s) + (si > 0 ? GAP_H : 0), 0);
-              let sx = colX + (colW - subsTotalW) / 2;
-              col.subs.forEach(sid => {
-                posCard(sid, sx, ROW2_TOP);
-                sx += W(sid) + GAP_H;
-              });
+          let rowTop = top + H(node.id) + VG;
+          node.rows.forEach((row, ri) => {
+            const rowW = row.reduce((s, c, i) => s + subW(c) + (i > 0 ? HG : 0), 0);
+            let x = cx - rowW / 2;
+            row.forEach(child => {
+              const nw = subW(child);
+              place(child, x + nw / 2, rowTop);
+              x += nw + HG;
+            });
+            if (ri < node.rows.length - 1) {
+              const maxH = Math.max(...row.map(c => H(c.id)));
+              rowTop += maxH + VGS;
             }
           });
+        }
 
-          const hasSubs = tier1.some(c => c.subs.length > 0);
-          const maxSubH = hasSubs ? Math.max(...tier1.flatMap(c => c.subs).map(s => H(s))) : 0;
-          const canvasH = (hasSubs ? ROW2_TOP + maxSubH : ROW1_TOP + maxTier1H) + 24;
+        /* ── Bounding box ────────────────────────────────── */
+        function extents(node, acc) {
+          const e = $(node.id);
+          acc.r = Math.max(acc.r, e.offsetLeft + e.offsetWidth);
+          acc.b = Math.max(acc.b, e.offsetTop + e.offsetHeight);
+          node.rows.forEach(row => row.forEach(c => extents(c, acc)));
+          return acc;
+        }
+
+        /* ── SVG connector helpers ───────────────────────── */
+        const C_LINE = '#cfc5bb';
+        const C_RED = '#a86070';
+        const C_GOLD = '#c8a46a';
+
+        const redBranch = new Set(['c-ag', 'c-fa', 'c-mat', 'c-mal', 'c-km', 'c-ms', 'c-ye']);
+        const goldBranch = new Set(['c-aa', 'c-mt', 'c-yo', 'c-mab', 'c-hh', 'c-me2', 'c-km2']);
+
+        function lineColor(id) {
+          return goldBranch.has(id) ? C_GOLD : redBranch.has(id) ? C_RED : C_LINE;
+        }
+        function isDash(id) {
+          return goldBranch.has(id);
+        }
+
+        function seg(svg, x1, y1, x2, y2, color, dash) {
+          const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          l.setAttribute('x1', Math.round(x1));
+          l.setAttribute('y1', Math.round(y1));
+          l.setAttribute('x2', Math.round(x2));
+          l.setAttribute('y2', Math.round(y2));
+          l.setAttribute('stroke', color);
+          l.setAttribute('stroke-width', '1.4');
+          l.setAttribute('stroke-linecap', 'round');
+          if (dash) l.setAttribute('stroke-dasharray', '5 3');
+          svg.appendChild(l);
+        }
+
+        function cbot(id) {
+          const e = $(id);
+          return { x: e.offsetLeft + e.offsetWidth / 2, y: e.offsetTop + e.offsetHeight };
+        }
+        function ctop(id) {
+          const e = $(id);
+          return { x: e.offsetLeft + e.offsetWidth / 2, y: e.offsetTop };
+        }
+
+        /* Fan out from parent bottom to a bus line then drop to children tops */
+        function fanout(svg, pBot, childIds, color, dash) {
+          if (!childIds.length) return;
+          if (childIds.length === 1) {
+            const t = ctop(childIds[0]);
+            const my = Math.round((pBot.y + t.y) / 2);
+            seg(svg, pBot.x, pBot.y, pBot.x, my, color, dash);
+            seg(svg, pBot.x, my, t.x, my, color, dash);
+            seg(svg, t.x, my, t.x, t.y, color, dash);
+            return;
+          }
+          const tops = childIds.map(id => ctop(id));
+          const busY = Math.round(pBot.y + (tops[0].y - pBot.y) * 0.46);
+          seg(svg, pBot.x, pBot.y, pBot.x, busY, color, dash);
+          const lx = Math.min(...tops.map(t => t.x));
+          const rx = Math.max(...tops.map(t => t.x));
+          seg(svg, lx, busY, rx, busY, color, dash);
+          tops.forEach(t => seg(svg, t.x, busY, t.x, t.y, color, dash));
+        }
+
+        /* Recursively draw connectors for a node's children */
+        function drawNode(svg, node) {
+          if (!node.rows.length) return;
+          const color = lineColor(node.id);
+          const dash = isDash(node.id);
+          const cx = $(node.id).__cx;
+
+          node.rows.forEach((row, ri) => {
+            const childIds = row.map(c => c.id);
+            if (ri === 0) {
+              fanout(svg, cbot(node.id), childIds, color, dash);
+            } else {
+              const prevRow = node.rows[ri - 1];
+              const prevMaxBot = Math.max(...prevRow.map(c => $(c.id).offsetTop + $(c.id).offsetHeight));
+              const tops = childIds.map(id => ctop(id));
+              const busY = Math.round(prevMaxBot + VGS / 2);
+              seg(svg, cx, prevMaxBot, cx, busY, color, dash);
+              if (childIds.length > 1) {
+                const lx = Math.min(...tops.map(t => t.x));
+                const rx = Math.max(...tops.map(t => t.x));
+                seg(svg, lx, busY, rx, busY, color, dash);
+                tops.forEach(t => seg(svg, t.x, busY, t.x, t.y, color, dash));
+              } else {
+                seg(svg, cx, busY, tops[0].x, busY, color, dash);
+                seg(svg, tops[0].x, busY, tops[0].x, tops[0].y, color, dash);
+              }
+            }
+            row.forEach(child => drawNode(svg, child));
+          });
+        }
+
+        /* ── Full layout + render ─────────────────────────── */
+        function layout() {
+          const canvas = $('orgCanvas');
+          const svg = $('orgSvg');
+          const PAD = 32;
+
+          const totalW = subW(TREE);
+          const canvasW = totalW + PAD * 2;
+          place(TREE, canvasW / 2, PAD / 2);
+
+          const ext = extents(TREE, { r: 0, b: 0 });
+          const canvasH = ext.b + PAD;
 
           canvas.style.width = canvasW + 'px';
           canvas.style.height = canvasH + 'px';
           svg.setAttribute('width', canvasW);
           svg.setAttribute('height', canvasH);
           svg.setAttribute('viewBox', `0 0 ${canvasW} ${canvasH}`);
-
           svg.innerHTML = '';
-          const LINE = '#d1c5be';
-          const LGOLD = '#c9a870';
-          const LW = '1.5';
 
-          tier1.forEach(col => {
-            const ceoRect = rect('c-ceo');
-            const t1Rect = rect(col.id);
-            const isGold = col.id === 'c-aa';
-            drawElbow(svg, bcx(ceoRect), bot(ceoRect), bcx(t1Rect), top(t1Rect), isGold ? LGOLD : LINE, LW, isGold);
-          });
+          /* CEO → Tier-1 */
+          const t1ids = TREE.rows[0].map(c => c.id);
+          fanout(svg, cbot('c-ceo'), t1ids, C_LINE, false);
 
-          tier1.forEach(col => {
-            col.subs.forEach(sid => {
-              const parentRect = rect(col.id);
-              const subRect = rect(sid);
-              const isGold = col.id === 'c-aa';
-              drawElbow(svg, bcx(parentRect), bot(parentRect), bcx(subRect), top(subRect), isGold ? LGOLD : LINE, LW, isGold);
-            });
-          });
+          /* All deeper connectors */
+          TREE.rows[0].forEach(child => drawNode(svg, child));
         }
 
-        function posCard(id, left, top) {
-          const e = el(id);
-          e.style.left = left + 'px';
-          e.style.top = top + 'px';
-        }
+        /* Run after two frames so all offsetWidths are settled */
+        requestAnimationFrame(() => requestAnimationFrame(layout));
 
-        function rect(id) {
-          const e = el(id);
-          return { l: e.offsetLeft, t: e.offsetTop, w: e.offsetWidth, h: e.offsetHeight };
-        }
-
-        const bcx = r => r.l + r.w / 2;
-        const top = r => r.t;
-        const bot = r => r.t + r.h;
-
-        function drawElbow(svg, x1, y1, x2, y2, color, lw, isDashed) {
-          const my = Math.round((y1 + y2) / 2);
-          x1 = Math.round(x1);
-          y1 = Math.round(y1);
-          x2 = Math.round(x2);
-          y2 = Math.round(y2);
-          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          path.setAttribute('d', `M${x1},${y1} L${x1},${my} L${x2},${my} L${x2},${y2}`);
-          path.setAttribute('fill', 'none');
-          path.setAttribute('stroke', color);
-          path.setAttribute('stroke-width', lw);
-          path.setAttribute('stroke-linecap', 'round');
-          path.setAttribute('stroke-linejoin', 'round');
-          if (isDashed) path.setAttribute('stroke-dasharray', '5 3');
-          svg.appendChild(path);
-        }
-
-        let rt;
+        /* Re-layout on resize */
+        let resizeTimer;
         window.addEventListener('resize', () => {
-          clearTimeout(rt);
-          rt = setTimeout(layout, 80);
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(layout, 80);
         });
       })();
     </script>
 
     <div class="sep" style="max-width: 480px; margin: 0 auto"></div>
 
-    <!-- ═══ SLIDE 12 – مشاريعنا ═══ -->
+    <!-- ═══ SLIDE 8 – مشاريعنا ═══ -->
     <section id="projects" class="bg-dots" style="padding: 96px 0">
       <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
         <div class="reveal" style="text-align: center; margin-bottom: 56px">
@@ -2445,7 +2690,266 @@
         </div>
       </div>
     </section>
- 
+
+    <!-- ═══ SLIDE 13 – الشركاء ═══ -->
+    <section id="partners" style="padding: 96px 0; background: #f8f6f4; position: relative; overflow: hidden">
+      <div style="position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(105, 31, 44, 0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(105, 31, 44, 0.022) 1px, transparent 1px); background-size: 52px 52px"></div>
+      <div style="position: absolute; top: -80px; left: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(182, 145, 94, 0.07) 0%, transparent 70%); pointer-events: none"></div>
+      <div style="position: absolute; bottom: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(105, 31, 44, 0.06) 0%, transparent 70%); pointer-events: none"></div>
+
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2">
+        <!-- Header -->
+        <div class="reveal" style="text-align: center; margin-bottom: 56px">
+          <div class="section-tag" style="display: inline-flex">
+            <i class="fa-solid fa-handshake" style="font-size: 0.72rem"></i>
+            شبكة الشراكات
+          </div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">شركاء يضيفون <span class="gt-brand">قيمة حقيقية</span> لكل مشروع</h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 580px; margin: 0 auto; line-height: 1.9">نعمل ضمن شبكة من الشركاء التقنيين والمؤسسات الداعمة والبرامج العالمية، بما يتيح لنا تقديم حلول أكثر كفاءة وتأثيرًا.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <!-- ── TIER 1: Big Tech ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(105, 31, 44, 0.18))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">شركاء تقنيون عالميون</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(105, 31, 44, 0.18), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- Nvidia -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://imgs.search.brave.com/3d3SsftffRiYHk-cMzHBG-Jo3ALXNr0KJavqysiS2iM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bG9nby53aW5lL2Ev/bG9nby9OdmlkaWEv/TnZpZGlhLUhvcml6/b250YWwtTG9nby53/aW5lLnN2Zw"
+                  alt="Nvidia"
+                  style="width: fit-content; height: fit-content; object-fit: cover; filter: grayscale(0.2)"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>NV</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Nvidia</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI Computing</div>
+              </div>
+            </div>
+
+            <!-- Google for Startups -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/120px-Google_%22G%22_logo.svg.png"
+                  alt="Google"
+                  style="width: 28px; height: 28px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>GFS</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Google for Startups</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">Cloud & Growth</div>
+              </div>
+            </div>
+
+            <!-- Meta -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f2f2f2; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://imgs.search.brave.com/U9hUkOSsGVbchf9hDCbK4wQvNSgfsGJ3cUf2mv2ENyQ/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/Y2l0eXBuZy5jb20v/cHVibGljL3VwbG9h/ZHMvcHJldmlldy9o/ZC1mYWNlYm9vay1t/ZXRhLWxvZ28tcG5n/LTcwMTc1MTY5NDc3/NzcwN3Y2YmlsN3Qx/eWgucG5nP3Y9MjAy/NjAzMzExMw"
+                  alt="Meta"
+                  style="width: 34px; height: 34px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>Meta</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Meta</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI & Social Platform</div>
+              </div>
+            </div>
+
+            <!-- Snowflake -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Snowflake_Logo.svg/320px-Snowflake_Logo.svg.png"
+                  alt="Snowflake"
+                  style="width: 32px; height: 32px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>SNOW</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Snowflake</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">Data Cloud</div>
+              </div>
+            </div>
+
+            <!-- Scale AI -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://scale.com/favicon.ico"
+                  alt="Scale AI"
+                  style="width: 28px; height: 28px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>Scale</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Scale AI</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI Data Platform</div>
+              </div>
+            </div>
+
+            <!-- Vectara -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://vectara.com/favicon.ico"
+                  alt="Vectara"
+                  style="width: 28px; height: 28px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>VEC</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Vectara</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI Search</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TIER 2: Government & Accelerators ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(105, 31, 44, 0.18))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">حكومات ومسرّعات إقليمية</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(105, 31, 44, 0.18), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- TIEC -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(105, 31, 44, 0.08), rgba(182, 145, 94, 0.1)); border: 1px solid rgba(105, 31, 44, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.55rem; font-weight: 900; color: var(--brand); letter-spacing: 0.02em">TIEC</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">TIEC</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مصر · تكنولوجيا</div>
+              </div>
+            </div>
+
+            <!-- ITIDA -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #ffffff; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://imgs.search.brave.com/9O-20yyKu97zKLvVejYrOBNfOT6cUiBMMHZm-n-FGvw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9hZnJp/Y2FwcmVuZXVycy5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjUvMTAvSVRJREEt/c2NhbGVkLTc1MHgz/NzUuanBn"
+                  alt="Vectara"
+                  style="width: fit-content; height: fit-content; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>VEC</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">ITIDA</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مصر · تنمية رقمية</div>
+              </div>
+            </div>
+
+            <!-- Flat6Labs -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://flat6labs.com/favicon.ico"
+                  alt="Flat6Labs"
+                  style="width: 26px; height: 26px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.48rem;font-weight:900;color:var(--brand)\'>F6L</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">Flat6Labs</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مسرّع أعمال</div>
+              </div>
+            </div>
+
+            <!-- DIC Qatar -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(105, 31, 44, 0.08), rgba(182, 145, 94, 0.1)); border: 1px solid rgba(105, 31, 44, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.52rem; font-weight: 900; color: var(--brand)">DIC</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">DIC Qatar</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">قطر · ابتكار رقمي</div>
+              </div>
+            </div>
+
+            <!-- MCIT Qatar -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(105, 31, 44, 0.08), rgba(182, 145, 94, 0.1)); border: 1px solid rgba(105, 31, 44, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.48rem; font-weight: 900; color: var(--brand)">MCIT</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">MCIT Qatar</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">قطر · اتصالات وتقنية</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TIER 3: Academic & Research ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(182, 145, 94, 0.3))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">مؤسسات بحثية وأكاديمية</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(182, 145, 94, 0.3), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- Onsi Sawiris -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0; max-width: 280px">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-graduation-cap" style="color: var(--gold); font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.84rem; color: var(--charcoal); line-height: 1.3">Onsi Sawiris School<br />of Business</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 2px">جامعة النيل · أعمال</div>
+              </div>
+            </div>
+
+            <!-- IDRC Canada -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.48rem; font-weight: 900; color: var(--gold-light); letter-spacing: 0.02em; text-align: center; line-height: 1.3">IDRC<br />CRDI</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">IDRC.CRDI Canada</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">بحث ودراسات تنمية</div>
+              </div>
+            </div>
+
+            <!-- MENA AI Observatory -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-earth-africa" style="color: var(--gold); font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">MENA AI Observatory</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مرصد الذكاء الاصطناعي</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ═══ SLIDE 14 – الختام ═══ -->
     <section id="closing" class="closing-bg" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 0; position: relative">
@@ -2473,9 +2977,9 @@
         </div>
 
         <!-- Badge -->
-        <div class="reveal d1" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(182, 145, 94, 0.12); border: 1px solid rgba(182, 145, 94, 0.25); color: var(--gold-light); padding: 8px 20px; border-radius: 50px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 24px">
+        <div class="reveal d1" style="font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 8px; background: rgba(182, 145, 94, 0.12); border: 1px solid rgba(182, 145, 94, 0.25); color: var(--gold-light); padding: 8px 20px; border-radius: 50px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 24px">
           <i class="fa-solid fa-dna" style="font-size: 0.85rem"></i>
-          DNA ERP من Cloudilic
+          DNA ERP from Cloudilic
         </div>
 
         <!-- Title -->
