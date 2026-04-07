@@ -1,0 +1,234 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .os-wrap { background: #1a1a1a; border-radius: 20px; padding: 28px; direction: rtl; color: #fff; max-width: 1100px; margin: 0 auto; font-family: system-ui, -apple-system, sans-serif; }
+  .os-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .os-brand { display: flex; align-items: center; gap: 10px; }
+  .os-logo { width: 36px; height: 36px; border-radius: 10px; background: #e8b84b; display: flex; align-items: center; justify-content: center; }
+  .os-logo svg { width: 20px; height: 20px; fill: #1a1a1a; }
+  .os-brand-text h2 { font-size: 15px; font-weight: 700; color: #fff; }
+  .os-brand-text p { font-size: 11px; color: #666; }
+  .os-badges { display: flex; gap: 8px; align-items: center; }
+  .os-badge { background: #252525; border: 1px solid #333; border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 600; }
+  .os-badge.gold { color: #e8b84b; border-color: #3a3010; }
+  .os-badge.green { color: #4ade80; border-color: #0d3320; }
+  .os-badge.blue { color: #60a5fa; border-color: #0d1f3a; }
+
+  .os-steps-track { display: flex; align-items: center; gap: 0; margin: 0 0 14px; overflow: hidden; direction: rtl; position: relative; }
+  .os-step { display: flex; flex-direction: column; align-items: center; cursor: pointer; flex: 1; min-width: 0; position: relative; }
+  .os-step-icon { width: 46px; height: 46px; border-radius: 50%; background: #252525; border: 2px solid #333; display: flex; align-items: center; justify-content: center; font-size: 17px; transition: all 0.25s; position: relative; z-index: 2; }
+  .os-step.active .os-step-icon { background: #e8b84b; border-color: #e8b84b; transform: scale(1.12); box-shadow: 0 0 0 6px #e8b84b22; }
+  .os-step.done .os-step-icon { background: #1c2e10; border-color: #3a6020; }
+  .os-step-num { position: absolute; top: -4px; right: -4px; width: 17px; height: 17px; border-radius: 50%; background: #333; font-size: 9px; color: #aaa; display: flex; align-items: center; justify-content: center; font-weight: 700; z-index: 3; }
+  .os-step.active .os-step-num { background: #c49a35; color: #1a1a1a; }
+  .os-step.done .os-step-num { background: #3a6020; color: #aaffaa; }
+  .os-step-label { font-size: 10px; color: #666; margin-top: 6px; white-space: nowrap; text-align: center; }
+  .os-step.active .os-step-label { color: #e8b84b; font-weight: 700; }
+  .os-step.done .os-step-label { color: #4ade80; }
+  .os-connector { height: 2px; flex: 1; margin: 0 -2px; position: relative; top: -16px; background: #2a2a2a; z-index: 1; overflow: hidden; }
+  .os-connector-fill { height: 100%; background: #e8b84b; transition: width 0.5s ease; }
+
+  .os-progress-bar { height: 3px; background: #232323; border-radius: 2px; margin-bottom: 18px; overflow: hidden; }
+  .os-progress-fill { height: 100%; background: linear-gradient(90deg, #e8b84b, #f5d06a); border-radius: 2px; transition: width 0.4s ease; }
+
+  .os-main { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .os-content { background: #222; border-radius: 14px; padding: 20px; border: 1px solid #2e2e2e; }
+  .os-content-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .os-content-icon { width: 52px; height: 52px; border-radius: 14px; background: #1a1a1a; border: 2px solid #e8b84b; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .os-content-info { text-align: right; }
+  .os-content-info h3 { font-size: 17px; font-weight: 700; }
+  .os-content-info p { font-size: 12px; color: #888; margin-top: 3px; }
+  .os-step-counter { font-size: 10px; color: #555; margin-top: 4px; }
+  .os-features { display: flex; flex-direction: column; gap: 9px; }
+  .os-feature { display: flex; align-items: center; gap: 10px; direction: rtl; }
+  .os-check { width: 22px; height: 22px; border-radius: 50%; background: #e8b84b18; border: 1px solid #e8b84b55; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .os-check svg { width: 10px; height: 10px; stroke: #e8b84b; stroke-width: 2.5; fill: none; }
+  .os-feature span { font-size: 13px; color: #ccc; }
+
+  .os-side { display: flex; flex-direction: column; gap: 14px; }
+  .os-nav { background: #222; border-radius: 14px; padding: 16px; border: 1px solid #2e2e2e; }
+  .os-nav-title { font-size: 11px; color: #555; margin-bottom: 10px; text-align: right; font-weight: 600; letter-spacing: 0.5px; }
+  .os-nav-list { display: flex; flex-direction: column; gap: 5px; }
+  .os-nav-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 8px; cursor: pointer; transition: background 0.2s; direction: rtl; }
+  .os-nav-item:hover { background: #2a2a2a; }
+  .os-nav-item.active { background: #2a2010; }
+  .os-nav-item-left { display: flex; align-items: center; gap: 8px; }
+  .os-nav-item-icon { font-size: 14px; }
+  .os-nav-item-name { font-size: 12px; color: #bbb; }
+  .os-nav-item.active .os-nav-item-name { color: #e8b84b; font-weight: 700; }
+  .os-nav-item-num { font-size: 10px; color: #555; background: #2a2a2a; padding: 2px 7px; border-radius: 10px; }
+  .os-nav-item.active .os-nav-item-num { background: #3a2a10; color: #e8b84b; }
+
+  .os-info-card { background: #222; border-radius: 14px; padding: 16px; border: 1px solid #2e2e2e; flex: 1; }
+  .os-info-label { font-size: 11px; color: #555; margin-bottom: 10px; text-align: right; font-weight: 600; }
+  .os-mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .os-mini-stat { background: #1a1a1a; border-radius: 10px; padding: 12px 10px; text-align: center; border: 1px solid #252525; }
+  .os-mini-stat-val { font-size: 22px; font-weight: 700; color: #e8b84b; display: block; }
+  .os-mini-stat-lbl { font-size: 10px; color: #555; margin-top: 3px; display: block; }
+
+  .os-bottom { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #2a2a2a; border-radius: 14px; overflow: hidden; }
+  .os-stat { background: #1e1e1e; padding: 18px 8px; text-align: center; }
+  .os-stat-val { font-size: 28px; font-weight: 700; color: #e8b84b; display: block; }
+  .os-stat-lbl { font-size: 11px; color: #555; margin-top: 5px; display: block; }
+
+  .os-dots { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+  .os-dot { width: 7px; height: 7px; border-radius: 50%; background: #333; cursor: pointer; transition: all 0.3s; }
+  .os-dot.active { background: #e8b84b; width: 22px; border-radius: 4px; }
+
+  .os-timer-bar { height: 2px; background: #2a2a2a; border-radius: 2px; margin-top: 14px; overflow: hidden; }
+  .os-timer-fill { height: 100%; background: #e8b84b44; border-radius: 2px; transition: width linear; }
+</style>
+
+<div class="os-wrap">
+  <div class="os-header">
+    <div class="os-brand">
+      <div class="os-logo">
+        <svg viewBox="0 0 20 20"><path d="M3 4h14v2H3zM3 9h14v2H3zM3 14h10v2H3z"/></svg>
+      </div>
+      <div class="os-brand-text">
+        <h2>منصة الطلبات المتكاملة</h2>
+        <p>تدفق العمليات التشغيلية</p>
+      </div>
+    </div>
+    <div class="os-badges">
+      <span class="os-badge green">● مباشر</span>
+      <span class="os-badge blue">9 مراحل</span>
+      <span class="os-badge gold">Pro</span>
+    </div>
+  </div>
+
+  <div class="os-steps-track" id="steps-row"></div>
+  <div class="os-progress-bar"><div class="os-progress-fill" id="progress-fill"></div></div>
+
+  <div class="os-main">
+    <div class="os-content">
+      <div class="os-content-header">
+        <div class="os-content-icon" id="content-icon">📌</div>
+        <div class="os-content-info">
+          <h3 id="content-title"></h3>
+          <p id="content-sub"></p>
+          <div class="os-step-counter" id="step-counter"></div>
+        </div>
+      </div>
+      <div class="os-features" id="features-grid"></div>
+    </div>
+
+    <div class="os-side">
+      <div class="os-nav">
+        <div class="os-nav-title">كل المراحل</div>
+        <div class="os-nav-list" id="nav-list"></div>
+      </div>
+      <div class="os-info-card">
+        <div class="os-info-label">الأداء العام</div>
+        <div class="os-mini-stats">
+          <div class="os-mini-stat"><span class="os-mini-stat-val">85%↓</span><span class="os-mini-stat-lbl">أخطاء بشرية</span></div>
+          <div class="os-mini-stat"><span class="os-mini-stat-val">×3</span><span class="os-mini-stat-lbl">سرعة التنفيذ</span></div>
+          <div class="os-mini-stat"><span class="os-mini-stat-val">100%</span><span class="os-mini-stat-lbl">تتبع كامل</span></div>
+          <div class="os-mini-stat"><span class="os-mini-stat-val">∞</span><span class="os-mini-stat-lbl">توسّع بلا حدود</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-dots" id="dots-row"></div>
+  <div class="os-timer-bar"><div class="os-timer-fill" id="timer-fill"></div></div>
+</div>
+
+<script>
+const steps = [
+  { icon: '📌', label: 'إعداد سريع', title: 'إعداد سريع وسهل', sub: 'ابدأ في دقائق — بدون تعقيد', features: ['تشغيل النظام في دقائق', 'إضافة بيانات شركتك بسهولة', 'ربط المتاجر بضغطة واحدة', 'إعداد شركات الشحن تلقائياً'] },
+  { icon: '📦', label: 'المنتجات', title: 'إدارة المنتجات والموردين', sub: 'تنظيم احترافي لكل المخزون', features: ['إضافة وتنظيم كل منتجاتك', 'ربط كل منتج بالمورد', 'مزامنة مع متاجرك بضغطة', 'تتبع التكلفة والربح بدقة'] },
+  { icon: '🛒', label: 'استقبال الطلبات', title: 'استقبال الطلبات الذكي', sub: 'من كل المصادر في مكان واحد', features: ['استقبال من المتجر الإلكتروني', 'إدخال يدوي سريع', 'رفع ملف Excel للطلبات', 'لوحة متابعة موحدة وواضحة'] },
+  { icon: '👥', label: 'كول سنتر', title: 'تنظيم فريق الكول سنتر', sub: 'توزيع وأداء ومتابعة', features: ['توزيع الطلبات تلقائياً', 'متابعة أداء كل موظف', 'تأكيد الطلبات قبل الشحن', 'تقليل المرتجعات بشكل كبير'] },
+  { icon: '🏪', label: 'المخزن', title: 'إدارة المخزن بالـ Scan', sub: 'دقة عالية وتتبع كامل', features: ['تحضير الطلبات بالباركود Scanner', 'مراجعة كل منتج قبل الخروج', 'تسجيل الأخطاء ومسؤوليتها', 'تنظيم خروج الطلبات احترافياً'] },
+  { icon: '🚚', label: 'الشحن', title: 'شحن أسرع وأكثر تنظيماً', sub: 'توزيع وطباعة بوالص تلقائي', features: ['توزيع على شركات الشحن بسهولة', 'طباعة بوالص جاهزة فوراً', 'تسليم منظم لمندوب الشحن', 'تتبع حالة الشحنات مباشرة'] },
+  { icon: '↩️', label: 'المرتجعات', title: 'إدارة المرتجعات بدون فوضى', sub: 'تتبع دقيق وحفاظ على المخزون', features: ['تسجيل المرتجعات بدقة عالية', 'التعامل مع المرتجعات الجزئية', 'إعادة المنتجات للمخزون فوراً', 'تقارير المرتجعات التفصيلية'] },
+  { icon: '📊', label: 'التقارير', title: 'تقارير ومتابعة شاملة', sub: 'شفافية كاملة في كل العمليات', features: ['سجل كامل لكل العمليات', 'متابعة خطوة بخطوة لكل طلب', 'شفافية تامة في الشغل', 'تصدير التقارير بسهولة'] },
+  { icon: '💰', label: 'التحصيل', title: 'الحسابات والتحصيل المالي', sub: 'متابعة الأرباح والمصروفات', features: ['متابعة الفلوس المحصلة وغيرها', 'تسجيل تحصيل كامل أو جزئي', 'تقارير واضحة للأرباح', 'فهم مصروفاتك بدقة'] },
+];
+
+let current = 0, timer, timerAnim, paused = false;
+const DURATION = 3400;
+
+function go(i) {
+  current = ((i % steps.length) + steps.length) % steps.length;
+  update();
+  if (!paused) resetTimer();
+}
+
+function update() {
+  const s = steps[current];
+  document.getElementById('content-icon').textContent = s.icon;
+  document.getElementById('content-title').textContent = s.title;
+  document.getElementById('content-sub').textContent = s.sub;
+  document.getElementById('step-counter').textContent = `المرحلة ${current + 1} من ${steps.length}`;
+  document.getElementById('features-grid').innerHTML = s.features.map(f =>
+    `<div class="os-feature"><div class="os-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div><span>${f}</span></div>`
+  ).join('');
+  document.getElementById('progress-fill').style.width = ((current + 1) / steps.length * 100) + '%';
+  renderSteps();
+  renderNav();
+  renderDots();
+}
+
+function renderSteps() {
+  const row = document.getElementById('steps-row');
+  row.innerHTML = '';
+  steps.forEach((s, i) => {
+    if (i > 0) {
+      const c = document.createElement('div');
+      c.className = 'os-connector';
+      const fill = document.createElement('div');
+      fill.className = 'os-connector-fill';
+      fill.style.width = i <= current ? '100%' : '0%';
+      c.appendChild(fill);
+      row.appendChild(c);
+    }
+    const el = document.createElement('div');
+    el.className = 'os-step' + (i === current ? ' active' : i < current ? ' done' : '');
+    el.innerHTML = `<div class="os-step-icon">${s.icon}<span class="os-step-num">${i+1}</span></div><div class="os-step-label">${s.label}</div>`;
+    el.onclick = () => go(i);
+    row.appendChild(el);
+  });
+}
+
+function renderNav() {
+  const list = document.getElementById('nav-list');
+  list.innerHTML = steps.map((s, i) =>
+    `<div class="os-nav-item${i === current ? ' active' : ''}" onclick="go(${i})">
+      <div class="os-nav-item-left"><span class="os-nav-item-icon">${s.icon}</span><span class="os-nav-item-name">${s.label}</span></div>
+      <span class="os-nav-item-num">${i+1}</span>
+    </div>`
+  ).join('');
+}
+
+function renderDots() {
+  const row = document.getElementById('dots-row');
+  row.innerHTML = steps.map((_, i) =>
+    `<div class="os-dot${i === current ? ' active' : ''}" onclick="go(${i})"></div>`
+  ).join('');
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  const fill = document.getElementById('timer-fill');
+  fill.style.transition = 'none';
+  fill.style.width = '0%';
+  requestAnimationFrame(() => {
+    fill.style.transition = `width ${DURATION}ms linear`;
+    fill.style.width = '100%';
+  });
+  timer = setInterval(() => {
+    current = (current + 1) % steps.length;
+    update();
+    resetTimer();
+  }, DURATION);
+}
+
+const wrap = document.querySelector('.os-wrap');
+wrap.addEventListener('mouseenter', () => { paused = true; clearInterval(timer); document.getElementById('timer-fill').style.transition = 'none'; });
+wrap.addEventListener('mouseleave', () => { paused = false; resetTimer(); });
+
+update();
+resetTimer();
+</script>

@@ -1,0 +1,137 @@
+
+<style>
+  .os-slide{background:#1a1a1a;border-radius:16px;padding:24px;font-family:system-ui,sans-serif;direction:rtl;color:#fff;max-width:900px;margin:0 auto;box-sizing:border-box}
+  .os-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+  .os-badge{background:#2a2a2a;border:1px solid #3a3a3a;color:#e8b84b;font-size:12px;padding:6px 12px;border-radius:20px;font-weight:600}
+  .os-title-block{text-align:left;direction:ltr}
+  .os-title-block h2{margin:0;font-size:22px;font-weight:700;color:#fff}
+  .os-title-block p{margin:4px 0 0;font-size:12px;color:#888}
+  .os-add-btn{background:#e8b84b;border:none;color:#1a1a1a;width:36px;height:36px;border-radius:8px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .os-steps{display:flex;align-items:center;gap:0;margin:16px 0;overflow:hidden;direction:ltr}
+  .os-step{display:flex;flex-direction:column;align-items:center;cursor:pointer;position:relative;flex:1;min-width:0}
+  .os-step-icon{width:48px;height:48px;border-radius:50%;background:#2a2a2a;border:2px solid #3a3a3a;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.3s;position:relative;z-index:2}
+  .os-step.active .os-step-icon{background:#e8b84b;border-color:#e8b84b}
+  .os-step-num{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#3a3a3a;font-size:9px;color:#aaa;display:flex;align-items:center;justify-content:center;font-weight:700;z-index:3}
+  .os-step.active .os-step-num{background:#c49a35;color:#1a1a1a}
+  .os-step-label{font-size:11px;color:#888;margin-top:6px;white-space:nowrap;direction:rtl}
+  .os-step.active .os-step-label{color:#e8b84b;font-weight:600}
+  .os-connector{height:2px;background:#2a2a2a;flex:1;margin:0 -4px;position:relative;top:-14px}
+  .os-progress-bar{height:4px;background:#2a2a2a;border-radius:2px;margin:12px 0;overflow:hidden}
+  .os-progress-fill{height:100%;background:linear-gradient(90deg,#e8b84b,#f0c855);border-radius:2px;transition:width 0.4s}
+  .os-content{background:#242424;border-radius:12px;padding:20px;margin:16px 0}
+  .os-content-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .os-content-icon{width:44px;height:44px;border-radius:10px;background:#2a2a2a;border:2px solid #e8b84b;display:flex;align-items:center;justify-content:center;font-size:22px}
+  .os-content-title h3{margin:0;font-size:18px;font-weight:700;text-align:right}
+  .os-content-title p{margin:4px 0 0;font-size:12px;color:#888;text-align:right}
+  .os-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .os-feature{display:flex;align-items:center;gap:8px;direction:rtl}
+  .os-check{width:20px;height:20px;border-radius:50%;background:#e8b84b22;border:1px solid #e8b84b;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .os-check svg{width:10px;height:10px;stroke:#e8b84b;stroke-width:2.5;fill:none}
+  .os-feature span{font-size:13px;color:#ccc}
+  .os-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#2a2a2a;border-radius:12px;overflow:hidden;margin-top:16px}
+  .os-stat{background:#1e1e1e;padding:16px 8px;text-align:center}
+  .os-stat-val{font-size:26px;font-weight:700;color:#e8b84b;display:block}
+  .os-stat-lbl{font-size:11px;color:#666;margin-top:4px;display:block}
+  .os-dots{display:flex;justify-content:center;gap:6px;margin-top:14px}
+  .os-dot{width:8px;height:8px;border-radius:50%;background:#3a3a3a;cursor:pointer;transition:all 0.3s}
+  .os-dot.active{background:#e8b84b;width:20px;border-radius:4px}
+</style>
+
+<div class="os-slide">
+  <div class="os-header">
+    <span class="os-badge">9 مراحل تشغيلية</span>
+    <div style="display:flex;align-items:center;gap:12px;direction:ltr">
+      <div class="os-title-block">
+        <h2>Order System</h2>
+        <p>منصة إدارة الطلبات المتكاملة</p>
+      </div>
+      <button class="os-add-btn">+</button>
+    </div>
+  </div>
+
+  <div style="text-align:right;font-size:11px;color:#666;margin-bottom:8px">تدفق العمليات — اضغط على أي مرحلة للتفاصيل</div>
+
+  <div class="os-steps" id="steps-row"></div>
+
+  <div class="os-progress-bar"><div class="os-progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div class="os-content">
+    <div class="os-content-header">
+      <div class="os-content-icon" id="content-icon">🚀</div>
+      <div class="os-content-title">
+        <h3 id="content-title">إعداد سريع وسهل</h3>
+        <p id="content-sub">ابدأ في دقائق — بدون تعقيد</p>
+      </div>
+    </div>
+    <div class="os-features" id="features-grid"></div>
+  </div>
+
+  <div class="os-stats">
+    <div class="os-stat"><span class="os-stat-val">85%↓</span><span class="os-stat-lbl">أخطاء بشرية</span></div>
+    <div class="os-stat"><span class="os-stat-val">×3</span><span class="os-stat-lbl">سرعة التنفيذ</span></div>
+    <div class="os-stat"><span class="os-stat-val">100%</span><span class="os-stat-lbl">تتبع كامل</span></div>
+    <div class="os-stat"><span class="os-stat-val">∞</span><span class="os-stat-lbl">قابلية التوسع</span></div>
+  </div>
+
+  <div class="os-dots" id="dots-row"></div>
+</div>
+
+<script>
+const steps=[
+  {icon:"📌",label:"إعداد سريع",title:"إعداد سريع وسهل",sub:"ابدأ في دقائق — بدون تعقيد",features:["تشغيل النظام في دقائق","إضافة بيانات شركتك بسهولة","ربط المتاجر بضغطة واحدة","إعداد شركات الشحن تلقائياً"]},
+  {icon:"📦",label:"المنتجات",title:"إدارة المنتجات والموردين",sub:"تنظيم احترافي لكل المخزون",features:["إضافة وتنظيم كل منتجاتك","ربط كل منتج بالمورد","مزامنة مع متاجرك بضغطة","تتبع التكلفة والربح بدقة"]},
+  {icon:"🛒",label:"استقبال الطلبات",title:"استقبال الطلبات الذكي",sub:"من كل المصادر في مكان واحد",features:["استقبال من المتجر الإلكتروني","إدخال يدوي سريع","رفع ملف Excel للطلبات","لوحة متابعة موحدة وواضحة"]},
+  {icon:"👥",label:"كول سنتر",title:"تنظيم فريق الكول سنتر",sub:"توزيع وأداء ومتابعة",features:["توزيع الطلبات تلقائياً","متابعة أداء كل موظف","تأكيد الطلبات قبل الشحن","تقليل المرتجعات بشكل كبير"]},
+  {icon:"🏪",label:"المخزن",title:"إدارة المخزن بالـ Scan",sub:"دقة عالية وتتبع كامل",features:["تحضير الطلبات بالباركود Scanner","مراجعة كل منتج قبل الخروج","تسجيل الأخطاء ومسؤوليتها","تنظيم خروج الطلبات احترافياً"]},
+  {icon:"🚚",label:"الشحن",title:"شحن أسرع وأكثر تنظيماً",sub:"توزيع وطباعة بوالص تلقائي",features:["توزيع على شركات الشحن بسهولة","طباعة بوالص جاهزة فوراً","تسليم منظم لمندوب الشحن","تتبع حالة الشحنات مباشرة"]},
+  {icon:"↩️",label:"المرتجعات",title:"إدارة المرتجعات بدون فوضى",sub:"تتبع دقيق وحفاظ على المخزون",features:["تسجيل المرتجعات بدقة عالية","التعامل مع المرتجعات الجزئية","إعادة المنتجات للمخزون فوراً","تقارير المرتجعات التفصيلية"]},
+  {icon:"📊",label:"التقارير",title:"تقارير ومتابعة شاملة",sub:"شفافية كاملة في كل العمليات",features:["سجل كامل لكل العمليات","متابعة خطوة بخطوة لكل طلب","شفافية تامة في الشغل","تصدير التقارير بسهولة"]},
+  {icon:"💰",label:"التحصيل",title:"الحسابات والتحصيل المالي",sub:"متابعة الأرباح والمصروفات",features:["متابعة الفلوس المحصلة وغيرها","تسجيل تحصيل كامل أو جزئي","تقارير واضحة للأرباح","فهم مصروفاتك بدقة"]}
+];
+
+let current=4, timer;
+const stepsRow=document.getElementById('steps-row');
+const dotsRow=document.getElementById('dots-row');
+const progressFill=document.getElementById('progress-fill');
+
+function renderSteps(){
+  stepsRow.innerHTML='';
+  steps.forEach((s,i)=>{
+    if(i>0){const c=document.createElement('div');c.className='os-connector';stepsRow.appendChild(c);}
+    const el=document.createElement('div');
+    el.className='os-step'+(i===current?' active':'');
+    el.innerHTML=`<div class="os-step-icon">${s.icon}<span class="os-step-num">${i+1}</span></div><div class="os-step-label">${s.label}</div>`;
+    el.onclick=()=>{current=i;update();resetTimer();};
+    stepsRow.appendChild(el);
+  });
+}
+
+function renderDots(){
+  dotsRow.innerHTML='';
+  steps.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='os-dot'+(i===current?' active':'');
+    d.onclick=()=>{current=i;update();resetTimer();};
+    dotsRow.appendChild(d);
+  });
+}
+
+function update(){
+  const s=steps[current];
+  document.getElementById('content-icon').textContent=s.icon;
+  document.getElementById('content-title').textContent=s.title;
+  document.getElementById('content-sub').textContent=s.sub;
+  const fg=document.getElementById('features-grid');
+  fg.innerHTML=s.features.map(f=>`<div class="os-feature"><div class="os-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div><span>${f}</span></div>`).join('');
+  progressFill.style.width=((current+1)/steps.length*100)+'%';
+  renderSteps();
+  renderDots();
+}
+
+function resetTimer(){
+  clearInterval(timer);
+  timer=setInterval(()=>{current=(current+1)%steps.length;update();},3200);
+}
+
+renderSteps();renderDots();update();resetTimer();
+</script>

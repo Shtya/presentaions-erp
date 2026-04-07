@@ -1,0 +1,136 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,sans-serif)}
+.slide{direction:rtl;text-align:right;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;max-width:900px;margin:0 auto}
+.header{background:#111;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-dot{width:32px;height:32px;background:#FFB800;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.brand-dot svg{width:16px;height:16px}
+.brand-name{color:#fff;font-size:15px;font-weight:500;line-height:1.2}
+.brand-sub{color:rgba(255,255,255,0.4);font-size:11px}
+.header-badge{background:rgba(255,184,0,0.15);border:0.5px solid rgba(255,184,0,0.3);color:#FFB800;font-size:11px;padding:4px 12px;border-radius:20px}
+.flow-section{padding:20px 24px 16px}
+.flow-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:12px;font-weight:500}
+.flow-row{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:4px}
+.flow-step{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:80px;cursor:pointer;flex-shrink:0}
+.flow-step.active .step-icon{background:#FFB800;border-color:#FFB800}
+.flow-step.active .step-icon svg{color:#111}
+.flow-step.active .step-num{background:#FFB800;color:#111}
+.step-icon{width:44px;height:44px;border-radius:50%;background:var(--color-background-secondary);border:1.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;position:relative;transition:all 0.2s}
+.step-icon svg{width:18px;height:18px;color:var(--color-text-secondary);transition:color 0.2s}
+.step-num{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--color-background-secondary);border:1px solid var(--color-border-secondary);font-size:9px;font-weight:500;color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.step-lbl{font-size:10px;color:var(--color-text-secondary);text-align:center;line-height:1.3;max-width:72px;transition:color 0.2s}
+.flow-step.active .step-lbl{color:#FFB800;font-weight:500}
+.flow-arr{color:var(--color-border-secondary);font-size:14px;margin:0 2px;flex-shrink:0;margin-bottom:18px}
+.detail{margin:0 24px 20px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.detail-head{padding:14px 18px;display:flex;align-items:center;gap:12px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.detail-icon{width:36px;height:36px;background:#FFB800;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.detail-icon svg{width:17px;height:17px;color:#111}
+.detail-title{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
+.detail-sub{font-size:12px;color:var(--color-text-secondary)}
+.feats{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.feat{padding:11px 18px;display:flex;align-items:flex-start;gap:9px;border-bottom:0.5px solid var(--color-border-tertiary);border-left:0.5px solid var(--color-border-tertiary)}
+.feat:nth-child(odd){border-left:none}
+.feat:nth-last-child(-n+2){border-bottom:none}
+.feat-check{width:16px;height:16px;background:rgba(255,184,0,0.15);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.feat-check svg{width:10px;height:10px;color:#FFB800}
+.feat-text{font-size:12px;color:var(--color-text-primary);line-height:1.5}
+.values{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.val{padding:14px 16px;text-align:center;border-left:0.5px solid var(--color-border-tertiary)}
+.val:last-child{border-left:none}
+.val-num{font-size:20px;font-weight:500;color:#FFB800;line-height:1}
+.val-unit{font-size:10px;color:var(--color-text-secondary);margin-top:3px}
+.nav-dots{display:flex;justify-content:center;gap:6px;padding:12px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--color-border-secondary);cursor:pointer;transition:all 0.2s}
+.dot.active{background:#FFB800;width:18px;border-radius:3px}
+</style>
+
+<div class="slide">
+  <div class="header">
+    <div class="brand">
+      <div class="brand-dot">
+        <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#111" stroke-width="1.5"/><path d="M5 8h6M8 5v6" stroke="#111" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">Order System</div>
+        <div class="brand-sub">منصة إدارة الطلبات المتكاملة</div>
+      </div>
+    </div>
+    <div class="header-badge">9 مراحل تشغيلية</div>
+  </div>
+
+  <div class="flow-section">
+    <div class="flow-label">تدفق العمليات — اضغط على أي مرحلة للتفاصيل</div>
+    <div class="flow-row" id="flowRow"></div>
+  </div>
+
+  <div class="detail" id="detailBox"></div>
+
+  <div class="values">
+    <div class="val"><div class="val-num">↓85%</div><div class="val-unit">أخطاء بشرية</div></div>
+    <div class="val"><div class="val-num">3×</div><div class="val-unit">سرعة التنفيذ</div></div>
+    <div class="val"><div class="val-num">100%</div><div class="val-unit">تتبع كامل</div></div>
+    <div class="val"><div class="val-num">∞</div><div class="val-unit">قابلية للتوسع</div></div>
+  </div>
+
+  <div class="nav-dots" id="navDots"></div>
+</div>
+
+<script>
+const steps=[
+  {icon:'<path d="M12 2H4a1 1 0 00-1 1v14l4-2 4 2V3a1 1 0 00-1-1z" stroke="currentColor" stroke-width="1.5" fill="none"/>',label:'إعداد سريع',title:'تشغيل في دقائق',sub:'بداية سريعة بدون تعقيد',feats:['إضافة بيانات الشركة بخطوات بسيطة','ربط المتاجر الإلكترونية تلقائياً','تكامل مع شركات الشحن بضغطة زر','تهيئة الفريق والصلاحيات فوراً']},
+  {icon:'<rect x="2" y="3" width="20" height="4" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="2" y="10" width="20" height="4" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="6" y1="5" x2="6" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="12" x2="6" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',label:'المنتجات',title:'إدارة المنتجات والموردين',sub:'تنظيم كامل للكتالوج',feats:['إضافة منتجات مع ربطها بالمورد','مزامنة تلقائية مع المتاجر','تتبع تكلفة الشراء والربح','إدارة مخزون متعدد المواقع']},
+  {icon:'<path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5"/>',label:'استقبال الطلبات',title:'إدارة ذكية للطلبات',sub:'من كل المصادر في لوحة واحدة',feats:['استقبال من متجر أونلاين أو إدخال يدوي','رفع طلبات بالجملة من ملف','لوحة عرض موحدة وواضحة','متابعة حالة كل طلب لحظياً']},
+  {icon:'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/>',label:'كول سنتر',title:'تنظيم فريق الكول سنتر',sub:'توزيع احترافي وتأكيد قبل الشحن',feats:['توزيع تلقائي أو يدوي على الموظفين','متابعة أداء كل فرد في الفريق','تأكيد الطلب قبل الشحن','تقليل المرتجعات من المصدر']},
+  {icon:'<rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" stroke="currentColor" stroke-width="1.5"/>',label:'المخزن',title:'إدارة المخزن بالـ Scan',sub:'دقة عالية وتتبع كامل',feats:['تحضير الطلبات بالباركود Scanner','مراجعة كل منتج قبل الخروج','تسجيل الأخطاء ومسؤوليتها','تنظيم خروج الطلبات احترافياً']},
+  {icon:'<path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="9" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M13 16h4M13 19h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',label:'الشحن',title:'شحن أسرع وأكثر تنظيماً',sub:'توزيع وطباعة تلقائية',feats:['توزيع على شركات الشحن بسهولة','طباعة بوالص جاهزة بالتفاصيل','تسليم منظم لمندوب الشحن','تتبع حالة كل شحنة']},
+  {icon:'<path d="M9 14l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 10h11a4 4 0 010 8h-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',label:'المرتجعات',title:'إدارة المرتجعات بدون فوضى',sub:'تتبع دقيق وتحكم كامل',feats:['تسجيل مرتجعات جزئية أو كاملة','ربط المرتجع بالطلب الأصلي','إعادة المنتج للمخزون تلقائياً','تقارير أسباب الإرجاع']},
+  {icon:'<path d="M12 20V10M18 20V4M6 20v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',label:'التقارير',title:'تقارير ومتابعة شاملة',sub:'شفافية كاملة في كل العمليات',feats:['سجل كامل لكل الأحداث','متابعة مسار كل طلب بالتسلسل','تقارير الأداء للإدارة','كشف الأخطاء فور حدوثها']},
+  {icon:'<path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',label:'التحصيل',title:'الحسابات والتحصيل',sub:'وضوح مالي تام',feats:['متابعة المحصل وغير المحصل','تسجيل تحصيل كامل أو جزئي','تقارير أرباح ومصروفات','تسوية مالية مع شركات الشحن']},
+];
+
+let active=0;
+const row=document.getElementById('flowRow');
+const box=document.getElementById('detailBox');
+const dotsEl=document.getElementById('navDots');
+
+function checkIcon(s){return`<svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
+
+function render(){
+  row.innerHTML='';
+  steps.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='flow-step'+(i===active?' active':'');
+    div.innerHTML=`<div class="step-icon"><svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px;">${s.icon}</svg><div class="step-num">${i+1}</div></div><div class="step-lbl">${s.label}</div>`;
+    div.onclick=()=>{active=i;render();};
+    row.appendChild(div);
+    if(i<steps.length-1){
+      const arr=document.createElement('div');
+      arr.className='flow-arr';
+      arr.innerHTML='‹';
+      row.appendChild(arr);
+    }
+  });
+
+  const s=steps[active];
+  const half=Math.ceil(s.feats.length/2);
+  const f1=s.feats.slice(0,half);
+  const f2=s.feats.slice(half);
+  const allFeats=[...f1,...f2].map(f=>`<div class="feat"><div class="feat-check">${checkIcon()}</div><div class="feat-text">${f}</div></div>`).join('');
+
+  box.innerHTML=`<div class="detail-head"><div class="detail-icon"><svg viewBox="0 0 20 20" fill="none">${s.icon}</svg></div><div><div class="detail-title">${s.title}</div><div class="detail-sub">${s.sub}</div></div></div><div class="feats">${allFeats}</div>`;
+
+  dotsEl.innerHTML='';
+  steps.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===active?' active':'');
+    d.onclick=()=>{active=i;render();};
+    dotsEl.appendChild(d);
+  });
+}
+render();
+
+let t=setInterval(()=>{active=(active+1)%steps.length;render();},3200);
+document.querySelector('.slide').addEventListener('click',()=>{clearInterval(t);});
+</script>
