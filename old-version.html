@@ -1,0 +1,3396 @@
+<!-- Old Version -->
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DNA ERP – نظام تشغيل الأعمال | Cloudilic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: '#691F2C',
+              'brand-dark': '#4A1520',
+              'brand-deep': '#3A1018',
+              'brand-light': '#8B2D3D',
+              gold: '#B6915E',
+              'gold-light': '#D4AA7D',
+              'gold-pale': '#EAD9DC',
+              cream: '#F8F6F4',
+              border: '#E8E3DE',
+              charcoal: '#1F2937',
+              gray: '#6B7280',
+            },
+            fontFamily: {
+              arabic: ['Cairo', 'Tajawal', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: 'Cairo', 'Tajawal', sans-serif;
+        background: #f8f6f4;
+        color: #1f2937;
+        direction: rtl;
+        text-align: right;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      :root {
+        --brand: #691f2c;
+        --brand-dark: #4a1520;
+        --brand-deep: #3a1018;
+        --brand-light: #8b2d3d;
+        --gold: #b6915e;
+        --gold-light: #d4aa7d;
+        --gold-pale: #ead9dc;
+        --cream: #f8f6f4;
+        --border: #e8e3de;
+        --charcoal: #1f2937;
+        --gray: #6b7280;
+        --shadow: 0 4px 24px rgba(105, 31, 44, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+        --shadow-lg: 0 20px 60px rgba(105, 31, 44, 0.16), 0 6px 16px rgba(0, 0, 0, 0.07);
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f8f6f4;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, var(--brand), var(--gold));
+        border-radius: 4px;
+      }
+
+      #progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        z-index: 9999;
+        background: linear-gradient(90deg, var(--brand), var(--gold), var(--gold-light));
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 0.1s linear;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(44px);
+        transition:
+          opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-l {
+        opacity: 0;
+        transform: translateX(50px);
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-l.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-r {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-r.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .d1 {
+        transition-delay: 0.08s !important;
+      }
+      .d2 {
+        transition-delay: 0.16s !important;
+      }
+      .d3 {
+        transition-delay: 0.24s !important;
+      }
+      .d4 {
+        transition-delay: 0.32s !important;
+      }
+      .d5 {
+        transition-delay: 0.4s !important;
+      }
+      .d6 {
+        transition-delay: 0.48s !important;
+      }
+
+      #navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        transition:
+          background 0.4s,
+          box-shadow 0.4s,
+          backdrop-filter 0.4s,
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(0);
+        display: none;
+      }
+      #navbar.hide-nav {
+        transform: translateY(-110%);
+      }
+      #navbar.scrolled {
+        background: rgba(248, 246, 244, 0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 2px 28px rgba(105, 31, 44, 0.09);
+        border-bottom: 1px solid rgba(214, 211, 209, 0.5);
+      }
+      @media (max-width: 900px) {
+        #navbar {
+          display: block;
+        }
+      }
+
+      #sidenav {
+        position: fixed;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 900;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      @media (max-width: 900px) {
+        #sidenav {
+          display: none !important;
+        }
+      }
+      .snav-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: rgba(105, 31, 44, 0.2);
+        border: 2px solid rgba(105, 31, 44, 0.25);
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        flex-shrink: 0;
+      }
+      .snav-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      .snav-item.active .snav-dot,
+      .snav-item:hover .snav-dot {
+        background: var(--brand);
+        border-color: var(--brand);
+        transform: scale(1.4);
+        box-shadow: 0 0 0 4px rgba(105, 31, 44, 0.15);
+      }
+      .snav-label {
+        position: absolute;
+        left: calc(100% + 12px);
+        background: var(--brand);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateX(-6px);
+        transition: all 0.25s;
+        box-shadow: 0 4px 12px rgba(105, 31, 44, 0.3);
+      }
+      .snav-label::before {
+        content: '';
+        position: absolute;
+        right: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 5px solid transparent;
+        border-right-color: var(--brand);
+      }
+      .snav-item.active .snav-label,
+      .snav-item:hover .snav-label {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .snav-dots {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0;
+      }
+
+      #mob-sidenav {
+        position: fixed;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 900;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      @media (max-width: 900px) {
+        #mob-sidenav {
+          display: flex;
+        }
+      }
+      .mob-snav-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(105, 31, 44, 0.2);
+        border: 1.5px solid rgba(105, 31, 44, 0.25);
+        transition: all 0.3s;
+      }
+      .mob-snav-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      .mob-snav-item.active .mob-snav-dot {
+        background: var(--brand);
+        border-color: var(--brand);
+        transform: scale(1.45);
+        box-shadow: 0 0 0 3px rgba(105, 31, 44, 0.15);
+      }
+      .mob-snav-dots {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 0;
+      }
+
+      .hero-bg {
+        background: linear-gradient(145deg, #1f0a0f 0%, #3a1018 25%, var(--brand) 60%, var(--brand-dark) 100%);
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 56px 56px;
+      }
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+        pointer-events: none;
+        animation: orb-float 9s ease-in-out infinite;
+      }
+      @keyframes orb-float {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-28px) scale(1.06);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes shimmer-move {
+        from {
+          background-position: 200% center;
+        }
+        to {
+          background-position: -200% center;
+        }
+      }
+      @keyframes bounce-scroll {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(8px);
+        }
+      }
+      @keyframes spin-slow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .ha {
+        animation: fadeUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .ha-1 {
+        animation-delay: 0.15s;
+      }
+      .ha-2 {
+        animation-delay: 0.35s;
+      }
+      .ha-3 {
+        animation-delay: 0.55s;
+      }
+      .ha-4 {
+        animation-delay: 0.75s;
+      }
+      .ha-5 {
+        animation-delay: 0.95s;
+      }
+      .shimmer-title {
+        background: linear-gradient(90deg, #ead9dc 0%, #fff 35%, var(--gold) 55%, #ead9dc 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer-move 4.5s linear infinite;
+      }
+      .bounce {
+        animation: bounce-scroll 2.2s ease-in-out infinite;
+      }
+
+      .section-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(105, 31, 44, 0.07);
+        border: 1px solid rgba(105, 31, 44, 0.17);
+        color: var(--brand);
+        font-size: 0.72rem;
+        font-weight: 800;
+        padding: 5px 14px;
+        border-radius: 50px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .section-tag-gold {
+        background: rgba(182, 145, 94, 0.1);
+        border-color: rgba(182, 145, 94, 0.3);
+        color: var(--gold-light);
+      }
+      .gold-rule {
+        width: 52px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--brand), var(--gold));
+        border-radius: 2px;
+        margin: 18px auto 0;
+      }
+      .sep {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(182, 145, 94, 0.3), rgba(105, 31, 44, 0.12), transparent);
+      }
+      .gt-brand {
+        background: linear-gradient(135deg, var(--brand), var(--gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .gt-gold {
+        background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .bg-dots {
+        background-color: #f0ebe7;
+        background-image: radial-gradient(circle at 1px 1px, rgba(105, 31, 44, 0.06) 1px, transparent 0);
+        background-size: 26px 26px;
+      }
+      .ch-card {
+        background: linear-gradient(135deg, #fff 0%, rgba(234, 217, 220, 0.18) 100%);
+        border-radius: 18px;
+        border: 1px solid rgba(105, 31, 44, 0.12);
+        border-right: 3px solid var(--brand);
+        padding: 26px 24px;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s,
+          border-color 0.3s;
+      }
+      .ch-card:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 10px 36px rgba(105, 31, 44, 0.12);
+        border-color: rgba(105, 31, 44, 0.28);
+      }
+
+      .stepper-wrap {
+        position: relative;
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+      }
+      .stepper-wrap::before {
+        content: '';
+        position: absolute;
+        top: 44px;
+        right: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(105, 31, 44, 0.08), var(--brand), var(--gold), rgba(182, 145, 94, 0.1));
+        z-index: 0;
+      }
+      .step-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 0 12px;
+      }
+      .step-icon-wrap {
+        position: relative;
+        width: 88px;
+        height: 88px;
+        margin-bottom: 20px;
+      }
+      .step-icon-bg {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: conic-gradient(from 180deg at 50% 50%, rgba(105, 31, 44, 0.18) 0deg, rgba(182, 145, 94, 0.08) 360deg);
+        animation: spin-slow 12s linear infinite;
+      }
+      .step-icon-bg-last {
+        background: conic-gradient(from 180deg at 50% 50%, rgba(182, 145, 94, 0.25) 0deg, rgba(105, 31, 44, 0.08) 360deg);
+      }
+      .step-icon-inner {
+        position: absolute;
+        inset: 8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 28px rgba(105, 31, 44, 0.38);
+        transition:
+          transform 0.4s,
+          box-shadow 0.4s;
+      }
+      .step-icon-inner-last {
+        background: linear-gradient(135deg, var(--gold), #8b6840);
+        box-shadow: 0 8px 28px rgba(182, 145, 94, 0.45);
+      }
+      .step-col:hover .step-icon-inner {
+        transform: scale(1.1);
+      }
+      .step-num-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid var(--brand);
+        color: var(--brand);
+        font-size: 0.62rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+      }
+      .step-num-badge-last {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+      .step-title {
+        font-size: 0.95rem;
+        font-weight: 900;
+        color: var(--charcoal);
+        letter-spacing: 0.01em;
+        margin-bottom: 4px;
+      }
+      @media (max-width: 768px) {
+        .stepper-wrap {
+          flex-direction: column;
+          gap: 0;
+          align-items: stretch;
+        }
+        .stepper-wrap::before {
+          top: 0;
+          bottom: 0;
+          right: 44px;
+          left: auto;
+          width: 2px;
+          height: auto;
+          background: linear-gradient(to bottom, rgba(105, 31, 44, 0.1), var(--brand), var(--gold), rgba(182, 145, 94, 0.1));
+        }
+        .step-col {
+          flex-direction: row;
+          text-align: right;
+          align-items: center;
+          gap: 16px;
+          padding: 0 0 28px 0;
+        }
+        .step-col:last-child {
+          padding-bottom: 0;
+        }
+        .step-icon-wrap {
+          width: 72px;
+          height: 72px;
+          flex-shrink: 0;
+          margin-bottom: 0;
+        }
+      }
+
+      .highlight-card {
+        position: relative;
+        border-radius: 28px;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid rgba(105, 31, 44, 0.1);
+        box-shadow: 0 20px 60px rgba(105, 31, 44, 0.08);
+      }
+      .highlight-card-header {
+        background: linear-gradient(135deg, #1f0a0f 0%, var(--brand-dark) 40%, var(--brand) 100%);
+        padding: 40px 48px 36px;
+        position: relative;
+        overflow: hidden;
+      }
+      .highlight-grid-bg {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        background-size: 36px 36px;
+        pointer-events: none;
+      }
+      .highlight-card-body {
+        padding: 36px 48px;
+      }
+      @media (max-width: 768px) {
+        .highlight-card-header {
+          padding: 28px 24px;
+        }
+        .highlight-card-body {
+          padding: 24px;
+        }
+      }
+      .feat-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 18px 20px;
+        background: #fafaf9;
+        border: 1px solid rgba(105, 31, 44, 0.07);
+        border-radius: 16px;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s,
+          background 0.3s,
+          transform 0.3s;
+      }
+      .feat-item:hover {
+        background: #fff;
+        border-color: rgba(105, 31, 44, 0.18);
+        box-shadow: 0 6px 24px rgba(105, 31, 44, 0.08);
+        transform: translateY(-2px);
+      }
+      .feat-item-check {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+      }
+      .feat-item-check-brand {
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        box-shadow: 0 4px 14px rgba(105, 31, 44, 0.28);
+      }
+      .feat-item-check-gold {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        box-shadow: 0 4px 14px rgba(182, 145, 94, 0.28);
+      }
+
+      .dark-section {
+        background: linear-gradient(145deg, #1f0a0f 0%, #3a1018 40%, var(--brand-dark) 80%, #1f0a0f 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .dark-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at 15% 50%, rgba(182, 145, 94, 0.07) 0%, transparent 55%), radial-gradient(circle at 85% 20%, rgba(105, 31, 44, 0.18) 0%, transparent 50%);
+      }
+
+      .module-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 28px 24px;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.35s,
+          box-shadow 0.35s,
+          border-color 0.35s;
+        position: relative;
+        overflow: hidden;
+      }
+      .module-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--brand), var(--gold));
+      }
+      .module-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(105, 31, 44, 0.2);
+      }
+
+      .impl-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 20px 0;
+        border-bottom: 1px dashed rgba(105, 31, 44, 0.1);
+      }
+      .impl-step:last-child {
+        border-bottom: none;
+      }
+      .impl-num {
+        min-width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 900;
+        color: #fff;
+        flex-shrink: 0;
+        box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28);
+      }
+
+      .outcome-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px 18px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s,
+          border-color 0.3s;
+      }
+      .outcome-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(105, 31, 44, 0.2);
+      }
+      .outcome-metric {
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--brand), var(--gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+
+      .deploy-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 18px;
+        padding: 28px 22px;
+        transition: all 0.35s;
+      }
+      .deploy-card:hover {
+        background: rgba(255, 255, 255, 0.09);
+        transform: translateY(-5px);
+      }
+
+      .value-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 28px 24px;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.35s,
+          box-shadow 0.35s;
+        position: relative;
+        overflow: hidden;
+      }
+      .value-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--brand), var(--gold));
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.35s;
+      }
+      .value-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg);
+      }
+      .value-card:hover::after {
+        transform: scaleX(1);
+      }
+
+      .proj-card {
+        background: #fff;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.4s;
+        position: relative;
+      }
+      .proj-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--brand), var(--gold));
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .proj-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+      }
+      .proj-card:hover::after {
+        transform: scaleX(1);
+      }
+
+      .partner-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 28px 16px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.35s,
+          box-shadow 0.35s,
+          border-color 0.35s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
+      }
+      .partner-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--brand), var(--gold));
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.35s;
+      }
+      .partner-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg);
+      }
+      .partner-card:hover::after {
+        transform: scaleX(1);
+      }
+
+      #proj-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: flex;
+        align-items: stretch;
+        pointer-events: none;
+      }
+      #proj-overlay.open {
+        pointer-events: all;
+      }
+      #proj-overlay-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(26, 8, 15, 0.72);
+        backdrop-filter: blur(6px);
+        opacity: 0;
+        transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #proj-overlay.open #proj-overlay-backdrop {
+        opacity: 1;
+      }
+      #proj-panel {
+        position: relative;
+        z-index: 1;
+        width: min(860px, 96vw);
+        max-height: 100vh;
+        overflow-y: auto;
+        margin-right: auto;
+        background: #f8f6f4;
+        padding: 0;
+        transform: translateX(-100%);
+        transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #proj-overlay.open #proj-panel {
+        transform: translateX(0);
+      }
+      #proj-panel::-webkit-scrollbar {
+        width: 4px;
+      }
+      #proj-panel::-webkit-scrollbar-thumb {
+        background: var(--brand);
+        border-radius: 4px;
+      }
+      .panel-close-btn {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 28px;
+        background: rgba(248, 246, 244, 0.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .panel-close-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(105, 31, 44, 0.36);
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s;
+        border: none;
+        flex-shrink: 0;
+      }
+      .panel-close-icon:hover {
+        transform: rotate(90deg) scale(1.1);
+      }
+      .panel-hero {
+        padding: 40px 36px 32px;
+        position: relative;
+        overflow: hidden;
+        color: #fff;
+      }
+      .panel-section {
+        padding: 28px 36px;
+        border-bottom: 1px solid var(--border);
+      }
+      .panel-section:last-child {
+        border-bottom: none;
+      }
+      .panel-impact-bar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, rgba(105, 31, 44, 0.05), rgba(182, 145, 94, 0.06));
+        border: 1px solid rgba(105, 31, 44, 0.1);
+        border-radius: 14px;
+        margin-bottom: 10px;
+      }
+      .panel-metric {
+        min-width: 56px;
+        height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        font-weight: 900;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .panel-metric-gold {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: #3a1018;
+      }
+
+      .closing-bg {
+        background: linear-gradient(150deg, #1f0a0f 0%, #3a1018 30%, var(--brand) 65%, var(--brand-dark) 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      #mob-menu {
+        overflow: hidden;
+        max-height: 0;
+        transition:
+          max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 0.35s ease;
+        opacity: 0;
+        background: rgba(26, 8, 15, 0.97);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-top: 1px solid rgba(105, 31, 44, 0.25);
+      }
+      #mob-menu.open {
+        max-height: 600px;
+        opacity: 1;
+      }
+      .mob-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 16px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 0.88rem;
+        border-radius: 10px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+        margin-bottom: 3px;
+        text-decoration: none;
+      }
+      .mob-link:hover {
+        background: rgba(105, 31, 44, 0.28);
+        color: #fff;
+      }
+      .ham-icon {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 38px;
+        height: 38px;
+        padding: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: background 0.2s;
+      }
+      .ham-bar {
+        width: 22px;
+        height: 2px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.9);
+        display: block;
+        transform-origin: center;
+        transition:
+          transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 0.25s,
+          width 0.3s;
+      }
+      #navbar.scrolled .ham-bar {
+        background: var(--brand);
+      }
+      .ham-icon.open .ham-bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .ham-icon.open .ham-bar:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      .ham-icon.open .ham-bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      @media (max-width: 900px) {
+        .ham-icon {
+          display: flex;
+        }
+      }
+
+      .transform-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 18px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+      .transform-row:hover {
+        border-color: rgba(105, 31, 44, 0.2);
+        box-shadow: 0 8px 28px rgba(105, 31, 44, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .challenges-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .proj-cols {
+          grid-template-columns: 1fr !important;
+        }
+        .feat-panel-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .partner-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+        .panel-hero {
+          padding: 28px 20px 22px;
+        }
+        .panel-section {
+          padding: 22px 20px;
+        }
+        #proj-panel {
+          width: 100vw;
+        }
+        .modules-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+        .outcomes-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+        .deploy-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+        .value-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .impl-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .about-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
+      @media (max-width: 900px) {
+        .about-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .why-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+      }
+      @media (max-width: 640px) {
+        .partner-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="progress-bar"></div>
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+      <div style="max-width: 1280px; margin: 0 auto; padding: 10px 18px; display: flex; align-items: center; justify-content: space-between">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <img
+            src="./cloudilic-logo.png"
+            alt="Cloudilic"
+            style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'flex';
+            " />
+          <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: none; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(105, 31, 44, 0.4)">
+            <i class="fa-solid fa-cloud" style="font-size: 1rem; color: #fff"></i>
+          </div>
+          <div>
+            <div id="nav-logo-text" style="font-weight: 900; font-size: 0.9rem; color: rgba(255, 255, 255, 0.95); line-height: 1.1; transition: color 0.4s">DNA ERP</div>
+            <div id="nav-logo-sub" style="font-size: 0.6rem; color: rgba(255, 255, 255, 0.48); font-weight: 500; transition: color 0.4s">بواسطة Cloudilic</div>
+          </div>
+        </div>
+        <button class="ham-icon" id="ham-btn" onclick="toggleMob()" aria-label="القائمة">
+          <span class="ham-bar"></span>
+          <span class="ham-bar"></span>
+          <span class="ham-bar"></span>
+        </button>
+      </div>
+      <div id="mob-menu">
+        <div style="padding: 16px 16px 24px">
+          <a href="#hero" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-house" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>الرئيسية</a>
+          <a href="#intro" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-circle-info" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>من نحن</a>
+          <a href="#problem" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-triangle-exclamation" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>المشكلة</a>
+          <a href="#solution" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-circle-check" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>الحل</a>
+          <a href="#modules" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-cubes" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>الوحدات</a>
+          <a href="#outcomes" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-chart-line" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>النتائج</a>
+          <a href="#why" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-shield-halved" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>لماذا نحن</a>
+          <a href="#projects" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-desktop" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>مشاريعنا</a>
+          <a href="#closing" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-star" style="color: var(--gold); opacity: 0.7; width: 20px; text-align: center"></i>الختام</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- DESKTOP SIDENAV -->
+    <div id="sidenav">
+      <div class="snav-dots">
+        <div class="snav-item active" data-target="hero"><span class="snav-dot"></span><span class="snav-label">الرئيسية</span></div>
+        <div class="snav-item" data-target="intro"><span class="snav-dot"></span><span class="snav-label">من نحن</span></div>
+        <div class="snav-item" data-target="problem"><span class="snav-dot"></span><span class="snav-label">المشكلة</span></div>
+        <div class="snav-item" data-target="solution"><span class="snav-dot"></span><span class="snav-label">الحل</span></div>
+        <div class="snav-item" data-target="modules"><span class="snav-dot"></span><span class="snav-label">الوحدات</span></div>
+        <div class="snav-item" data-target="outcomes"><span class="snav-dot"></span><span class="snav-label">النتائج</span></div>
+        <div class="snav-item" data-target="why"><span class="snav-dot"></span><span class="snav-label">لماذا نحن</span></div>
+        <div class="snav-item" data-target="team"><span class="snav-dot"></span><span class="snav-label">الفريق</span></div>
+        <div class="snav-item" data-target="projects"><span class="snav-dot"></span><span class="snav-label">مشاريعنا</span></div>
+        <div class="snav-item" data-target="partners"><span class="snav-dot"></span><span class="snav-label">الشركاء</span></div>
+        <div class="snav-item" data-target="closing"><span class="snav-dot"></span><span class="snav-label">الختام</span></div>
+      </div>
+    </div>
+
+    <!-- MOBILE SIDENAV -->
+    <div id="mob-sidenav">
+      <button id="mob-snav-up" style="width: 30px; height: 30px; border-radius: 50%; background: rgba(105, 31, 44, 0.12); border: 1.5px solid rgba(105, 31, 44, 0.22); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--brand); font-size: 0.75rem; transition: all 0.25s">
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+      <div class="mob-snav-dots" id="mob-snav-dots">
+        <div class="mob-snav-item active" data-target="hero"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="intro"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="problem"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="solution"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="modules"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="outcomes"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="why"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="team"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="projects"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="partners"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="closing"><span class="mob-snav-dot"></span></div>
+      </div>
+      <button id="mob-snav-down" style="width: 30px; height: 30px; border-radius: 50%; background: rgba(105, 31, 44, 0.12); border: 1.5px solid rgba(105, 31, 44, 0.22); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--brand); font-size: 0.75rem; transition: all 0.25s">
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </div>
+
+    <!-- PROJECT PANEL -->
+    <div id="proj-overlay" role="dialog" aria-modal="true">
+      <div id="proj-overlay-backdrop" onclick="closeProjectPanel()"></div>
+      <div id="proj-panel">
+        <div class="panel-close-btn">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <div id="panel-badge" style="font-size: 0.7rem; font-weight: 800; padding: 4px 12px; border-radius: 50px; background: rgba(105, 31, 44, 0.08); color: var(--brand)">مشروع</div>
+            <div id="panel-title-small" style="font-size: 0.85rem; font-weight: 700; color: var(--charcoal)"></div>
+          </div>
+          <button class="panel-close-icon" onclick="closeProjectPanel()" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="panel-content"></div>
+      </div>
+    </div>
+
+    <!-- ═══ SLIDE 1 – HERO ═══ -->
+    <section id="hero" class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-orb" style="width: 480px; height: 480px; background: radial-gradient(circle, rgba(182, 145, 94, 0.13), transparent); top: -120px; right: -120px"></div>
+      <div class="hero-orb" style="width: 380px; height: 380px; background: radial-gradient(circle, rgba(105, 31, 44, 0.22), transparent); bottom: -80px; left: -80px; animation-delay: 3.5s"></div>
+      <div class="hero-orb" style="width: 260px; height: 260px; background: radial-gradient(circle, rgba(182, 145, 94, 0.09), transparent); top: 38%; left: 18%; animation-delay: 6s"></div>
+
+      <div style="max-width: 900px; margin: 0 auto; padding: 80px 20px 80px; text-align: center; position: relative; z-index: 10">
+        <div class="ha ha-1" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(182, 145, 94, 0.12); border: 1px solid rgba(182, 145, 94, 0.3); color: var(--gold-light); padding: 8px 20px; border-radius: 50px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 28px">
+          <i class="fa-solid fa-dna" style="font-size: 0.8rem"></i>
+          نظام إدارة أعمال متكامل — من العمليات إلى القرار
+        </div>
+
+        <h1 class="ha ha-2 shimmer-title" style="font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.1">DNA ERP</h1>
+
+        <div class="ha ha-3" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px">
+          <div style="flex: 1; max-width: 70px; height: 1px; background: linear-gradient(90deg, transparent, rgba(182, 145, 94, 0.6))"></div>
+          <i class="fa-solid fa-diamond" style="color: var(--gold); font-size: 0.75rem"></i>
+          <div style="flex: 1; max-width: 70px; height: 1px; background: linear-gradient(90deg, rgba(182, 145, 94, 0.6), transparent)"></div>
+        </div>
+
+        <p class="ha ha-3" style="font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 700; color: var(--gold-light); letter-spacing: 0.04em; margin-bottom: 16px">أدِر عملك بوضوح — وابنِ نموًا تستطيع الدفاع عنه</p>
+        <p class="ha ha-4" style="font-size: clamp(0.9rem, 2vw, 1.05rem); color: rgba(255, 255, 255, 0.65); max-width: 580px; margin: 0 auto 44px; line-height: 2.1; font-weight: 400">منصة واحدة تربط المالية والمشتريات والمخزون والمبيعات وتمويل التجارة — عمليات مؤتمتة، وبيانات فورية تدعم كل قرار.</p>
+
+        <div class="ha ha-4" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 36px; flex-wrap: wrap">
+          <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.75); padding: 7px 18px; border-radius: 50px; font-size: 0.78rem; font-weight: 600"><i class="fa-solid fa-building-columns" style="color: var(--gold-light); margin-left: 6px"></i> المالية</div>
+          <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.75); padding: 7px 18px; border-radius: 50px; font-size: 0.78rem; font-weight: 600"><i class="fa-solid fa-cart-shopping" style="color: var(--gold-light); margin-left: 6px"></i> المشتريات</div>
+          <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.75); padding: 7px 18px; border-radius: 50px; font-size: 0.78rem; font-weight: 600"><i class="fa-solid fa-boxes-stacked" style="color: var(--gold-light); margin-left: 6px"></i> المخزون</div>
+          <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.75); padding: 7px 18px; border-radius: 50px; font-size: 0.78rem; font-weight: 600"><i class="fa-solid fa-chart-line" style="color: var(--gold-light); margin-left: 6px"></i> المبيعات</div>
+          <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.75); padding: 7px 18px; border-radius: 50px; font-size: 0.78rem; font-weight: 600"><i class="fa-solid fa-globe" style="color: var(--gold-light); margin-left: 6px"></i> تمويل التجارة</div>
+        </div>
+
+        <div class="ha ha-4" style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.38); letter-spacing: 0.06em; margin-bottom: 12px">مقدم من</div>
+        <div class="ha ha-4" style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); padding: 10px 22px; border-radius: 50px">
+          <img
+            class=" "
+            src="./cloudilic-logo.png"
+            alt="Cloudilic"
+            style="width: fit-content; height: 28px; border-radius: 8px; object-fit: contain"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'flex';
+            " />
+          <div style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: none; align-items: center; justify-content: center">
+            <i class="fa-solid fa-cloud" style="color: #fff; font-size: 0.75rem"></i>
+          </div>
+        </div>
+
+        <div class="ha ha-5 bounce" style="margin-top: 48px; display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255, 255, 255, 0.25); cursor: pointer" onclick="document.getElementById('intro').scrollIntoView({ behavior: 'smooth' })">
+          <span style="font-size: 0.7rem; letter-spacing: 0.08em">تعرّف على الحل</span>
+          <div style="width: 1px; height: 36px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent)"></div>
+        </div>
+      </div>
+
+      <div style="position: absolute; bottom: 0; left: 0; right: 0">
+        <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" fill="#F8F6F4" preserveAspectRatio="none" style="display: block; height: 56px">
+          <path d="M0,56L60,48C120,40,240,24,360,18.7C480,13,600,21,720,28C840,35,960,40,1080,37.3C1200,35,1320,26,1380,21.3L1440,17L1440,56L0,56Z" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 2 – من نحن ═══ -->
+    <section id="intro" style="padding: 96px 0; background: #f8f6f4">
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
+        <div class="reveal" style="text-align: center; margin-bottom: 60px">
+          <div class="section-tag" style="display: inline-flex"><i class="fa-solid fa-circle" style="font-size: 0.45rem"></i> من نحن</div>
+          <h2 style="font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">الفريق خلف المشروع</h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 500px; margin: 0 auto; line-height: 1.9">خبرة تقنية موثوقة، ورؤية عملية واضحة — لبناء حلول تعمل فعلاً على أرض الواقع.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <div class="about-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-bottom: 36px">
+          <!-- Developer Card -->
+          <div class="reveal">
+            <div style="background: linear-gradient(145deg, var(--brand), #3a1018); border-radius: 26px; padding: 40px 36px; color: #fff; position: relative; overflow: hidden; height: 100%">
+              <div style="position: absolute; top: -40px; left: -40px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255, 255, 255, 0.04)"></div>
+              <div style="position: absolute; bottom: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: rgba(182, 145, 94, 0.07)"></div>
+              <div style="position: relative; z-index: 1">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px">
+                  <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 255, 255, 0.12); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0"><i class="fa-solid fa-user-tie"></i></div>
+                  <div>
+                    <div style="font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 900">Ahmed Abdelrhman</div>
+                    <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.65)">Senior Full Stack Engineer</div>
+                  </div>
+                </div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: var(--gold-light); font-style: italic; margin-bottom: 20px">"أبني أنظمة قابلة للتوسع وجاهزة للإنتاج"</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px">
+                  <div style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 4px 12px; font-size: 0.72rem; font-weight: 700">خبرة +6 سنوات</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 22px">
+                  <div style="background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 12px 8px; text-align: center">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--gold-light)">50+</div>
+                    <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); margin-top: 2px">مشروع مُسلَّم</div>
+                  </div>
+                  <div style="background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 12px 8px; text-align: center">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--gold-light)">35+</div>
+                    <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); margin-top: 2px">عميل عملنا معه</div>
+                  </div>
+                  <div style="background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 12px 8px; text-align: center">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--gold-light)">50+</div>
+                    <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); margin-top: 2px">تسليم في الموعد</div>
+                  </div>
+                </div>
+                <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 18px">
+                  <div style="font-size: 0.65rem; font-weight: 800; color: rgba(255, 255, 255, 0.38); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px">التقنيات الأساسية</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">React.js</span>
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">Next.js</span>
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">Node.js</span>
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">NestJS</span>
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">TypeScript</span>
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">PostgreSQL</span>
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">Docker</span>
+                    <span style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 600">AWS</span>
+                  </div>
+                </div>
+                <div style="margin-top: 18px; font-size: 0.78rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 14px"><strong style="color: rgba(255, 255, 255, 0.85)">الدور:</strong> مسؤول عن البنية التقنية الكاملة — من الواجهة إلى الخادم والنشر</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Company Card -->
+          <div class="reveal-l">
+            <div style="background: #fff; border: 1px solid var(--border); border-radius: 26px; padding: 40px 36px; box-shadow: var(--shadow); height: 100%">
+              <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px">
+                <div>
+                  <img
+                    src="./cloudilic-logo.png"
+                    alt="Cloudilic"
+                    style="width: 120px; margin: 10px 0; height: fit-content; object-fit: contain"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    " />
+                  <div style="font-size: 0.8rem; color: var(--gray)">نوظّف الذكاء الاصطناعي لخدمة عملك — وتبقى أنت من يقرر.</div>
+                </div>
+              </div>
+              <p style="color: #4b5563; font-size: 0.9rem; line-height: 1.85; margin-bottom: 20px">نساعد الشركات على توظيف الذكاء الاصطناعي والسحابة في عملياتها اليومية — كشريك تقني يعمل مع عملاء حول العالم.</p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px">
+                <div style="background: linear-gradient(135deg, rgba(105, 31, 44, 0.05), rgba(182, 145, 94, 0.06)); border: 1px solid rgba(105, 31, 44, 0.1); border-radius: 14px; padding: 16px; text-align: center">
+                  <div style="font-size: 1.8rem; font-weight: 900; color: var(--brand); line-height: 1">150+</div>
+                  <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px">شركة ناشئة دعمناها</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(182, 145, 94, 0.07), rgba(105, 31, 44, 0.04)); border: 1px solid rgba(182, 145, 94, 0.18); border-radius: 14px; padding: 16px; text-align: center">
+                  <div style="font-size: 1.8rem; font-weight: 900; color: var(--gold); line-height: 1">150+</div>
+                  <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px">عميل عملنا معه</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(105, 31, 44, 0.05), rgba(182, 145, 94, 0.06)); border: 1px solid rgba(105, 31, 44, 0.1); border-radius: 14px; padding: 16px; text-align: center">
+                  <div style="font-size: 1.8rem; font-weight: 900; color: var(--brand); line-height: 1">90%</div>
+                  <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px">معدل النمو السنوي</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(182, 145, 94, 0.07), rgba(105, 31, 44, 0.04)); border: 1px solid rgba(182, 145, 94, 0.18); border-radius: 14px; padding: 16px; text-align: center">
+                  <div style="font-size: 1.8rem; font-weight: 900; color: var(--gold); line-height: 1">$500M+</div>
+                  <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px">قيمة أعمال محسّنة</div>
+                </div>
+              </div>
+              <div style="border-top: 1px solid var(--border); padding-top: 18px">
+                <div style="font-size: 0.65rem; font-weight: 800; color: var(--gray); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px">ما نؤمن به</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                  <span style="background: rgba(105, 31, 44, 0.06); border: 1px solid rgba(105, 31, 44, 0.12); color: var(--brand); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700">الجودة</span>
+                  <span style="background: rgba(105, 31, 44, 0.06); border: 1px solid rgba(105, 31, 44, 0.12); color: var(--brand); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700">الابتكار</span>
+                  <span style="background: rgba(105, 31, 44, 0.06); border: 1px solid rgba(105, 31, 44, 0.12); color: var(--brand); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700">التعاون</span>
+                  <span style="background: rgba(105, 31, 44, 0.06); border: 1px solid rgba(105, 31, 44, 0.12); color: var(--brand); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700">رضا العميل</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sep" style="max-width: 480px; margin: 0 auto"></div>
+
+    <!-- ═══ SLIDE 3 – المشكلة ═══ -->
+    <section id="problem" class="bg-dots" style="padding: 96px 0">
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
+        <div class="reveal" style="text-align: center; margin-bottom: 56px">
+          <div class="section-tag" style="display: inline-flex"><i class="fa-solid fa-triangle-exclamation" style="font-size: 0.72rem"></i> المشكلة</div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">تكلفة العمل بـ <span class="gt-brand">أنظمة متفرقة</span></h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 540px; margin: 0 auto; line-height: 1.9">حين تعمل الأقسام بأنظمة مختلفة، تضيع البيانات وتتأخر القرارات وتتراكم الأخطاء.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <div class="challenges-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px">
+          <div class="ch-card reveal d1">
+            <div style="display: flex; align-items: flex-start; gap: 16px">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; font-size: 1.1rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.25)"><i class="fa-solid fa-link-slash"></i></div>
+              <div>
+                <h3 style="font-weight: 800; font-size: clamp(0.92rem, 2vw, 1.05rem); color: var(--charcoal); margin-bottom: 8px">أقسام معزولة وبيانات غير متصلة</h3>
+                <p style="color: var(--gray); font-size: clamp(0.82rem, 2vw, 0.9rem); line-height: 1.85">لا تبادل للبيانات بين المالية والمبيعات والعمليات — كل قسم يعمل باستقلالية تامة.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ch-card reveal d2">
+            <div style="display: flex; align-items: flex-start; gap: 16px">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; font-size: 1.1rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.25)"><i class="fa-solid fa-pen-to-square"></i></div>
+              <div>
+                <h3 style="font-weight: 800; font-size: clamp(0.92rem, 2vw, 1.05rem); color: var(--charcoal); margin-bottom: 8px">عمليات يدوية تستهلك الوقت وتولّد الأخطاء</h3>
+                <p style="color: var(--gray); font-size: clamp(0.82rem, 2vw, 0.9rem); line-height: 1.85">إدارة المشتريات والحسابات يدوياً تُبطئ الفريق وترفع احتمالية الخطأ في كل خطوة.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ch-card reveal d3">
+            <div style="display: flex; align-items: flex-start; gap: 16px">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; font-size: 1.1rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.25)"><i class="fa-solid fa-eye-slash"></i></div>
+              <div>
+                <h3 style="font-weight: 800; font-size: clamp(0.92rem, 2vw, 1.05rem); color: var(--charcoal); margin-bottom: 8px">قرارات تُبنى على بيانات متأخرة</h3>
+                <p style="color: var(--gray); font-size: clamp(0.82rem, 2vw, 0.9rem); line-height: 1.85">الإدارة لا تملك صورة واضحة في الوقت الفعلي — وهذا يؤثر مباشرة على جودة القرار.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ch-card reveal d4">
+            <div style="display: flex; align-items: flex-start; gap: 16px">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; font-size: 1.1rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.25)"><i class="fa-solid fa-gears"></i></div>
+              <div>
+                <h3 style="font-weight: 800; font-size: clamp(0.92rem, 2vw, 1.05rem); color: var(--charcoal); margin-bottom: 8px">دورة مشتريات بطيئة وغير خاضعة للرقابة</h3>
+                <p style="color: var(--gray); font-size: clamp(0.82rem, 2vw, 0.9rem); line-height: 1.85">لا توجد آلية واضحة لتتبع الموردين أو الإشراف على دورة الشراء من البداية للنهاية.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ch-card reveal d5">
+            <div style="display: flex; align-items: flex-start; gap: 16px">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; font-size: 1.1rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.25)"><i class="fa-solid fa-boxes-stacked"></i></div>
+              <div>
+                <h3 style="font-weight: 800; font-size: clamp(0.92rem, 2vw, 1.05rem); color: var(--charcoal); margin-bottom: 8px">مستويات المخزون غير موثوقة</h3>
+                <p style="color: var(--gray); font-size: clamp(0.82rem, 2vw, 0.9rem); line-height: 1.85">بيانات المخزون غير محدّثة في الوقت الفعلي — مما يؤدي إلى نقص مفاجئ أو تكدّس غير مبرر.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ch-card reveal d6">
+            <div style="display: flex; align-items: flex-start; gap: 16px">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; font-size: 1.1rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.25)"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+              <div>
+                <h3 style="font-weight: 800; font-size: clamp(0.92rem, 2vw, 1.05rem); color: var(--charcoal); margin-bottom: 8px">إغلاق مالي يأخذ أكثر مما يجب</h3>
+                <p style="color: var(--gray); font-size: clamp(0.82rem, 2vw, 0.9rem); line-height: 1.85">البيانات الموزعة على أدوات مختلفة تجعل إغلاق الفترات المالية عملية طويلة ومجهدة.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ch-card reveal" style="grid-column: 1/-1">
+            <div style="display: flex; align-items: flex-start; gap: 16px">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; font-size: 1.1rem; box-shadow: 0 6px 18px rgba(182, 145, 94, 0.3)"><i class="fa-solid fa-chart-line"></i></div>
+              <div>
+                <h3 style="font-weight: 800; font-size: clamp(0.92rem, 2vw, 1.05rem); color: var(--charcoal); margin-bottom: 8px">أنظمة لا تواكب نمو العمل</h3>
+                <p style="color: var(--gray); font-size: clamp(0.82rem, 2vw, 0.9rem); line-height: 1.85">كلما نمت الشركة، كلما ظهرت حدود الأنظمة الحالية — وتصبح عائقاً بدلاً من أن تكون داعماً.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 4 – الحل ═══ -->
+    <section id="solution" style="padding: 96px 0; background: #f8f6f4">
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
+        <div class="reveal" style="text-align: center; margin-bottom: 60px">
+          <div class="section-tag" style="display: inline-flex"><i class="fa-solid fa-circle-check" style="font-size: 0.72rem"></i> الحل</div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px"><span class="gt-brand">DNA ERP</span> — نظام واحد يربط كل أقسام عملك</h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 600px; margin: 0 auto; line-height: 1.9">نظام ERP متكامل يجمع المالية والمشتريات والمخزون والمبيعات وتمويل التجارة في مكان واحد — عمليات مؤتمتة وبيانات جاهزة لدعم القرار.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <div class="reveal" style="margin-bottom: 56px">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px" class="impl-grid">
+            <div class="transform-row">
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-xmark" style="color: #dc2626; font-size: 0.9rem"></i></div>
+              <div style="flex: 1">
+                <div style="font-size: 0.65rem; color: #dc2626; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">قبل</div>
+                <div style="font-weight: 700; color: var(--charcoal)">ردود أفعال متأخرة</div>
+              </div>
+              <i class="fa-solid fa-arrow-left" style="color: var(--gold); font-size: 1rem"></i>
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(105, 31, 44, 0.08); border: 1px solid rgba(105, 31, 44, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.9rem"></i></div>
+              <div class="min-w-[200px]">
+                <div style="font-size: 0.65rem; color: var(--brand); font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">بعد</div>
+                <div style="font-weight: 700; color: var(--charcoal)">قرارات في الوقت المناسب</div>
+              </div>
+            </div>
+            <div class="transform-row">
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-xmark" style="color: #dc2626; font-size: 0.9rem"></i></div>
+              <div style="flex: 1">
+                <div style="font-size: 0.65rem; color: #dc2626; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">قبل</div>
+                <div style="font-weight: 700; color: var(--charcoal)">عمليات يدوية</div>
+              </div>
+              <i class="fa-solid fa-arrow-left" style="color: var(--gold); font-size: 1rem"></i>
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(105, 31, 44, 0.08); border: 1px solid rgba(105, 31, 44, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.9rem"></i></div>
+              <div class="min-w-[200px]">
+                <div style="font-size: 0.65rem; color: var(--brand); font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">بعد</div>
+                <div style="font-weight: 700; color: var(--charcoal)">عمليات مؤتمتة بالكامل</div>
+              </div>
+            </div>
+            <div class="transform-row">
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-xmark" style="color: #dc2626; font-size: 0.9rem"></i></div>
+              <div style="flex: 1">
+                <div style="font-size: 0.65rem; color: #dc2626; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">قبل</div>
+                <div style="font-weight: 700; color: var(--charcoal)">بيانات متشتتة</div>
+              </div>
+              <i class="fa-solid fa-arrow-left" style="color: var(--gold); font-size: 1rem"></i>
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(105, 31, 44, 0.08); border: 1px solid rgba(105, 31, 44, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.9rem"></i></div>
+              <div class="min-w-[200px]">
+                <div style="font-size: 0.65rem; color: var(--brand); font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">بعد</div>
+                <div style="font-weight: 700; color: var(--charcoal)">بيانات موحدة في مكان واحد</div>
+              </div>
+            </div>
+            <div class="transform-row">
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-xmark" style="color: #dc2626; font-size: 0.9rem"></i></div>
+              <div style="flex: 1">
+                <div style="font-size: 0.65rem; color: #dc2626; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">قبل</div>
+                <div style="font-weight: 700; color: var(--charcoal)">قدرة توسع محدودة</div>
+              </div>
+              <i class="fa-solid fa-arrow-left" style="color: var(--gold); font-size: 1rem"></i>
+              <div style="min-width: 36px; height: 36px; border-radius: 10px; background: rgba(105, 31, 44, 0.08); border: 1px solid rgba(105, 31, 44, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.9rem"></i></div>
+              <div class="min-w-[200px]">
+                <div style="font-size: 0.65rem; color: var(--brand); font-weight: 800; letter-spacing: 0.05em; margin-bottom: 3px">بعد</div>
+                <div style="font-weight: 700; color: var(--charcoal)">بنية تحتية جاهزة للنمو</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stepper -->
+        <div class="reveal" style="margin-bottom: 72px; padding: 0 12px">
+          <div class="stepper-wrap">
+            <div class="step-col">
+              <div class="step-icon-wrap">
+                <div class="step-icon-bg"></div>
+                <div class="step-icon-inner"><i class="fa-solid fa-layer-group" style="font-size: 1.4rem; color: #fff"></i></div>
+                <div class="step-num-badge">1</div>
+              </div>
+              <div class="step-title">توحيد العمليات</div>
+              <div style="width: 40px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 8px auto 0"></div>
+            </div>
+            <div class="step-col">
+              <div class="step-icon-wrap">
+                <div class="step-icon-bg"></div>
+                <div class="step-icon-inner"><i class="fa-solid fa-robot" style="font-size: 1.4rem; color: #fff"></i></div>
+                <div class="step-num-badge">2</div>
+              </div>
+              <div class="step-title">أتمتة العمل</div>
+              <div style="width: 40px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 8px auto 0"></div>
+            </div>
+            <div class="step-col">
+              <div class="step-icon-wrap">
+                <div class="step-icon-bg"></div>
+                <div class="step-icon-inner"><i class="fa-solid fa-chart-pie" style="font-size: 1.4rem; color: #fff"></i></div>
+                <div class="step-num-badge">3</div>
+              </div>
+              <div class="step-title">رؤية فورية</div>
+              <div style="width: 40px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 8px auto 0"></div>
+            </div>
+            <div class="step-col">
+              <div class="step-icon-wrap">
+                <div class="step-icon-bg step-icon-bg-last"></div>
+                <div class="step-icon-inner step-icon-inner-last"><i class="fa-solid fa-rocket" style="font-size: 1.4rem; color: #fff"></i></div>
+                <div class="step-num-badge step-num-badge-last">4</div>
+              </div>
+              <div class="step-title">نمو قابل للتوسع</div>
+              <div style="width: 40px; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; margin: 8px auto 0"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlight Card -->
+        <div class="highlight-card reveal">
+          <div class="highlight-card-header">
+            <div class="highlight-grid-bg"></div>
+            <div style="position: relative; z-index: 1">
+              <div style="display: inline-flex; align-items: center; gap: 7px; background: rgba(182, 145, 94, 0.15); border: 1px solid rgba(182, 145, 94, 0.3); color: var(--gold-light); padding: 6px 16px; border-radius: 50px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; margin-bottom: 14px"><i class="fa-solid fa-star"></i> ما يقدمه النظام</div>
+              <h3 style="font-size: clamp(1.3rem, 3.5vw, 2rem); font-weight: 900; color: #fff; line-height: 1.3; max-width: 800px">أربعة محاور تُدير عليها عملك — <span style="color: var(--gold-light)">من نظام واحد</span></h3>
+            </div>
+          </div>
+          <div class="highlight-card-body">
+            <div class="feat-panel-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px">
+              <div class="feat-item">
+                <div class="feat-item-check feat-item-check-brand"><i class="fa-solid fa-check" style="color: #fff; font-size: 0.8rem"></i></div>
+                <div>
+                  <div style="font-weight: 700; color: var(--charcoal); margin-bottom: 3px; font-size: 0.95rem">ربط جميع الأقسام في نظام واحد</div>
+                  <div style="color: var(--gray); font-size: 0.85rem; line-height: 1.7">كل قسم يرى نفس البيانات، في نفس اللحظة</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-item-check feat-item-check-brand"><i class="fa-solid fa-check" style="color: #fff; font-size: 0.8rem"></i></div>
+                <div>
+                  <div style="font-weight: 700; color: var(--charcoal); margin-bottom: 3px; font-size: 0.95rem">أتمتة كاملة للعمليات التشغيلية</div>
+                  <div style="color: var(--gray); font-size: 0.85rem; line-height: 1.7">المشتريات والمالية والمبيعات تعمل دون تدخل يدوي</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-item-check feat-item-check-gold"><i class="fa-solid fa-check" style="color: #3a1018; font-size: 0.8rem"></i></div>
+                <div>
+                  <div style="font-weight: 700; color: var(--charcoal); margin-bottom: 3px; font-size: 0.95rem">تقارير فورية لدعم قرارات الإدارة</div>
+                  <div style="color: var(--gray); font-size: 0.85rem; line-height: 1.7">لوحات تحكم مباشرة تُظهر ما يحدث في عملك الآن</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-item-check feat-item-check-gold"><i class="fa-solid fa-check" style="color: #3a1018; font-size: 0.8rem"></i></div>
+                <div>
+                  <div style="font-weight: 700; color: var(--charcoal); margin-bottom: 3px; font-size: 0.95rem">بنية تقنية تنمو مع عملك</div>
+                  <div style="color: var(--gray); font-size: 0.85rem; line-height: 1.7">النظام مصمم ليتسع مع نمو شركتك دون الحاجة لإعادة البناء</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 5 – الوحدات ═══ -->
+    <section id="modules" class="bg-dots" style="padding: 96px 0">
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
+        <div class="reveal" style="text-align: center; margin-bottom: 56px">
+          <div class="section-tag" style="display: inline-flex"><i class="fa-solid fa-cubes" style="font-size: 0.72rem"></i> الوحدات الأساسية</div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">ست وحدات متكاملة — <span class="gt-brand">تعمل كنظام واحد</span></h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 520px; margin: 0 auto; line-height: 1.9">كل وحدة تخدم قسماً محدداً، وكلها متصلة ببعضها في الوقت الفعلي.</p>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="modules-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px">
+          <!-- المشتريات -->
+          <div class="module-card reveal d1">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28); margin-bottom: 18px"><i class="fa-solid fa-cart-shopping"></i></div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1.05rem; margin-bottom: 8px">المشتريات</h3>
+            <p style="color: var(--gray); font-size: 0.85rem; line-height: 1.75; margin-bottom: 14px">إدارة دورة الشراء الكاملة والإشراف على علاقات الموردين</p>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تقليل التأخير في الشراء</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تتبع التكاليف بدقة</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>إدارة موردين أفضل</div>
+            </div>
+          </div>
+          <!-- المحاسبة -->
+          <div class="module-card reveal d2">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; color: #3a1018; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(182, 145, 94, 0.3); margin-bottom: 18px"><i class="fa-solid fa-chart-bar"></i></div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1.05rem; margin-bottom: 8px">المحاسبة والمالية</h3>
+            <p style="color: var(--gray); font-size: 0.85rem; line-height: 1.75; margin-bottom: 14px">رؤية مالية واضحة وتقارير جاهزة في أي وقت</p>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--gold); font-size: 0.7rem; flex-shrink: 0"></i>أتمتة العمليات المالية</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--gold); font-size: 0.7rem; flex-shrink: 0"></i>متابعة التدفق النقدي بوضوح</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--gold); font-size: 0.7rem; flex-shrink: 0"></i>تسوية وإغلاق أسرع</div>
+            </div>
+          </div>
+          <!-- المخزون -->
+          <div class="module-card reveal d3">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28); margin-bottom: 18px"><i class="fa-solid fa-cube"></i></div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1.05rem; margin-bottom: 8px">إدارة المخزون</h3>
+            <p style="color: var(--gray); font-size: 0.85rem; line-height: 1.75; margin-bottom: 14px">معرفة مستويات المخزون الفعلية في كل موقع، في أي لحظة</p>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تقليل الفاقد والتالف</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تحسين كفاءة المستودع</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>مستويات مخزون دائماً تحت السيطرة</div>
+            </div>
+          </div>
+          <!-- الأصول الثابتة -->
+          <div class="module-card reveal d4">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--gold), #8b6840); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(182, 145, 94, 0.3); margin-bottom: 18px"><i class="fa-solid fa-building"></i></div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1.05rem; margin-bottom: 8px">الأصول الثابتة</h3>
+            <p style="color: var(--gray); font-size: 0.85rem; line-height: 1.75; margin-bottom: 14px">متابعة كاملة لأصول الشركة من الاقتناء حتى الاستبعاد</p>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--gold); font-size: 0.7rem; flex-shrink: 0"></i>تقييم دقيق للأصول</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--gold); font-size: 0.7rem; flex-shrink: 0"></i>استهلاك تلقائي</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--gold); font-size: 0.7rem; flex-shrink: 0"></i>استخدام أفضل لأصول الشركة</div>
+            </div>
+          </div>
+          <!-- المبيعات -->
+          <div class="module-card reveal d5">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--brand), var(--gold)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28); margin-bottom: 18px"><i class="fa-solid fa-chart-line"></i></div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1.05rem; margin-bottom: 8px">إدارة المبيعات</h3>
+            <p style="color: var(--gray); font-size: 0.85rem; line-height: 1.75; margin-bottom: 14px">من عرض السعر حتى الفاتورة — كل خطوة مؤتمتة</p>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تنفيذ الطلبات بشكل أسرع</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تجربة عملاء محسّنة</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تتبع الإيرادات بدقة</div>
+            </div>
+          </div>
+          <!-- تمويل التجارة -->
+          <div class="module-card reveal d6">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--brand-dark), var(--brand)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28); margin-bottom: 18px"><i class="fa-solid fa-globe"></i></div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1.05rem; margin-bottom: 8px">تمويل التجارة</h3>
+            <p style="color: var(--gray); font-size: 0.85rem; line-height: 1.75; margin-bottom: 14px">أدوات لإدارة التمويل التجاري والحد من المخاطر المالية</p>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>رقابة أوضح على التدفقات المالية</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>تقليل المخاطر المالية</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--charcoal)"><i class="fa-solid fa-check" style="color: var(--brand); font-size: 0.7rem; flex-shrink: 0"></i>الامتثال التنظيمي</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 5 – النتائج ═══ -->
+    <section id="outcomes" style="padding: 96px 0; background: #f8f6f4">
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
+        <div class="reveal" style="text-align: center; margin-bottom: 56px">
+          <div class="section-tag" style="display: inline-flex">
+            <i class="fa-solid fa-trophy" style="font-size: 0.72rem"></i>
+            النتائج التي يمكن تحقيقها
+          </div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">ما الذي سيتحسن <span class="gt-brand">بعد إطلاق النظام</span></h2>
+          <div class="gold-rule"></div>
+        </div>
+
+        <div class="outcomes-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px">
+          <div class="outcome-card reveal d1">
+            <div class="outcome-metric">تكامل</div>
+            <div style="font-weight: 700; color: var(--charcoal); font-size: 0.9rem; margin-bottom: 6px">توحيد العمليات في نظام واحد</div>
+            <div style="width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 0 auto"></div>
+          </div>
+
+          <div class="outcome-card reveal d2">
+            <div class="outcome-metric">فوري</div>
+            <div style="font-weight: 700; color: var(--charcoal); font-size: 0.9rem; margin-bottom: 6px">رؤية أوضح للبيانات والنتائج</div>
+            <div style="width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 0 auto"></div>
+          </div>
+
+          <div class="outcome-card reveal d3">
+            <div class="outcome-metric">أقل</div>
+            <div style="font-weight: 700; color: var(--charcoal); font-size: 0.9rem; margin-bottom: 6px">خفض التكاليف التشغيلية</div>
+            <div style="width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 0 auto"></div>
+          </div>
+
+          <div class="outcome-card reveal d4">
+            <div class="outcome-metric">أسرع</div>
+            <div style="font-weight: 700; color: var(--charcoal); font-size: 0.9rem; margin-bottom: 6px">إغلاق الدورات المالية بكفاءة أعلى</div>
+            <div style="width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 0 auto"></div>
+          </div>
+
+          <div class="outcome-card reveal d1">
+            <div class="outcome-metric">أعلى</div>
+            <div style="font-weight: 700; color: var(--charcoal); font-size: 0.9rem; margin-bottom: 6px">إنتاجية أفضل للفريق</div>
+            <div style="width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 0 auto"></div>
+          </div>
+
+          <div class="outcome-card reveal d2">
+            <div class="outcome-metric">مرن</div>
+            <div style="font-weight: 700; color: var(--charcoal); font-size: 0.9rem; margin-bottom: 6px">قابلية توسع تدعم النمو</div>
+            <div style="width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 0 auto"></div>
+          </div>
+
+          <div class="outcome-card reveal d3" style="grid-column: span 2">
+            <div class="outcome-metric">أدق</div>
+            <div style="font-weight: 700; color: var(--charcoal); font-size: 0.9rem; margin-bottom: 6px">قرارات استراتيجية مبنية على بيانات واضحة</div>
+            <div style="width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand), var(--gold)); border-radius: 2px; margin: 0 auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 6 – لماذا Cloudilic ═══ -->
+    <section id="why" class="bg-dots" style="padding: 96px 0">
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
+        <div class="reveal" style="text-align: center; margin-bottom: 56px">
+          <div class="section-tag" style="display: inline-flex">
+            <i class="fa-solid fa-shield-halved" style="font-size: 0.72rem"></i>
+            لماذا <span style="font-family: 'Inter', sans-serif">Cloudilic</span>
+          </div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">لماذا <span style="font-family: 'Inter', sans-serif" class="gt-brand">Cloudilic</span></h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 520px; margin: 0 auto; line-height: 1.9">لأننا لا نقدم حلاً تقنياً فقط، بل نبني معك شراكة واضحة تدعم النمو وتحقق نتائج يمكن الاعتماد عليها.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <div class="value-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px">
+          <div class="value-card reveal d1">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28); margin-bottom: 18px">
+              <i class="fa-solid fa-link"></i>
+            </div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1rem; margin-bottom: 10px">مسؤولية واضحة من البداية للنهاية</h3>
+            <p style="color: var(--gray); font-size: 0.88rem; line-height: 1.8">نتولى التنفيذ من التخطيط إلى الإطلاق والدعم، بفريق واحد ورؤية واحدة ومسؤولية كاملة.</p>
+          </div>
+
+          <div class="value-card reveal d2">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; color: #3a1018; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(182, 145, 94, 0.3); margin-bottom: 18px">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1rem; margin-bottom: 10px">بنية جاهزة للتطور</h3>
+            <p style="color: var(--gray); font-size: 0.88rem; line-height: 1.8">نصمم الأنظمة بطريقة مرنة تواكب التوسع وتستفيد من قدرات الذكاء الاصطناعي بشكل عملي ومدروس.</p>
+          </div>
+
+          <div class="value-card reveal d3">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28); margin-bottom: 18px">
+              <i class="fa-solid fa-medal"></i>
+            </div>
+            <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1rem; margin-bottom: 10px">خبرة مدعومة بنتائج حقيقية</h3>
+            <p style="color: var(--gray); font-size: 0.88rem; line-height: 1.8">عملنا مع أكثر من 150 عميل، وساهمنا في تحسين عمليات وقيمة أعمال على نطاق واسع.</p>
+          </div>
+
+          <div class="value-card reveal d4" style="display: flex; align-items: flex-start; gap: 20px">
+            <div style="flex: none; width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--gold), #8b6840); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(182, 145, 94, 0.3); margin-bottom: 18px">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+
+            <div>
+              <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1rem; margin-bottom: 10px">حل مصمم على حسب احتياجك</h3>
+              <p style="color: var(--gray); font-size: 0.88rem; line-height: 1.8">لا نعتمد على قوالب جاهزة، بل نبني الحل بما يناسب طبيعة عملك وأهدافك وطريقة التشغيل لديك.</p>
+            </div>
+          </div>
+
+          <div class="value-card reveal d5" style="grid-column: span 2">
+            <div style="display: flex; align-items: flex-start; gap: 20px">
+              <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--brand), var(--gold)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 6px 18px rgba(105, 31, 44, 0.28); flex-shrink: 0">
+                <i class="fa-solid fa-earth-europe"></i>
+              </div>
+              <div>
+                <h3 style="font-weight: 800; color: var(--charcoal); font-size: 1rem; margin-bottom: 10px">فهم محلي بمعايير عالمية</h3>
+                <p style="color: var(--gray); font-size: 0.88rem; line-height: 1.8">نعمل بخبرة دولية وفهم واقعي لاحتياجات السوق، لذلك نقدم حلولاً عملية تناسب بيئتك وتدعم نموك بثقة.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 7 – الفريق ═══ -->
+    <style>
+      :root {
+        --cr: #6b1f2d;
+        --crdk: #3a0f18;
+        --crmid: #8a2a3d;
+        --go: #b6915e;
+        --golt: #d4aa7d;
+        --godk: #8a6a3a;
+        --golight: #f5ede0;
+        --ink: #141219;
+        --mist: #f4f1ee;
+        --mdk: #e9e2db;
+        --line: #cfc5bb;
+        --lgo: #c8a46a;
+        --ldk: #7a5560;
+        --wh: #ffffff;
+        --shadow-sm: 0 2px 8px rgba(20, 18, 25, 0.07);
+        --shadow-md: 0 6px 20px rgba(20, 18, 25, 0.1);
+        --shadow-lg: 0 14px 40px rgba(20, 18, 25, 0.13);
+      }
+      .team {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--mist);
+        color: var(--ink);
+        min-height: 100vh;
+      }
+
+      #team {
+        padding: 48px 24px 64px;
+        background: radial-gradient(ellipse 55% 40% at 8% 5%, rgba(107, 31, 45, 0.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 94% 95%, rgba(182, 145, 94, 0.09) 0%, transparent 60%), radial-gradient(ellipse 35% 30% at 50% 50%, rgba(182, 145, 94, 0.04) 0%, transparent 70%), linear-gradient(165deg, #f8f6f4 0%, #f0ebe7 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      #team::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(107, 31, 45, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(107, 31, 45, 0.025) 1px, transparent 1px);
+        background-size: 56px 56px;
+        pointer-events: none;
+      }
+      #team::after {
+        content: '';
+        position: absolute;
+        top: -120px;
+        right: -80px;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(182, 145, 94, 0.06) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      /* ── Header ─────────────────────────────────────────── */
+      .t-header {
+        text-align: center;
+        margin-bottom: 36px;
+        position: relative;
+        z-index: 2;
+      }
+      .t-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--godk);
+        margin-bottom: 10px;
+      }
+      .t-eyebrow::before,
+      .t-eyebrow::after {
+        content: '';
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--go));
+      }
+      .t-eyebrow::after {
+        background: linear-gradient(90deg, var(--go), transparent);
+      }
+      .t-title {
+        font-family: 'Fraunces', serif;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 800;
+        color: var(--ink);
+        line-height: 1.15;
+      }
+      .t-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--cr);
+      }
+      .t-sub {
+        margin-top: 8px;
+        font-size: 13px;
+        color: #9a9290;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+      }
+
+      /* ── Chart Scroll ────────────────────────────────────── */
+      .chart-scroll {
+        overflow-x: auto;
+        padding-bottom: 8px;
+        position: relative;
+        z-index: 2;
+      }
+      .chart-scroll::-webkit-scrollbar {
+        height: 3px;
+      }
+      .chart-scroll::-webkit-scrollbar-thumb {
+        background: var(--line);
+        border-radius: 4px;
+      }
+      .org-canvas {
+        position: relative;
+        margin: 0 auto;
+      }
+      .org-svg {
+        position: absolute;
+        inset: 0;
+        overflow: visible;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── Cards ───────────────────────────────────────────── */
+      .card {
+        position: absolute;
+        border-radius: 12px;
+        background: var(--wh);
+        border: 1px solid var(--mdk);
+        padding: 12px 10px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+        transition:
+          transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: default;
+        z-index: 1;
+        animation: fadeUp 0.46s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        z-index: 20;
+      }
+
+      /* CEO */
+      .v-ceo {
+        background: linear-gradient(148deg, var(--crdk) 0%, var(--cr) 55%, #8a2535 100%);
+        border: none;
+        border-radius: 16px;
+        box-shadow:
+          0 14px 48px rgba(107, 31, 45, 0.3),
+          0 2px 0 rgba(255, 255, 255, 0.07) inset;
+      }
+      .v-ceo:hover {
+        box-shadow: 0 22px 60px rgba(107, 31, 45, 0.38);
+      }
+
+      /* Tier-1 Lead (red style) */
+      .v-lead {
+        border: 1px solid rgba(107, 31, 45, 0.16);
+        background: linear-gradient(155deg, #fff 55%, #fdf7f2 100%);
+        box-shadow: var(--shadow-sm);
+      }
+      /* Tier-1 Lead (gold style - You) */
+      .v-leadgo {
+        border: 1.5px solid rgba(182, 145, 94, 0.35);
+        background: linear-gradient(155deg, #fffcf8 55%, #fdf5e8 100%);
+        box-shadow: 0 5px 20px rgba(182, 145, 94, 0.13);
+      }
+
+      /* Sub-lead cards */
+      .v-sublead-red {
+        background: linear-gradient(150deg, #fff 50%, #fef6f4 100%);
+        border: 1px solid rgba(107, 31, 45, 0.13);
+        box-shadow: var(--shadow-sm);
+      }
+      .v-sublead-go {
+        background: linear-gradient(150deg, #fffefb 50%, #fef8ed 100%);
+        border: 1px solid rgba(182, 145, 94, 0.28);
+        box-shadow: 0 3px 12px rgba(182, 145, 94, 0.1);
+      }
+
+      /* Leaf cards */
+      .v-leaf-red {
+        background: #fff;
+        border: 1px solid #ede5e0;
+        border-radius: 10px;
+        padding: 9px 8px 8px;
+      }
+      .v-leaf-go {
+        background: linear-gradient(155deg, #fffefb 0%, #fef7e8 100%);
+        border: 1px solid rgba(182, 145, 94, 0.22);
+        border-radius: 10px;
+        padding: 9px 8px 8px;
+        box-shadow: 0 2px 8px rgba(182, 145, 94, 0.08);
+      }
+
+      /* ── Avatars ─────────────────────────────────────────── */
+      .av {
+        border-radius: 50%;
+        padding: 2.5px;
+        display: inline-block;
+        margin-bottom: 7px;
+        flex-shrink: 0;
+      }
+      .av-cr {
+        background: linear-gradient(135deg, var(--cr), var(--go));
+      }
+      .av-go {
+        background: linear-gradient(135deg, var(--go), var(--golt));
+      }
+      .av-dk {
+        background: linear-gradient(135deg, var(--crdk), var(--godk));
+      }
+      .av-wh {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(212, 170, 125, 0.6));
+      }
+      .av-gr {
+        background: linear-gradient(135deg, #d2cac2, #b8aba0);
+      }
+      .av img {
+        border-radius: 50%;
+        display: block;
+        object-fit: cover;
+        background: #e4dcd5;
+      }
+
+      /* ── Text inside cards ───────────────────────────────── */
+      .role {
+        font-size: 7px;
+        font-weight: 700;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+        line-height: 1.3;
+      }
+      .name {
+        font-size: 10.5px;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--ink);
+      }
+      .role-wh {
+        color: rgba(255, 255, 255, 0.52);
+      }
+      .name-wh {
+        color: #fff;
+        font-size: 11.5px;
+        font-weight: 800;
+      }
+      .role-cr {
+        color: var(--cr);
+      }
+      .role-go {
+        color: var(--godk);
+      }
+      .role-dim {
+        color: #a89f98;
+      }
+
+      .ceo-tag {
+        display: inline-block;
+        margin-bottom: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.52);
+        font-size: 6.5px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 2px 9px;
+        border-radius: 999px;
+      }
+      .you {
+        position: absolute;
+        top: -9px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, var(--cr), var(--go));
+        color: #fff;
+        font-size: 6.5px;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        padding: 2px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
+        box-shadow: 0 3px 10px rgba(107, 31, 45, 0.28);
+        z-index: 5;
+      }
+
+      /* ── Animations ──────────────────────────────────────── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(13px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .a0 {
+        animation-delay: 0.03s;
+      }
+      .a1 {
+        animation-delay: 0.07s;
+      }
+      .a2 {
+        animation-delay: 0.12s;
+      }
+      .a3 {
+        animation-delay: 0.17s;
+      }
+      .a4 {
+        animation-delay: 0.22s;
+      }
+      .a5 {
+        animation-delay: 0.27s;
+      }
+      .a6 {
+        animation-delay: 0.32s;
+      }
+      .a7 {
+        animation-delay: 0.37s;
+      }
+      .a8 {
+        animation-delay: 0.42s;
+      }
+      .a9 {
+        animation-delay: 0.47s;
+      }
+      .a10 {
+        animation-delay: 0.52s;
+      }
+      .a11 {
+        animation-delay: 0.57s;
+      }
+      .a12 {
+        animation-delay: 0.62s;
+      }
+      .a13 {
+        animation-delay: 0.67s;
+      }
+      .a14 {
+        animation-delay: 0.72s;
+      }
+      .a15 {
+        animation-delay: 0.77s;
+      }
+      .a16 {
+        animation-delay: 0.82s;
+      }
+      .a17 {
+        animation-delay: 0.87s;
+      }
+    </style>
+
+    <section id="team" class="team">
+      <div style="max-width: 1500px; margin: 0 auto; position: relative">
+        <!-- Header -->
+        <div class="reveal" style="font-family: Cairo; text-align: center; margin-bottom: 60px">
+          <div class="section-tag" style="display: inline-flex"><i class="fa-solid fa-circle-check" style="font-size: 0.72rem"></i> فريقنا</div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">الفريق الذي يقف وراء <span class="gt-brand">تنفيذ هذا النظام</span></h2>
+          <div class="gold-rule"></div>
+        </div>
+
+        <!-- Org Chart -->
+        <div class="chart-scroll">
+          <div class="org-canvas" id="orgCanvas">
+            <svg class="org-svg" id="orgSvg"></svg>
+
+            <!-- ═══ CEO ═══ -->
+            <div class="card v-ceo a0" id="c-ceo" style="width: 190px">
+              <div class="highlight-grid-bg"></div>
+              <div class="ceo-tag">Founder & Chief Executive</div>
+              <div class="av av-wh"><img src="./imgs/ahmed-al-bassyouni.jpg" style="width: 58px; height: 58px" alt="" /></div>
+              <div class="role role-wh">CEO</div>
+              <div class="name name-wh">Ahmed Al-Bassyouni</div>
+            </div>
+
+            <!-- ═══ TIER 1: two branch leads ═══ -->
+
+            <!-- Branch A: Ahmed Gharabawy -->
+            <div class="card v-lead a2" id="c-ag" style="width: 152px">
+              <div class="av av-cr"><img src="./imgs/el8rbawy.png" style="width: 46px; height: 46px" alt="" /></div>
+              <div class="role role-cr">Sr. Software Engineer</div>
+              <div class="name">Ahmed Gharabawy</div>
+            </div>
+
+            <!-- Branch B: Ahmed Abdelrhman (You) -->
+            <div class="card v-leadgo a2" id="c-aa" style="width: 152px; padding-top: 22px">
+              <div class="you">You</div>
+              <div class="av av-go"><img src="./imgs/ahmed.png" style="width: 48px; height: 48px" alt="" /></div>
+              <div class="role role-go">Sr. Full Stack Engineer</div>
+              <div class="name">Ahmed Abdelrhman</div>
+            </div>
+
+            <!-- ═══ GHARABAWY SUB-LEADS (Tier 2A) ═══ -->
+            <div class="card v-sublead-red a4" id="c-fa" style="width: 136px">
+              <div class="av av-cr"><img src="https://ui-avatars.com/api/?name=Farid+A&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-cr" style="font-size: 6.5px">Sr. Software Engineer</div>
+              <div class="name" style="font-size: 10.5px">Farid Azzam</div>
+            </div>
+
+            <!-- Sub-lead 2: Mohamed Atef (leads AI group) -->
+            <div class="card v-sublead-red a4" id="c-mat" style="width: 136px">
+              <div class="av av-cr"><img src="./imgs/madatef.png" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-cr" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 10.5px">Mohamed Atef</div>
+            </div>
+
+            <!-- ═══ GHARABAWY LEAVES under Farid ═══ -->
+            <div class="card v-leaf-red a7" id="c-mal" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/mahmoud-ali.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Software Engineer</div>
+              <div class="name" style="font-size: 9.5px">Mahmoud Ali</div>
+            </div>
+
+            <!-- ═══ GHARABAWY LEAVES under Atef (AI trio) ═══ -->
+            <div class="card v-leaf-red a7" id="c-km" style="width: 118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=Kareem+M&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 9.5px">Kareem Mohamed</div>
+            </div>
+            <div class="card v-leaf-red a8" id="c-ms" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/mahmoud-shoieb.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 9.5px">Mahmoud Shoeib</div>
+            </div>
+            <div class="card v-leaf-red a9" id="c-ye" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/yousef-eslam.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">AI Engineer</div>
+              <div class="name" style="font-size: 9.5px">Youssef Essam</div>
+            </div>
+
+            <!-- ═══ MY TEAM SUB-LEADS (Tier 2B) ═══ -->
+            <!-- Sub-lead 1: Mostafa Tamer (leads Dev pair) -->
+            <div class="card v-sublead-go a4" id="c-mt" style="width: 136px">
+              <div class="av av-go"><img src="https://ui-avatars.com/api/?name=M+T&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-go" style="font-size: 6.5px">Full Stack Developer</div>
+              <div class="name" style="font-size: 10.5px">Mostafa Tamer</div>
+            </div>
+
+            <!-- Sub-lead 2: Yosra (leads Design & QA) -->
+            <div class="card v-sublead-go a4" id="c-yo" style="width: 136px">
+              <div class="av av-go"><img src="https://ui-avatars.com/api/?name=Yosra&background=a07840&color=fff&size=80&bold=true&font-size=0.38" style="width: 40px; height: 40px" alt="" /></div>
+              <div class="role role-go" style="font-size: 6.5px">UI/UX Designer</div>
+              <div class="name" style="font-size: 10.5px">Yosra</div>
+            </div>
+
+            <!-- ═══ MY TEAM LEAVES under Mostafa ═══ -->
+            <div class="card v-leaf-go a7" id="c-mab" style="width: 118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=M+As&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Frontend Developer</div>
+              <div class="name" style="font-size: 9.5px">Mahmoud Abdelrhman</div>
+            </div>
+            <div class="card v-leaf-go a8" id="c-hh" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/hossam-hassan.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Backend Developer</div>
+              <div class="name" style="font-size: 9.5px">Hossam Hassan</div>
+            </div>
+
+            <!-- ═══ MY TEAM LEAVES under Yosra ═══ -->
+            <div class="card v-leaf-go a7" id="c-me2" style="width: 118px">
+              <div class="av av-gr"><img src="./imgs/mohammed-essam.png" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">Mobile Developer</div>
+              <div class="name" style="font-size: 9.5px">Mohamed Essam</div>
+            </div>
+            <div class="card v-leaf-go a8" id="c-km2" style="width: 118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=Kareem+M&background=d4c4a8&color=4a2a10&size=56&bold=true&font-size=0.42" style="width: 32px; height: 32px" alt="" /></div>
+              <div class="role role-dim" style="font-size: 6.5px">QA Engineer</div>
+              <div class="name" style="font-size: 9.5px">Kareem Mohamed</div>
+            </div>
+          </div>
+          <!-- end orgCanvas -->
+        </div>
+        <!-- end chart-scroll -->
+      </div>
+    </section>
+
+    <script>
+      (function () {
+        /* ── Layout constants ───────────────────────────── */
+        const HG = 14; // horizontal gap between sibling subtrees
+        const VG = 48; // vertical gap: parent bottom → child row top
+        const VGS = 10; // vertical gap between stacked child rows
+
+        const $ = id => document.getElementById(id);
+        const W = id => $(id).offsetWidth;
+        const H = id => $(id).offsetHeight;
+
+        /*
+         * TREE DEFINITION
+         * The hierarchy:
+         *
+         * CEO
+         * ├── Ahmed Gharabawy
+         * │   ├── Farid Azzam (sub-lead)
+         * │   │   └── Mahmoud Ali
+         * │   └── Mohamed Atef (sub-lead / AI lead)
+         * │       ├── Kareem Mohamed
+         * │       ├── Mahmoud Shoeib
+         * │       └── Youssef Essam
+         * └── Ahmed Abdelrhman (You)
+         *     ├── Mostafa Tamer (sub-lead / Dev lead)
+         *     │   ├── Mahmoud Abdelrhman
+         *     │   └── Hossam Hassan
+         *     └── Yosra (sub-lead / Design lead)
+         *         ├── Mohamed Essam
+         *         └── Kareem Mohamed (QA)
+         */
+        const TREE = {
+          id: 'c-ceo',
+          rows: [
+            [
+              {
+                id: 'c-ag',
+                rows: [
+                  [
+                    {
+                      id: 'c-fa',
+                      rows: [[{ id: 'c-mal', rows: [] }]],
+                    },
+                    {
+                      id: 'c-mat',
+                      rows: [
+                        [
+                          { id: 'c-km', rows: [] },
+                          { id: 'c-ms', rows: [] },
+                          { id: 'c-ye', rows: [] },
+                        ],
+                      ],
+                    },
+                  ],
+                ],
+              },
+              {
+                id: 'c-aa',
+                rows: [
+                  [
+                    {
+                      id: 'c-mt',
+                      rows: [
+                        [
+                          { id: 'c-mab', rows: [] },
+                          { id: 'c-hh', rows: [] },
+                        ],
+                      ],
+                    },
+                    {
+                      id: 'c-yo',
+                      rows: [
+                        [
+                          { id: 'c-me2', rows: [] },
+                          { id: 'c-km2', rows: [] },
+                        ],
+                      ],
+                    },
+                  ],
+                ],
+              },
+            ],
+          ],
+        };
+
+        /* ── Recursive subtree width ─────────────────────── */
+        function subW(node) {
+          const self = W(node.id);
+          if (!node.rows.length) return self;
+          let maxRow = 0;
+          node.rows.forEach(row => {
+            const rw = row.reduce((s, c, i) => s + subW(c) + (i > 0 ? HG : 0), 0);
+            if (rw > maxRow) maxRow = rw;
+          });
+          return Math.max(self, maxRow);
+        }
+
+        /* ── Place cards ─────────────────────────────────── */
+        function place(node, cx, top) {
+          const e = $(node.id);
+          e.style.left = Math.round(cx - W(node.id) / 2) + 'px';
+          e.style.top = Math.round(top) + 'px';
+          e.__cx = cx;
+          if (!node.rows.length) return;
+
+          let rowTop = top + H(node.id) + VG;
+          node.rows.forEach((row, ri) => {
+            const rowW = row.reduce((s, c, i) => s + subW(c) + (i > 0 ? HG : 0), 0);
+            let x = cx - rowW / 2;
+            row.forEach(child => {
+              const nw = subW(child);
+              place(child, x + nw / 2, rowTop);
+              x += nw + HG;
+            });
+            if (ri < node.rows.length - 1) {
+              const maxH = Math.max(...row.map(c => H(c.id)));
+              rowTop += maxH + VGS;
+            }
+          });
+        }
+
+        /* ── Bounding box ────────────────────────────────── */
+        function extents(node, acc) {
+          const e = $(node.id);
+          acc.r = Math.max(acc.r, e.offsetLeft + e.offsetWidth);
+          acc.b = Math.max(acc.b, e.offsetTop + e.offsetHeight);
+          node.rows.forEach(row => row.forEach(c => extents(c, acc)));
+          return acc;
+        }
+
+        /* ── SVG connector helpers ───────────────────────── */
+        const C_LINE = '#cfc5bb';
+        const C_RED = '#a86070';
+        const C_GOLD = '#c8a46a';
+
+        const redBranch = new Set(['c-ag', 'c-fa', 'c-mat', 'c-mal', 'c-km', 'c-ms', 'c-ye']);
+        const goldBranch = new Set(['c-aa', 'c-mt', 'c-yo', 'c-mab', 'c-hh', 'c-me2', 'c-km2']);
+
+        function lineColor(id) {
+          return goldBranch.has(id) ? C_GOLD : redBranch.has(id) ? C_RED : C_LINE;
+        }
+        function isDash(id) {
+          return goldBranch.has(id);
+        }
+
+        function seg(svg, x1, y1, x2, y2, color, dash) {
+          const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          l.setAttribute('x1', Math.round(x1));
+          l.setAttribute('y1', Math.round(y1));
+          l.setAttribute('x2', Math.round(x2));
+          l.setAttribute('y2', Math.round(y2));
+          l.setAttribute('stroke', color);
+          l.setAttribute('stroke-width', '1.4');
+          l.setAttribute('stroke-linecap', 'round');
+          if (dash) l.setAttribute('stroke-dasharray', '5 3');
+          svg.appendChild(l);
+        }
+
+        function cbot(id) {
+          const e = $(id);
+          return { x: e.offsetLeft + e.offsetWidth / 2, y: e.offsetTop + e.offsetHeight };
+        }
+        function ctop(id) {
+          const e = $(id);
+          return { x: e.offsetLeft + e.offsetWidth / 2, y: e.offsetTop };
+        }
+
+        /* Fan out from parent bottom to a bus line then drop to children tops */
+        function fanout(svg, pBot, childIds, color, dash) {
+          if (!childIds.length) return;
+          if (childIds.length === 1) {
+            const t = ctop(childIds[0]);
+            const my = Math.round((pBot.y + t.y) / 2);
+            seg(svg, pBot.x, pBot.y, pBot.x, my, color, dash);
+            seg(svg, pBot.x, my, t.x, my, color, dash);
+            seg(svg, t.x, my, t.x, t.y, color, dash);
+            return;
+          }
+          const tops = childIds.map(id => ctop(id));
+          const busY = Math.round(pBot.y + (tops[0].y - pBot.y) * 0.46);
+          seg(svg, pBot.x, pBot.y, pBot.x, busY, color, dash);
+          const lx = Math.min(...tops.map(t => t.x));
+          const rx = Math.max(...tops.map(t => t.x));
+          seg(svg, lx, busY, rx, busY, color, dash);
+          tops.forEach(t => seg(svg, t.x, busY, t.x, t.y, color, dash));
+        }
+
+        /* Recursively draw connectors for a node's children */
+        function drawNode(svg, node) {
+          if (!node.rows.length) return;
+          const color = lineColor(node.id);
+          const dash = isDash(node.id);
+          const cx = $(node.id).__cx;
+
+          node.rows.forEach((row, ri) => {
+            const childIds = row.map(c => c.id);
+            if (ri === 0) {
+              fanout(svg, cbot(node.id), childIds, color, dash);
+            } else {
+              const prevRow = node.rows[ri - 1];
+              const prevMaxBot = Math.max(...prevRow.map(c => $(c.id).offsetTop + $(c.id).offsetHeight));
+              const tops = childIds.map(id => ctop(id));
+              const busY = Math.round(prevMaxBot + VGS / 2);
+              seg(svg, cx, prevMaxBot, cx, busY, color, dash);
+              if (childIds.length > 1) {
+                const lx = Math.min(...tops.map(t => t.x));
+                const rx = Math.max(...tops.map(t => t.x));
+                seg(svg, lx, busY, rx, busY, color, dash);
+                tops.forEach(t => seg(svg, t.x, busY, t.x, t.y, color, dash));
+              } else {
+                seg(svg, cx, busY, tops[0].x, busY, color, dash);
+                seg(svg, tops[0].x, busY, tops[0].x, tops[0].y, color, dash);
+              }
+            }
+            row.forEach(child => drawNode(svg, child));
+          });
+        }
+
+        /* ── Full layout + render ─────────────────────────── */
+        function layout() {
+          const canvas = $('orgCanvas');
+          const svg = $('orgSvg');
+          const PAD = 32;
+
+          const totalW = subW(TREE);
+          const canvasW = totalW + PAD * 2;
+          place(TREE, canvasW / 2, PAD / 2);
+
+          const ext = extents(TREE, { r: 0, b: 0 });
+          const canvasH = ext.b + PAD;
+
+          canvas.style.width = canvasW + 'px';
+          canvas.style.height = canvasH + 'px';
+          svg.setAttribute('width', canvasW);
+          svg.setAttribute('height', canvasH);
+          svg.setAttribute('viewBox', `0 0 ${canvasW} ${canvasH}`);
+          svg.innerHTML = '';
+
+          /* CEO → Tier-1 */
+          const t1ids = TREE.rows[0].map(c => c.id);
+          fanout(svg, cbot('c-ceo'), t1ids, C_LINE, false);
+
+          /* All deeper connectors */
+          TREE.rows[0].forEach(child => drawNode(svg, child));
+        }
+
+        /* Run after two frames so all offsetWidths are settled */
+        requestAnimationFrame(() => requestAnimationFrame(layout));
+
+        /* Re-layout on resize */
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(layout, 80);
+        });
+      })();
+    </script>
+
+    <div class="sep" style="max-width: 480px; margin: 0 auto"></div>
+
+    <!-- ═══ SLIDE 8 – مشاريعنا ═══ --> 
+    <section id="projects" style="padding: 96px 0; background: #f8f6f4; position: relative; overflow: hidden">
+      <div style="position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(105, 31, 44, 0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(105, 31, 44, 0.022) 1px, transparent 1px); background-size: 52px 52px"></div>
+      <div style="position: absolute; top: -80px; left: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(182, 145, 94, 0.07) 0%, transparent 70%); pointer-events: none"></div>
+      <div style="position: absolute; bottom: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(105, 31, 44, 0.06) 0%, transparent 70%); pointer-events: none"></div>
+
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2">
+        <!-- Header -->
+        <div class="reveal" style="text-align: center; margin-bottom: 56px">
+          <div class="section-tag" style="display: inline-flex">
+            <i class="fa-solid fa-desktop" style="font-size: 0.72rem"></i>
+            بعض أنظمة SaaS التي عملنا عليها
+          </div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">نماذج من <span class="gt-brand">أنظمة SaaS</span> التي قدمناها</h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 580px; margin: 0 auto; line-height: 1.9">مجموعة من الأنظمة التي عملنا على تصميمها وتطويرها لتلبية احتياجات تشغيلية مختلفة، مع تركيز واضح على الكفاءة وسهولة الاستخدام وقابلية التوسع.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <!-- ── TIER 1: ERP & Business Systems ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(105, 31, 44, 0.18))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">أنظمة الأعمال والمؤسسات</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(105, 31, 44, 0.18), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- Madar -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0; cursor: pointer" onclick="openProjectPanel(0)">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.52rem; font-weight: 900; color: #fff; letter-spacing: 0.04em">ERP</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Madar</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">منصة إدارة أعمال متكاملة</div>
+              </div>
+            </div>
+
+            <!-- Sarih -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0; cursor: pointer" onclick="openProjectPanel(4)">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, #185fa5, #0c447c); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.52rem; font-weight: 900; color: #fff; letter-spacing: 0.04em">HR</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Sarih</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">بنية امتثال مؤسسية</div>
+              </div>
+            </div>
+
+            <!-- Casher -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0; cursor: pointer" onclick="openProjectPanel(5)">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, #993c1d, #712b13); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.52rem; font-weight: 900; color: #fff; letter-spacing: 0.04em">POS</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Casher</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">نظام نقاط البيع الذكي</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TIER 2: Logistics & Industry ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(105, 31, 44, 0.18))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">لوجستيات وتوزيع وصناعة</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(105, 31, 44, 0.18), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- JOE FMCG -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0; cursor: pointer" onclick="openProjectPanel(2)">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(186, 117, 23, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(186, 117, 23, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-truck" style="color: #ba7517; font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">JOE FMCG</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">توزيع السلع سريعة الحركة</div>
+              </div>
+            </div>
+
+            <!-- Nakhla -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0; cursor: pointer" onclick="openProjectPanel(3)">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(59, 109, 17, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(59, 109, 17, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-seedling" style="color: #3b6d11; font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">Nakhla</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">إدارة أصول زراعية</div>
+              </div>
+            </div>
+
+            <!-- Helio -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0; cursor: pointer" onclick="openProjectPanel(7)">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(29, 158, 117, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(29, 158, 117, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-bolt" style="color: #1d9e75; font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">Helio</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">بنية طاقة وفوترة ذكية</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TIER 3: Consumer & AI ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(182, 145, 94, 0.3))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">تطبيقات مستهلك وذكاء اصطناعي</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(182, 145, 94, 0.3), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- So7baFit -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0; cursor: pointer" onclick="openProjectPanel(1)">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-dumbbell" style="color: var(--gold); font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">So7baFit</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">لياقة واشتراكات ذكية</div>
+              </div>
+            </div>
+
+            <!-- Mira AI -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0; cursor: pointer" onclick="openProjectPanel(6)">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-brain" style="color: var(--gold); font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">Mira AI</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">قرارات بسرعة الآلة</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 13 – الشركاء ═══ -->
+    <section id="partners" style="padding: 96px 0; background: #f8f6f4; position: relative; overflow: hidden">
+      <div style="position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(105, 31, 44, 0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(105, 31, 44, 0.022) 1px, transparent 1px); background-size: 52px 52px"></div>
+      <div style="position: absolute; top: -80px; left: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(182, 145, 94, 0.07) 0%, transparent 70%); pointer-events: none"></div>
+      <div style="position: absolute; bottom: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(105, 31, 44, 0.06) 0%, transparent 70%); pointer-events: none"></div>
+
+      <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2">
+        <!-- Header -->
+        <div class="reveal" style="text-align: center; margin-bottom: 56px">
+          <div class="section-tag" style="display: inline-flex">
+            <i class="fa-solid fa-handshake" style="font-size: 0.72rem"></i>
+            شبكة الشراكات
+          </div>
+          <h2 style="font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--charcoal); margin-bottom: 14px">شركاء يضيفون <span class="gt-brand">قيمة حقيقية</span> لكل مشروع</h2>
+          <p style="color: var(--gray); font-size: clamp(0.88rem, 2vw, 1rem); max-width: 580px; margin: 0 auto; line-height: 1.9">نعمل ضمن شبكة من الشركاء التقنيين والمؤسسات الداعمة والبرامج العالمية، بما يتيح لنا تقديم حلول أكثر كفاءة وتأثيرًا.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <!-- ── TIER 1: Big Tech ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(105, 31, 44, 0.18))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">شركاء تقنيون عالميون</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(105, 31, 44, 0.18), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- Nvidia -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://imgs.search.brave.com/3d3SsftffRiYHk-cMzHBG-Jo3ALXNr0KJavqysiS2iM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bG9nby53aW5lL2Ev/bG9nby9OdmlkaWEv/TnZpZGlhLUhvcml6/b250YWwtTG9nby53/aW5lLnN2Zw"
+                  alt="Nvidia"
+                  style="width: fit-content; height: fit-content; object-fit: cover; filter: grayscale(0.2)"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>NV</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Nvidia</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI Computing</div>
+              </div>
+            </div>
+
+            <!-- Google for Startups -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/120px-Google_%22G%22_logo.svg.png"
+                  alt="Google"
+                  style="width: 28px; height: 28px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>GFS</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Google for Startups</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">Cloud & Growth</div>
+              </div>
+            </div>
+
+            <!-- Meta -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f2f2f2; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://imgs.search.brave.com/U9hUkOSsGVbchf9hDCbK4wQvNSgfsGJ3cUf2mv2ENyQ/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/Y2l0eXBuZy5jb20v/cHVibGljL3VwbG9h/ZHMvcHJldmlldy9o/ZC1mYWNlYm9vay1t/ZXRhLWxvZ28tcG5n/LTcwMTc1MTY5NDc3/NzcwN3Y2YmlsN3Qx/eWgucG5nP3Y9MjAy/NjAzMzExMw"
+                  alt="Meta"
+                  style="width: 34px; height: 34px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>Meta</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Meta</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI & Social Platform</div>
+              </div>
+            </div>
+
+            <!-- Snowflake -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Snowflake_Logo.svg/320px-Snowflake_Logo.svg.png"
+                  alt="Snowflake"
+                  style="width: 32px; height: 32px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>SNOW</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Snowflake</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">Data Cloud</div>
+              </div>
+            </div>
+
+            <!-- Scale AI -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://scale.com/favicon.ico"
+                  alt="Scale AI"
+                  style="width: 28px; height: 28px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>Scale</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Scale AI</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI Data Platform</div>
+              </div>
+            </div>
+
+            <!-- Vectara -->
+            <div class="partner-card" style="flex-direction: row; padding: 14px 20px; gap: 14px; border-radius: 16px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://vectara.com/favicon.ico"
+                  alt="Vectara"
+                  style="width: 28px; height: 28px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>VEC</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.9rem; color: var(--charcoal)">Vectara</div>
+                <div style="font-size: 0.68rem; color: var(--gray); font-weight: 600; margin-top: 2px">AI Search</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TIER 2: Government & Accelerators ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(105, 31, 44, 0.18))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">حكومات ومسرّعات إقليمية</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(105, 31, 44, 0.18), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- TIEC -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(105, 31, 44, 0.08), rgba(182, 145, 94, 0.1)); border: 1px solid rgba(105, 31, 44, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.55rem; font-weight: 900; color: var(--brand); letter-spacing: 0.02em">TIEC</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">TIEC</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مصر · تكنولوجيا</div>
+              </div>
+            </div>
+
+            <!-- ITIDA -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: #ffffff; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://imgs.search.brave.com/9O-20yyKu97zKLvVejYrOBNfOT6cUiBMMHZm-n-FGvw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9hZnJp/Y2FwcmVuZXVycy5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjUvMTAvSVRJREEt/c2NhbGVkLTc1MHgz/NzUuanBn"
+                  alt="Vectara"
+                  style="width: fit-content; height: fit-content; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.58rem;font-weight:900;color:var(--brand)\'>VEC</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">ITIDA</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مصر · تنمية رقمية</div>
+              </div>
+            </div>
+
+            <!-- Flat6Labs -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: #f0ebe7; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden">
+                <img
+                  src="https://flat6labs.com/favicon.ico"
+                  alt="Flat6Labs"
+                  style="width: 26px; height: 26px; object-fit: contain"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<span style=\'font-size:.48rem;font-weight:900;color:var(--brand)\'>F6L</span>';
+                  " />
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">Flat6Labs</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مسرّع أعمال</div>
+              </div>
+            </div>
+
+            <!-- DIC Qatar -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(105, 31, 44, 0.08), rgba(182, 145, 94, 0.1)); border: 1px solid rgba(105, 31, 44, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.52rem; font-weight: 900; color: var(--brand)">DIC</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">DIC Qatar</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">قطر · ابتكار رقمي</div>
+              </div>
+            </div>
+
+            <!-- MCIT Qatar -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(105, 31, 44, 0.08), rgba(182, 145, 94, 0.1)); border: 1px solid rgba(105, 31, 44, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.48rem; font-weight: 900; color: var(--brand)">MCIT</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">MCIT Qatar</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">قطر · اتصالات وتقنية</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TIER 3: Academic & Research ── -->
+        <div class="reveal" style="margin-bottom: 44px">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px">
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(182, 145, 94, 0.3))"></div>
+            <span style="font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); white-space: nowrap; padding: 0 4px">مؤسسات بحثية وأكاديمية</span>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(182, 145, 94, 0.3), transparent)"></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+            <!-- Onsi Sawiris -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0; max-width: 280px">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-graduation-cap" style="color: var(--gold); font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.84rem; color: var(--charcoal); line-height: 1.3">Onsi Sawiris School<br />of Business</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 2px">جامعة النيل · أعمال</div>
+              </div>
+            </div>
+
+            <!-- IDRC Canada -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <span style="font-size: 0.48rem; font-weight: 900; color: var(--gold-light); letter-spacing: 0.02em; text-align: center; line-height: 1.3">IDRC<br />CRDI</span>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">IDRC.CRDI Canada</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">بحث ودراسات تنمية</div>
+              </div>
+            </div>
+
+            <!-- MENA AI Observatory -->
+            <div class="partner-card" style="flex-direction: row; padding: 12px 18px; gap: 12px; border-radius: 14px; min-width: 0">
+              <div style="width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg, rgba(182, 145, 94, 0.12), rgba(105, 31, 44, 0.07)); border: 1px solid rgba(182, 145, 94, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <i class="fa-solid fa-earth-africa" style="color: var(--gold); font-size: 0.85rem"></i>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 800; font-size: 0.86rem; color: var(--charcoal)">MENA AI Observatory</div>
+                <div style="font-size: 0.65rem; color: var(--gray); font-weight: 600; margin-top: 1px">مرصد الذكاء الاصطناعي</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SLIDE 14 – الختام ═══ -->
+    <section id="closing" class="closing-bg" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 0; position: relative">
+      <div style="position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(182, 145, 94, 0.09) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none"></div>
+
+      <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none"></div>
+
+      <div style="max-width: 860px; width: 100%; margin: 0 auto; padding: 60px 24px; text-align: center; position: relative; z-index: 1">
+        <div class="reveal" style="display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 160px; margin: 0 auto 40px">
+          <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(182, 145, 94, 0.55))"></div>
+          <i class="fa-solid fa-star" style="color: var(--gold); font-size: 0.9rem"></i>
+          <div style="flex: 1; height: 1px; background: linear-gradient(90deg, rgba(182, 145, 94, 0.55), transparent)"></div>
+        </div>
+
+        <!-- Logo -->
+        <div class="reveal d1" style="margin-bottom: 28px">
+          <img
+            src="./cloudilic-logo.png"
+            alt="Cloudilic"
+            style="width: 160px; height: fit-content; object-fit: contain; margin: 0 auto; display: block"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'block';
+            " />
+        </div>
+
+        <!-- Badge -->
+        <div class="reveal d1" style="font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 8px; background: rgba(182, 145, 94, 0.12); border: 1px solid rgba(182, 145, 94, 0.25); color: var(--gold-light); padding: 8px 20px; border-radius: 50px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 24px">
+          <i class="fa-solid fa-dna" style="font-size: 0.85rem"></i>
+          DNA ERP from Cloudilic
+        </div>
+
+        <!-- Title -->
+        <h2 class="reveal d2" style="font-size: clamp(1.7rem, 5vw, 3.2rem); font-weight: 900; color: #fff; line-height: 1.4; margin-bottom: 20px">
+          لنبدأ معًا في بناء<br />
+          <span class="gt-gold">نمو مستدام لعملك</span>
+        </h2>
+
+        <!-- Description -->
+        <p class="reveal d3" style="color: rgba(255, 255, 255, 0.62); font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 2; max-width: 640px; margin: 0 auto 40px; font-weight: 400">DNA ERP ليس مجرد تطوير لنظامك الحالي، بل طريقة أوضح لإدارة العمليات، وتحسين الأداء، ودعم نمو العمل بثبات.</p>
+
+        <!-- Trust badges -->
+        <div class="reveal d4" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(14px, 3vw, 32px); margin-bottom: 48px">
+          <div style="display: flex; align-items: center; gap: 7px; color: rgba(255, 255, 255, 0.5); font-size: clamp(0.78rem, 2vw, 0.9rem); font-weight: 600">
+            <i class="fa-solid fa-shield-check" style="color: var(--gold)"></i>
+            نظام آمن ويمكن الاعتماد عليه
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 7px; color: rgba(255, 255, 255, 0.5); font-size: clamp(0.78rem, 2vw, 0.9rem); font-weight: 600">
+            <i class="fa-solid fa-clock" style="color: var(--gold)"></i>
+            التزام واضح بمواعيد التسليم
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 7px; color: rgba(255, 255, 255, 0.5); font-size: clamp(0.78rem, 2vw, 0.9rem); font-weight: 600">
+            <i class="fa-solid fa-headset" style="color: var(--gold)"></i>
+            دعم مستمر عند الحاجة
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 7px; color: rgba(255, 255, 255, 0.5); font-size: clamp(0.78rem, 2vw, 0.9rem); font-weight: 600">
+            <i class="fa-solid fa-users" style="color: var(--gold)"></i>
+            فريق متخصص بخبرة عملية
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="reveal d5" style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 36px">
+          <div style="font-size: 0.7rem; color: rgba(255, 255, 255, 0.2)">© 2025 Cloudilic — جميع الحقوق محفوظة.</div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const SECTIONS = ['hero', 'intro', 'problem', 'solution', 'modules', 'outcomes', 'why', 'team', 'projects', 'partners', 'closing'];
+
+      // Project data
+      const PROJECTS = [
+        {
+          name: 'Madar',
+          num: '01',
+          gradient: 'linear-gradient(135deg,var(--brand),var(--brand-dark))',
+          type: 'منصة إدارة أعمال متكاملة',
+          problem: 'كانت البيانات موزعة على أقسام متعددة بدون أي رابط يجمعها، مما جعل إعداد التقارير عملية شاقة تستغرق أياماً.',
+          solution: 'بنينا نظام ERP متكامل يربط جميع الأقسام في منصة واحدة مع لوحة تحكم مركزية وتقارير فورية آلية.',
+          result: 'انخفاض ٤٠٪ في وقت إعداد التقارير، وتحسن ملحوظ في سرعة اتخاذ القرار.',
+          features: ['لوحة تحكم مركزية موحدة', 'تقارير آلية فورية', 'ربط جميع الأقسام', 'إدارة صلاحيات متقدمة'],
+          metrics: [
+            ['٤٠٪', 'تقليل وقت التقارير'],
+            ['٣x', 'أسرع في اتخاذ القرار'],
+            ['١٠٠٪', 'دقة البيانات'],
+          ],
+          stack: ['React.js', 'Node.js', 'PostgreSQL', 'Redis', 'Docker'],
+        },
+        {
+          name: 'HelHal',
+          num: '02',
+          gradient: 'linear-gradient(135deg,var(--gold),var(--brand-dark))',
+          type: 'منصة حلول مالية رقمية',
+          problem: 'إدارة المدفوعات والفواتير كانت تتم يدوياً عبر جداول Excel، مما أدى لأخطاء متكررة وصعوبة التتبع.',
+          solution: 'نظام متكامل لإدارة المدفوعات والفواتير مع لوحة مراقبة مالية في الوقت الحقيقي وتنبيهات آلية.',
+          result: 'تقليل الأخطاء المالية ٦٠٪، وتسريع دورة الإقفال الشهري من أسبوع إلى يومين.',
+          features: ['إدارة فواتير آلية', 'متابعة المدفوعات لحظة بلحظة', 'تنبيهات ذكية للالتزامات', 'تقارير مالية شاملة'],
+          metrics: [
+            ['٦٠٪', 'تقليل الأخطاء'],
+            ['٧٠٪', 'أسرع إقفال'],
+            ['٢x', 'دقة التقارير'],
+          ],
+          stack: ['Next.js', 'NestJS', 'PostgreSQL', 'AWS'],
+        },
+        {
+          name: 'So7baFit',
+          num: '03',
+          gradient: 'linear-gradient(135deg,var(--brand-dark),var(--brand))',
+          type: 'تطبيق لياقة وإدارة اشتراكات',
+          problem: 'إدارة اشتراكات الأعضاء والجلسات الرياضية وتتبع الحضور كانت تتم يدوياً مما يستهلك وقتاً وجهداً كبيراً.',
+          solution: 'تطبيق متكامل للمديرين والأعضاء يشمل الاشتراكات والحجوزات ومتابعة التقدم ونظام الإشعارات.',
+          result: 'ارتفاع معدل الاحتفاظ بالأعضاء ٣٥٪، وتوفير ٨ ساعات إدارية أسبوعياً.',
+          features: ['إدارة اشتراكات متكاملة', 'نظام حجوزات ذكي', 'متابعة تقدم الأعضاء', 'إشعارات آلية مخصصة'],
+          metrics: [
+            ['٣٥٪', 'زيادة الاحتفاظ'],
+            ['٨ ساعات', 'توفير أسبوعي'],
+            ['٩٨٪', 'رضا المستخدمين'],
+          ],
+          stack: ['React Native', 'Node.js', 'MongoDB', 'Firebase'],
+        },
+        {
+          name: 'JOE FMCG',
+          num: '04',
+          gradient: 'linear-gradient(135deg,var(--brand),var(--gold))',
+          type: 'نظام توزيع السلع سريعة الحركة',
+          problem: 'سلسلة توريد معقدة بدون رؤية واضحة للمخزون والطلبيات عبر نقاط البيع المختلفة.',
+          solution: 'نظام توزيع ذكي مع تتبع فوري للمخزون عبر جميع نقاط البيع وإدارة طلبيات موحدة.',
+          result: 'تحسين كفاءة التوزيع ٥٠٪، وتقليص الفاقد في المخزون ٢٥٪، ورفع دقة الطلبيات ٩٥٪.',
+          features: ['تتبع مخزون فوري متعدد المواقع', 'إدارة طلبيات موحدة', 'تحليلات توزيع متقدمة', 'تكامل مع ERP'],
+          metrics: [
+            ['٥٠٪', 'تحسين التوزيع'],
+            ['٢٥٪', 'تقليل الفاقد'],
+            ['٩٥٪', 'دقة الطلبيات'],
+          ],
+          stack: ['React.js', 'Node.js', 'PostgreSQL', 'Socket.io', 'Docker'],
+        },
+        {
+          name: 'Elite Gate',
+          num: '05',
+          gradient: 'linear-gradient(135deg,#3A1018,var(--brand))',
+          type: 'بوابة استثمار وإدارة أصول',
+          problem: 'المستثمرون لا يمتلكون رؤية موحدة لمحافظهم وعوائدهم، والتقارير تستغرق أسابيع للإعداد.',
+          solution: 'بوابة استثمار رقمية بلوحة تحكم مخصصة لكل مستثمر مع تقارير آلية وتتبع للعوائد.',
+          result: 'زيادة ثقة المستثمرين بشكل ملحوظ وتقليص وقت إعداد التقارير ٧٠٪.',
+          features: ['لوحة مستثمر مخصصة', 'تتبع عوائد لحظي', 'تقارير آلية للمحفظة', 'أمان ومصادقة متقدمة'],
+          metrics: [
+            ['٧٠٪', 'تقليل وقت التقارير'],
+            ['٩٩.٩٪', 'ثبات النظام'],
+            ['٤.٩/٥', 'رضا العملاء'],
+          ],
+          stack: ['Next.js', 'NestJS', 'PostgreSQL', 'Redis', 'AWS'],
+        },
+        {
+          name: 'Qunof',
+          num: '06',
+          gradient: 'linear-gradient(135deg,var(--gold),var(--brand))',
+          type: 'منصة تجارة إلكترونية B2B',
+          problem: 'عمليات الشراء بين الشركات كانت تتم عبر WhatsApp وجداول Excel بدون أي نظام موحد.',
+          solution: 'منصة B2B متكاملة بعمليات طلب وفواتير وإدارة موردين وتكامل مع أنظمة المحاسبة.',
+          result: 'تضاعف حجم المعاملات خلال ٣ أشهر، وانخفض وقت معالجة الطلبات ٦٥٪.',
+          features: ['إدارة موردين متكاملة', 'دورة شراء آلية', 'فواتير إلكترونية', 'تكامل محاسبي'],
+          metrics: [
+            ['٢x', 'نمو المعاملات'],
+            ['٦٥٪', 'أسرع معالجة'],
+            ['٨٠٪', 'تقليل الأخطاء'],
+          ],
+          stack: ['React.js', 'Node.js', 'PostgreSQL', 'Stripe', 'Docker'],
+        },
+      ];
+
+      // Mobile menu
+      let mobOpen = false;
+      function toggleMob() {
+        mobOpen = !mobOpen;
+        document.getElementById('mob-menu').classList.toggle('open', mobOpen);
+        document.getElementById('ham-btn').classList.toggle('open', mobOpen);
+      }
+      function closeMob() {
+        mobOpen = false;
+        document.getElementById('mob-menu').classList.remove('open');
+        document.getElementById('ham-btn').classList.remove('open');
+      }
+
+      // Navbar scroll
+      const navbar = document.getElementById('navbar');
+      const navLogoText = document.getElementById('nav-logo-text');
+      const navLogoSub = document.getElementById('nav-logo-sub');
+      let lastScrollY = 0;
+      let ticking = false;
+      function handleNavScroll() {
+        const scrollY = window.scrollY;
+        if (scrollY > 60) {
+          navbar.classList.add('scrolled');
+          navLogoText.style.color = 'var(--brand)';
+          navLogoSub.style.color = 'rgba(105,31,44,0.48)';
+        } else {
+          navbar.classList.remove('scrolled');
+          navLogoText.style.color = 'rgba(255,255,255,0.95)';
+          navLogoSub.style.color = 'rgba(255,255,255,0.48)';
+        }
+        if (scrollY > lastScrollY && scrollY > 80) {
+          navbar.classList.add('hide-nav');
+          closeMob();
+        } else navbar.classList.remove('hide-nav');
+        lastScrollY = scrollY;
+        ticking = false;
+      }
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(handleNavScroll);
+            ticking = true;
+          }
+        },
+        { passive: true },
+      );
+
+      // Progress bar
+      const pbar = document.getElementById('progress-bar');
+      window.addEventListener(
+        'scroll',
+        () => {
+          const total = document.body.scrollHeight - window.innerHeight;
+          pbar.style.transform = `scaleX(${window.scrollY / total})`;
+        },
+        { passive: true },
+      );
+
+      // Reveal
+      const revObs = new IntersectionObserver(
+        entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('visible');
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -36px 0px' },
+      );
+      document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => revObs.observe(el));
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const t = document.querySelector(a.getAttribute('href'));
+          if (t) {
+            e.preventDefault();
+            t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Active section
+      const snavItems = document.querySelectorAll('.snav-item');
+      const mobSnavItems = document.querySelectorAll('.mob-snav-item');
+      function getCurrentSection() {
+        let current = SECTIONS[0];
+        SECTIONS.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && window.scrollY >= el.offsetTop - 180) current = id;
+        });
+        return current;
+      }
+      function updateActive() {
+        const current = getCurrentSection();
+        snavItems.forEach(item => item.classList.toggle('active', item.dataset.target === current));
+        mobSnavItems.forEach(item => item.classList.toggle('active', item.dataset.target === current));
+      }
+      window.addEventListener('scroll', updateActive, { passive: true });
+      updateActive();
+      snavItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const t = document.getElementById(item.dataset.target);
+          if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+      mobSnavItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const t = document.getElementById(item.dataset.target);
+          if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Mobile sidenav arrows
+      function scrollToSectionIndex(idx) {
+        const id = SECTIONS[Math.max(0, Math.min(idx, SECTIONS.length - 1))];
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      document.getElementById('mob-snav-up').addEventListener('click', () => {
+        scrollToSectionIndex(SECTIONS.indexOf(getCurrentSection()) - 1);
+      });
+      document.getElementById('mob-snav-down').addEventListener('click', () => {
+        scrollToSectionIndex(SECTIONS.indexOf(getCurrentSection()) + 1);
+      });
+
+      // Keyboard nav
+      document.addEventListener('keydown', e => {
+        if (document.getElementById('proj-overlay').classList.contains('open')) return;
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          scrollToSectionIndex(SECTIONS.indexOf(getCurrentSection()) - 1);
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          scrollToSectionIndex(SECTIONS.indexOf(getCurrentSection()) + 1);
+        }
+      });
+
+      // Project panel
+      function openProjectPanel(index) {
+        const p = PROJECTS[index];
+        document.getElementById('panel-title-small').textContent = p.name;
+        document.getElementById('panel-badge').textContent = p.type;
+
+        const metricsHTML = p.metrics
+          .map(
+            ([val, label]) => `
+    <div class="panel-impact-bar">
+      <div class="panel-metric">${val}</div>
+      <div style="font-weight:700;color:var(--charcoal);font-size:.9rem;">${label}</div>
+    </div>
+  `,
+          )
+          .join('');
+
+        const featuresHTML = p.features
+          .map(
+            f => `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1px solid var(--border);border-radius:10px;">
+      <div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fa-solid fa-check" style="color:#fff;font-size:.65rem;"></i>
+      </div>
+      <span style="font-size:.85rem;font-weight:600;color:var(--charcoal);">${f}</span>
+    </div>
+  `,
+          )
+          .join('');
+
+        const stackHTML = p.stack
+          .map(
+            s => `
+    <span style="background:rgba(105,31,44,0.07);border:1px solid rgba(105,31,44,0.12);color:var(--brand);padding:4px 12px;border-radius:6px;font-size:.75rem;font-weight:700;">${s}</span>
+  `,
+          )
+          .join('');
+
+        document.getElementById('panel-content').innerHTML = `
+    <div class="panel-hero" style="background:${p.gradient};">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:4px 14px;font-size:.68rem;font-weight:800;display:inline-block;margin-bottom:14px;">${p.num}</div>
+        <h2 style="font-weight:900;font-size:clamp(1.5rem,4vw,2.2rem);margin-bottom:6px;">${p.name}</h2>
+        <p style="font-size:.88rem;color:rgba(255,255,255,0.7);">${p.type}</p>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div style="font-size:.65rem;font-weight:800;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;"><i class="fa-solid fa-circle-question" style="color:var(--gold);margin-left:6px;"></i> المشكلة</div>
+      <p style="color:#4B5563;font-size:.92rem;line-height:1.85;">${p.problem}</p>
+    </div>
+
+    <div class="panel-section">
+      <div style="font-size:.65rem;font-weight:800;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;"><i class="fa-solid fa-lightbulb" style="color:var(--brand);margin-left:6px;"></i> الحل</div>
+      <p style="color:#4B5563;font-size:.92rem;line-height:1.85;">${p.solution}</p>
+    </div>
+
+    <div class="panel-section">
+      <div style="font-size:.65rem;font-weight:800;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;"><i class="fa-solid fa-trophy" style="color:var(--gold);margin-left:6px;"></i> النتائج</div>
+      ${metricsHTML}
+      <p style="color:#4B5563;font-size:.88rem;line-height:1.85;margin-top:12px;">${p.result}</p>
+    </div>
+
+    <div class="panel-section">
+      <div style="font-size:.65rem;font-weight:800;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;"><i class="fa-solid fa-star" style="color:var(--brand);margin-left:6px;"></i> المميزات الرئيسية</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">${featuresHTML}</div>
+    </div>
+
+    <div class="panel-section">
+      <div style="font-size:.65rem;font-weight:800;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;"><i class="fa-solid fa-code" style="color:var(--brand);margin-left:6px;"></i> التقنيات المستخدمة</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">${stackHTML}</div>
+    </div>
+  `;
+
+        document.getElementById('proj-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeProjectPanel() {
+        document.getElementById('proj-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeProjectPanel();
+      });
+    </script>
+  </body>
+</html>
+
+

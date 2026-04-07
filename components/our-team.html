@@ -1,0 +1,583 @@
+ 
+<style>
+  :root {
+    --brand: #691f2c;
+    --brand-dark: #4a1520;
+    --brand-deep: #3a1018;
+    --gold: #b6915e;
+    --gold-light: #d4aa7d;
+    --charcoal: #1f2937;
+    --line: #c5bab4;
+    --line-gold: #c9a870;
+  }
+
+  .org-section {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    padding: 88px 0 80px;
+    background: linear-gradient(160deg, #f9f7f5 0%, #ede6e0 100%);
+    direction: rtl;
+  }
+
+  /* ── Section header ── */
+  .org-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(105, 31, 44, 0.07);
+    border: 1px solid rgba(105, 31, 44, 0.17);
+    color: var(--brand);
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 5px 16px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .org-title {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+  .gt-brand {
+    background: linear-gradient(135deg, var(--brand), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gold-rule {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand), var(--gold));
+    border-radius: 2px;
+    margin: 14px auto 0;
+  }
+
+  /* ── Chart scroll container ── */
+  .org-scroll {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .org-canvas {
+    position: relative;
+    /* JS will set width & height */
+    margin: 0 auto;
+  }
+
+  /* ── SVG lines layer ── */
+  .org-svg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .org-svg line,
+  .org-svg path {
+    stroke-linecap: round;
+  }
+
+  /* ── Card base ── */
+  .ocard {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ede6e0;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px 16px;
+    box-shadow:
+      0 4px 20px rgba(105, 31, 44, 0.08),
+      0 1px 4px rgba(0, 0, 0, 0.04);
+    transition:
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    overflow: hidden;
+  }
+  .ocard::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2.5px;
+    background: linear-gradient(90deg, var(--brand), var(--gold));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ocard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px rgba(105, 31, 44, 0.14);
+  }
+  .ocard:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Root CEO card */
+  .ocard-root {
+    background: linear-gradient(150deg, #691f2c 0%, #3a1018 100%);
+    border: none;
+    box-shadow: 0 16px 48px rgba(105, 31, 44, 0.3);
+  }
+  .ocard-root::after {
+    display: none;
+  }
+  .ocard-root:hover {
+    box-shadow: 0 26px 60px rgba(105, 31, 44, 0.38);
+  }
+
+  /* Gold card (Ahmed Abdelrhman) */
+  .ocard-gold {
+    border-color: rgba(182, 145, 94, 0.55);
+    background: linear-gradient(160deg, #fffcf7 60%, #fdf4e6 100%);
+    box-shadow: 0 8px 30px rgba(182, 145, 94, 0.16);
+  }
+  .ocard-gold::after {
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  }
+  .ocard-gold:hover {
+    box-shadow: 0 20px 48px rgba(182, 145, 94, 0.22);
+  }
+
+  /* Sub-level card */
+  .ocard-sub {
+    border-radius: 14px;
+    padding: 16px 12px 14px;
+    box-shadow: 0 4px 16px rgba(105, 31, 44, 0.07);
+  }
+
+  /* ── Avatar ring ── */
+  .av-ring {
+    border-radius: 9999px;
+    padding: 2.5px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .av-ring-brand {
+    background: linear-gradient(140deg, #691f2c, #b6915e);
+  }
+  .av-ring-gold {
+    background: linear-gradient(140deg, #b6915e, #d4aa7d);
+  }
+  .av-ring-deep {
+    background: linear-gradient(140deg, #3a1018, #b6915e);
+  }
+  .av-ring-root {
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.45), rgba(182, 145, 94, 0.75));
+  }
+  .av-ring img {
+    border-radius: 9999px;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* ── Text ── */
+  .c-pos {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .c-name {
+    font-size: 0.84rem;
+    font-weight: 900;
+    line-height: 1.3;
+    color: var(--charcoal);
+  }
+  .c-name-root {
+    font-size: 0.96rem;
+    color: #fff;
+  }
+  .c-pos-root {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .c-pos-brand {
+    color: var(--gold);
+  }
+  .c-pos-gold {
+    color: var(--gold);
+  }
+
+  /* ── "You" badge ── */
+  .you-badge {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #691f2c, #b6915e);
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.54rem;
+    font-weight: 900;
+    letter-spacing: 0.07em;
+    padding: 3px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(105, 31, 44, 0.32);
+    z-index: 10;
+  }
+
+  /* ── Fade-up animation ── */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .ocard {
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .d1 {
+    animation-delay: 0.05s;
+  }
+  .d2 {
+    animation-delay: 0.12s;
+  }
+  .d3 {
+    animation-delay: 0.2s;
+  }
+  .d4 {
+    animation-delay: 0.28s;
+  }
+  .d5 {
+    animation-delay: 0.36s;
+  }
+  .d6 {
+    animation-delay: 0.44s;
+  }
+  .d7 {
+    animation-delay: 0.52s;
+  }
+  .d8 {
+    animation-delay: 0.6s;
+  }
+  .d9 {
+    animation-delay: 0.68s;
+  }
+  .d10 {
+    animation-delay: 0.76s;
+  }
+  .d11 {
+    animation-delay: 0.84s;
+  }
+  .d12 {
+    animation-delay: 0.92s;
+  }
+</style>
+
+ 
+<section class="org-section ">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 0 28px">
+    <!-- Header -->
+    <div style="text-align: center; margin-bottom: 56px">
+      <div class="org-tag"><i class="fa-solid fa-sitemap" style="font-size: 0.68rem"></i> هيكل الفريق</div>
+      <h2 class="org-title">الفريق الذي يقود <span class="gt-brand">تحولك</span></h2>
+      <div class="gold-rule"></div>
+    </div>
+
+    <!-- Chart -->
+    <div class="org-scroll">
+      <div class="org-canvas" id="orgCanvas">
+        <!-- SVG connector layer (drawn by JS) -->
+        <svg class="org-svg" id="orgSvg"></svg>
+
+        <!-- ══ CARD: CEO ══ -->
+        <div class="ocard ocard-root d1" id="c-ceo" style="width: 196px; top: 0; left: 0">
+          <!-- JS positions left -->
+          <div class="av-ring av-ring-root">
+            <img src="https://ui-avatars.com/api/?name=Ahmed+Al-Bassyouni&background=5a1a22&color=d4aa7d&size=128&bold=true&font-size=0.35" style="width: 68px; height: 68px" alt="Ahmed Al-Bassyouni" />
+          </div>
+          <div class="c-pos c-pos-root">CEO &amp; Founder</div>
+          <div class="c-name c-name-root">Ahmed Al-Bassyouni</div>
+        </div>
+
+        <!-- ══ CARD: Ahmed Gharabawy ══ -->
+        <div class="ocard d3" id="c-ag" style="width: 162px">
+          <div class="av-ring av-ring-brand">
+            <img src="https://ui-avatars.com/api/?name=Ahmed+Gharabawy&background=691f2c&color=d4aa7d&size=108&bold=true&font-size=0.38" style="width: 54px; height: 54px" alt="Ahmed Gharabawy" />
+          </div>
+          <div class="c-pos c-pos-brand">Senior Software Engineer</div>
+          <div class="c-name">Ahmed Gharabawy</div>
+        </div>
+
+        <!-- ══ CARD: Ahmed Abdelrhman (YOU) ══ -->
+        <div class="ocard ocard-gold d3" id="c-aa" style="width: 178px; padding-top: 26px">
+          <span class="you-badge">أنت</span>
+          <div class="av-ring av-ring-gold">
+            <img src="https://ui-avatars.com/api/?name=Ahmed+Abdelrhman&background=b6915e&color=fff&size=108&bold=true&font-size=0.38" style="width: 58px; height: 58px" alt="Ahmed Abdelrhman" />
+          </div>
+          <div class="c-pos c-pos-gold">Senior Full Stack Engineer</div>
+          <div class="c-name">Ahmed Abdelrhman</div>
+        </div>
+
+        <!-- ══ CARD: Marina ══ -->
+        <div class="ocard d4" id="c-mn" style="width: 154px">
+          <div class="av-ring av-ring-brand">
+            <img src="https://ui-avatars.com/api/?name=Marina&background=691f2c&color=d4aa7d&size=108&bold=true&font-size=0.45" style="width: 54px; height: 54px" alt="Marina" />
+          </div>
+          <div class="c-pos c-pos-brand">Accountant &amp; Lawyer</div>
+          <div class="c-name">Marina</div>
+        </div>
+
+        <!-- ══ CARD: Ebtisam ══ -->
+        <div class="ocard d4" id="c-eb" style="width: 154px">
+          <div class="av-ring av-ring-brand">
+            <img src="https://ui-avatars.com/api/?name=Ebtisam&background=691f2c&color=d4aa7d&size=108&bold=true&font-size=0.45" style="width: 54px; height: 54px" alt="Ebtisam" />
+          </div>
+          <div class="c-pos c-pos-brand">Content Specialist</div>
+          <div class="c-name">Ebtisam</div>
+        </div>
+
+        <!-- ══ CARD: Omar Al-Bassyouni ══ -->
+        <div class="ocard d3" id="c-ob" style="width: 162px">
+          <div class="av-ring av-ring-deep">
+            <img src="https://ui-avatars.com/api/?name=Omar+Al-Bassyouni&background=3a1018&color=d4aa7d&size=108&bold=true&font-size=0.38" style="width: 54px; height: 54px" alt="Omar Al-Bassyouni" />
+          </div>
+          <div class="c-pos c-pos-brand">COO &amp; Founder</div>
+          <div class="c-name">Omar Al-Bassyouni</div>
+        </div>
+
+        <!-- ══ SUB CARDS ══ -->
+
+        <!-- Farid Azzam -->
+        <div class="ocard ocard-sub d7" id="c-fa" style="width: 140px">
+          <div class="av-ring av-ring-brand">
+            <img src="https://ui-avatars.com/api/?name=Farid+Azzam&background=4a1520&color=d4aa7d&size=88&bold=true&font-size=0.42" style="width: 44px; height: 44px" alt="Farid Azzam" />
+          </div>
+          <div class="c-pos c-pos-brand" style="font-size: 0.55rem">Senior Software Engineer</div>
+          <div class="c-name" style="font-size: 0.78rem">Farid Azzam</div>
+        </div>
+
+        <!-- Mahmoud Ali -->
+        <div class="ocard ocard-sub d8" id="c-ma" style="width: 140px">
+          <div class="av-ring av-ring-brand">
+            <img src="https://ui-avatars.com/api/?name=Mahmoud+Ali&background=4a1520&color=d4aa7d&size=88&bold=true&font-size=0.42" style="width: 44px; height: 44px" alt="Mahmoud Ali" />
+          </div>
+          <div class="c-pos c-pos-brand" style="font-size: 0.55rem">Software Engineer</div>
+          <div class="c-name" style="font-size: 0.78rem">Mahmoud Ali</div>
+        </div>
+
+        <!-- Abdullah Ghazy -->
+        <div class="ocard ocard-sub ocard-gold d7" id="c-ab" style="width: 148px">
+          <div class="av-ring av-ring-gold">
+            <img src="https://ui-avatars.com/api/?name=Abdullah+Ghazy&background=b6915e&color=fff&size=88&bold=true&font-size=0.42" style="width: 44px; height: 44px" alt="Abdullah Ghazy" />
+          </div>
+          <div class="c-pos c-pos-gold" style="font-size: 0.55rem">Full Stack Developer</div>
+          <div class="c-name" style="font-size: 0.78rem">Abdullah Ghazy</div>
+        </div>
+
+        <!-- Mohammed Esam -->
+        <div class="ocard ocard-sub ocard-gold d8" id="c-me" style="width: 148px">
+          <div class="av-ring av-ring-gold">
+            <img src="https://ui-avatars.com/api/?name=Mohammed+Esam&background=b6915e&color=fff&size=88&bold=true&font-size=0.42" style="width: 44px; height: 44px" alt="Mohammed Esam" />
+          </div>
+          <div class="c-pos c-pos-gold" style="font-size: 0.55rem">Mobile App Developer</div>
+          <div class="c-name" style="font-size: 0.78rem">Mohammed Esam</div>
+        </div>
+
+        <!-- Mohamed Waheed -->
+        <div class="ocard ocard-sub d7" id="c-mw" style="width: 140px">
+          <div class="av-ring av-ring-deep">
+            <img src="https://ui-avatars.com/api/?name=Mohamed+Waheed&background=3a1018&color=d4aa7d&size=88&bold=true&font-size=0.42" style="width: 44px; height: 44px" alt="Mohamed Waheed" />
+          </div>
+          <div class="c-pos c-pos-brand" style="font-size: 0.55rem">Sales Automation</div>
+          <div class="c-name" style="font-size: 0.78rem">Mohamed Waheed</div>
+        </div>
+
+        <!-- Salman Gamal -->
+        <div class="ocard ocard-sub d8" id="c-sg" style="width: 140px">
+          <div class="av-ring av-ring-deep">
+            <img src="https://ui-avatars.com/api/?name=Salman+Gamal&background=3a1018&color=d4aa7d&size=88&bold=true&font-size=0.42" style="width: 44px; height: 44px" alt="Salman Gamal" />
+          </div>
+          <div class="c-pos c-pos-brand" style="font-size: 0.55rem">Full Stack Marketer</div>
+          <div class="c-name" style="font-size: 0.78rem">Salman Gamal</div>
+        </div>
+      </div>
+      <!-- /org-canvas -->
+    </div>
+    <!-- /org-scroll -->
+  </div>
+</section>
+
+<script>
+  
+  (function () {
+    const GAP_H = 28; // horizontal gap between sibling cards
+    const ROW_GAP = 72; // vertical gap between rows (connector space)
+
+    // ── Helper: get/set card rect by id ──
+    const el = id => document.getElementById(id);
+    const W = id => el(id).offsetWidth;
+    const H = id => el(id).offsetHeight;
+
+    /* ── Define the tree structure ──
+     Each node: { id, children?, subChildren? }
+     Layout is computed left→right in document order.
+  */
+
+    // Tier-1 columns (each may have sub-children)
+    const tier1 = [
+      { id: 'c-ag', subs: ['c-fa', 'c-ma'] },
+      { id: 'c-aa', subs: ['c-ab', 'c-me'] },
+      { id: 'c-mn', subs: [] },
+      { id: 'c-eb', subs: [] },
+      { id: 'c-ob', subs: ['c-mw', 'c-sg'] },
+    ];
+
+    /* ── Step 1: measure natural heights so rows are consistent ── */
+    // We need all cards rendered (offsetHeight > 0) before layout.
+    // Use a short rAF loop to wait for paint.
+    requestAnimationFrame(() => requestAnimationFrame(layout));
+
+    function layout() {
+      const canvas = el('orgCanvas');
+      const svg = el('orgSvg');
+
+      // ── Compute column widths ──
+      // Each column is the max width of its tier-1 card and its subs side-by-side
+      const cols = tier1.map(col => {
+        const t1w = W(col.id);
+        const subsTotalW = col.subs.reduce((acc, s, i) => acc + W(s) + (i > 0 ? GAP_H : 0), 0);
+        return Math.max(t1w, subsTotalW);
+      });
+
+      const totalW = cols.reduce((a, b) => a + b, 0) + GAP_H * (cols.length - 1);
+      const ceoW = W('c-ceo');
+
+      // Canvas width = max(CEO, tier1 total)
+      const canvasW = Math.max(totalW, ceoW);
+
+      // ── Vertical positions ──
+      const ROW0_TOP = 0; // CEO top
+      const ROW1_TOP = H('c-ceo') + ROW_GAP; // Tier-1 top
+      // Tier-2 top = ROW1_TOP + max(tier-1 heights) + ROW_GAP
+      const maxTier1H = Math.max(...tier1.map(c => H(c.id)));
+      const ROW2_TOP = ROW1_TOP + maxTier1H + ROW_GAP;
+
+      // ── Horizontal positions ──
+      // CEO: centered in canvas
+      const ceoLeft = (canvasW - ceoW) / 2;
+
+      // Tier-1 columns: packed left-to-right, centered in canvas
+      const tier1StartX = (canvasW - totalW) / 2;
+      let curX = tier1StartX;
+      const colPositions = cols.map((cw, i) => {
+        const x = curX;
+        curX += cw + GAP_H;
+        return x;
+      });
+
+      // ── Position cards ──
+      posCard('c-ceo', ceoLeft, ROW0_TOP);
+
+      tier1.forEach((col, i) => {
+        const colW = cols[i];
+        const colX = colPositions[i];
+        const t1w = W(col.id);
+        const t1x = colX + (colW - t1w) / 2;
+        posCard(col.id, t1x, ROW1_TOP);
+
+        // Sub-children: centered in column
+        if (col.subs.length > 0) {
+          const subsTotalW = col.subs.reduce((acc, s, si) => acc + W(s) + (si > 0 ? GAP_H : 0), 0);
+          let sx = colX + (colW - subsTotalW) / 2;
+          col.subs.forEach(sid => {
+            posCard(sid, sx, ROW2_TOP);
+            sx += W(sid) + GAP_H;
+          });
+        }
+      });
+
+      // ── Canvas size ──
+      const maxSubH = tier1.some(c => c.subs.length > 0) ? Math.max(...tier1.flatMap(c => c.subs).map(s => H(s))) : 0;
+      const canvasH = (tier1.some(c => c.subs.length > 0) ? ROW2_TOP + maxSubH : ROW1_TOP + maxTier1H) + 20;
+
+      canvas.style.width = canvasW + 'px';
+      canvas.style.height = canvasH + 'px';
+      svg.setAttribute('width', canvasW);
+      svg.setAttribute('height', canvasH);
+      svg.setAttribute('viewBox', `0 0 ${canvasW} ${canvasH}`);
+
+      // ── Draw lines ──
+      svg.innerHTML = '';
+
+      const LINE_COLOR = '#c5bab4';
+      const LINE_COLOR_GOLD = '#c9a870';
+      const LW = '1';
+
+      // CEO → each tier-1
+      tier1.forEach((col, i) => {
+        const ceoRect = rect('c-ceo');
+        const t1Rect = rect(col.id);
+        const isGold = col.id === 'c-aa';
+        const color = isGold ? LINE_COLOR_GOLD : LINE_COLOR;
+        drawElbow(svg, bcx(ceoRect), bot(ceoRect), bcx(t1Rect), top(t1Rect), color, LW);
+      });
+
+      // Tier-1 → subs
+      tier1.forEach(col => {
+        col.subs.forEach(sid => {
+          const parentRect = rect(col.id);
+          const subRect = rect(sid);
+          const isGold = col.id === 'c-aa';
+          const color = isGold ? LINE_COLOR_GOLD : LINE_COLOR;
+          drawElbow(svg, bcx(parentRect), bot(parentRect), bcx(subRect), top(subRect), color, LW);
+        });
+      });
+    }
+
+    /* ── Utilities ── */
+    function posCard(id, left, top) {
+      const e = el(id);
+      e.style.left = left + 'px';
+      e.style.top = top + 'px';
+    }
+    function rect(id) {
+      const e = el(id);
+      return { l: e.offsetLeft, t: e.offsetTop, w: e.offsetWidth, h: e.offsetHeight };
+    }
+    const bcx = r => r.l + r.w / 2;
+    const top = r => r.t;
+    const bot = r => r.t + r.h;
+
+    /* drawElbow: clean orthogonal connector
+     from (x1,y1) bottom-center → (x2,y2) top-center
+     mid-point horizontal bar at (y1+y2)/2
+  */
+    function drawElbow(svg, x1, y1, x2, y2, color, lw) {
+      const my = Math.round((y1 + y2) / 2);
+      x1 = Math.round(x1);
+      y1 = Math.round(y1);
+      x2 = Math.round(x2);
+      y2 = Math.round(y2);
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      // Vertical down from parent bottom → midpoint, horizontal to child center, vertical to child top
+      path.setAttribute('d', `M${x1},${y1} L${x1},${my} L${x2},${my} L${x2},${y2}`);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', color);
+      path.setAttribute('stroke-width', lw);
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
+      svg.appendChild(path);
+    }
+
+    // Re-layout on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(layout, 80);
+    });
+  })();
+</script>
+
+ 

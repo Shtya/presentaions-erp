@@ -1,0 +1,1166 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نظام اللوجستيات الذكي | Cloudilic × Baladi Mart · قطر 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      :root {
+        --gold: #ffb800;
+        --gold-dark: #e6a600;
+        --gold-light: #ffd066;
+        --gold-pale: #fff8e1;
+        --ink: #111111;
+        --ink-soft: #1a1a1a;
+        --ink-mid: #2a2a2a;
+        --smoke: #f5f5f5;
+        --mist: #fafafa;
+        --border: #e5e5e5;
+        --gray: #6b7280;
+        --shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.03);
+        --shadow-lg: 0 20px 60px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.06);
+      }
+      body { font-family: 'Cairo','Tajawal',sans-serif; background: var(--smoke); color: var(--ink); direction: rtl; text-align: right; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: var(--smoke); }
+      ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--gold), var(--ink)); border-radius: 4px; }
+
+      #progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 9999; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)); transform-origin: left; transform: scaleX(0); transition: transform 0.1s linear; }
+
+      .reveal { opacity: 0; transform: translateY(44px); transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1); }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+      .reveal-l { opacity: 0; transform: translateX(50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+      .reveal-l.visible { opacity: 1; transform: translateX(0); }
+      .reveal-r { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+      .reveal-r.visible { opacity: 1; transform: translateX(0); }
+      .d1 { transition-delay: 0.08s !important; } .d2 { transition-delay: 0.16s !important; }
+      .d3 { transition-delay: 0.24s !important; } .d4 { transition-delay: 0.32s !important; }
+      .d5 { transition-delay: 0.4s !important; }  .d6 { transition-delay: 0.48s !important; }
+
+      /* ─── NAVBAR ─── */
+      #navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: background 0.4s, box-shadow 0.4s, transform 0.4s cubic-bezier(0.16,1,0.3,1); display: none; }
+      #navbar.hide-nav { transform: translateY(-110%); }
+      #navbar.scrolled { background: rgba(17,17,17,0.97); backdrop-filter: blur(20px); box-shadow: 0 2px 28px rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,184,0,0.15); }
+      @media (max-width: 900px) { #navbar { display: block; } }
+
+      /* ─── SIDENAV ─── */
+      #sidenav { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 900; display: flex; flex-direction: column; align-items: center; }
+      @media (max-width: 900px) { #sidenav { display: none !important; } }
+      .snav-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,184,0,0.2); border: 2px solid rgba(255,184,0,0.3); transition: all 0.35s cubic-bezier(0.16,1,0.3,1); flex-shrink: 0; }
+      .snav-item { position: relative; display: flex; align-items: center; cursor: pointer; }
+      .snav-item.active .snav-dot, .snav-item:hover .snav-dot { background: var(--gold); border-color: var(--gold); transform: scale(1.4); box-shadow: 0 0 0 4px rgba(255,184,0,0.2); }
+      .snav-label { position: absolute; left: calc(100% + 12px); background: var(--gold); color: var(--ink); font-size: 0.72rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transform: translateX(-6px); transition: all 0.25s; box-shadow: 0 4px 12px rgba(255,184,0,0.4); }
+      .snav-label::before { content: ''; position: absolute; right: 100%; top: 50%; transform: translateY(-50%); border: 5px solid transparent; border-right-color: var(--gold); }
+      .snav-item.active .snav-label, .snav-item:hover .snav-label { opacity: 1; transform: translateX(0); }
+      .snav-dots { display: flex; flex-direction: column; gap: 10px; padding: 10px 0; }
+
+      #mob-sidenav { position: fixed; left: 12px; top: 50%; transform: translateY(-50%); z-index: 900; display: none; flex-direction: column; align-items: center; }
+      @media (max-width: 900px) { #mob-sidenav { display: flex; } }
+      .mob-snav-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,184,0,0.2); border: 1.5px solid rgba(255,184,0,0.3); transition: all 0.3s; }
+      .mob-snav-item { position: relative; display: flex; align-items: center; cursor: pointer; }
+      .mob-snav-item.active .mob-snav-dot { background: var(--gold); border-color: var(--gold); transform: scale(1.45); box-shadow: 0 0 0 3px rgba(255,184,0,0.2); }
+      .mob-snav-dots { display: flex; flex-direction: column; gap: 8px; padding: 8px 0; }
+
+      /* ─── UTILITIES ─── */
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes shimmer-move { from { background-position: 200% center; } to { background-position: -200% center; } }
+      @keyframes bounce-scroll { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+      @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      @keyframes orb-float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-28px) scale(1.06); } }
+      .ha { animation: fadeUp 0.95s cubic-bezier(0.16,1,0.3,1) both; }
+      .ha-1 { animation-delay: 0.15s; } .ha-2 { animation-delay: 0.35s; }
+      .ha-3 { animation-delay: 0.55s; } .ha-4 { animation-delay: 0.75s; } .ha-5 { animation-delay: 0.95s; }
+      .shimmer-gold { background: linear-gradient(90deg, var(--gold-light) 0%, #fff 35%, var(--gold) 55%, var(--gold-light) 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer-move 4.5s linear infinite; }
+      .bounce { animation: bounce-scroll 2.2s ease-in-out infinite; }
+      .section-tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,184,0,0.1); border: 1px solid rgba(255,184,0,0.3); color: var(--gold); font-size: 0.72rem; font-weight: 800; padding: 5px 14px; border-radius: 50px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+      .section-tag-dark { background: rgba(17,17,17,0.08); border-color: rgba(17,17,17,0.15); color: var(--ink-mid); }
+      .gold-rule { width: 52px; height: 3px; background: linear-gradient(90deg, var(--gold), var(--ink)); border-radius: 2px; margin: 18px auto 0; }
+      .sep { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,184,0,0.25), rgba(17,17,17,0.08), transparent); }
+      .gt-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .bg-dots { background-color: #f0f0f0; background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.06) 1px, transparent 0); background-size: 26px 26px; }
+      .dark-section { background: linear-gradient(145deg, #080808 0%, var(--ink) 50%, #1a1a0a 100%); position: relative; overflow: hidden; }
+
+      /* ─── COMPONENT CARDS ─── */
+      .prob-card { background: #fff; border: 1px solid var(--border); border-right: 3px solid var(--gold); border-radius: 16px; padding: 24px 22px; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; }
+      .prob-card:hover { transform: translateX(-5px); box-shadow: 0 10px 36px rgba(0,0,0,0.1); }
+      .module-card { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 28px 24px; box-shadow: var(--shadow); transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s; position: relative; overflow: hidden; }
+      .module-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--gold), var(--ink)); }
+      .module-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(255,184,0,0.25); }
+      .value-card { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 28px 24px; box-shadow: var(--shadow); transition: transform 0.35s, box-shadow 0.35s; position: relative; overflow: hidden; }
+      .value-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--ink)); transform: scaleX(0); transform-origin: right; transition: transform 0.35s; }
+      .value-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+      .value-card:hover::after { transform: scaleX(1); }
+      .outcome-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 24px 18px; text-align: center; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; }
+      .outcome-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+      .outcome-metric { font-size: clamp(1.6rem,4vw,2.4rem); font-weight: 900; background: linear-gradient(135deg, var(--gold), var(--ink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2; margin-bottom: 8px; }
+
+      /* ─── CASE STUDY ─── */
+      .dark-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 32px 36px; }
+      .cs-stat { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 22px 16px; text-align: center; transition: all 0.3s; }
+      .cs-stat:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,184,0,0.25); transform: translateY(-3px); }
+      .cs-metric { font-size: clamp(1.4rem,3.5vw,2rem); font-weight: 900; color: var(--gold-light); line-height: 1.2; margin-bottom: 8px; direction: ltr; }
+      .cs-label { font-size: 0.75rem; color: rgba(255,255,255,0.55); font-weight: 600; line-height: 1.55; }
+
+      /* ─── STEPPER ─── */
+      .stepper-wrap { position: relative; display: flex; align-items: stretch; gap: 0; }
+      .stepper-wrap::before { content: ''; position: absolute; top: 44px; right: 0; left: 0; height: 2px; background: linear-gradient(90deg, rgba(0,0,0,0.05), var(--gold), var(--gold-light), rgba(255,184,0,0.1)); z-index: 0; }
+      .step-col { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; text-align: center; padding: 0 12px; }
+      .step-icon-wrap { position: relative; width: 88px; height: 88px; margin-bottom: 20px; }
+      .step-icon-bg { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 180deg at 50% 50%, rgba(255,184,0,0.2) 0deg, rgba(17,17,17,0.05) 360deg); animation: spin-slow 12s linear infinite; }
+      .step-icon-inner { position: absolute; inset: 8px; border-radius: 50%; background: linear-gradient(135deg, var(--ink), #222); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 28px rgba(0,0,0,0.3); transition: transform 0.4s, box-shadow 0.4s; }
+      .step-icon-inner-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); box-shadow: 0 8px 28px rgba(255,184,0,0.4); }
+      .step-col:hover .step-icon-inner { transform: scale(1.1); }
+      .step-num-badge { position: absolute; top: -4px; right: -4px; width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 2px solid var(--gold); color: var(--ink); font-size: 0.62rem; font-weight: 900; display: flex; align-items: center; justify-content: center; z-index: 2; }
+
+      /* ─── FLOW ─── */
+      .flow-node { background: linear-gradient(135deg, var(--ink), #222); color: #fff; padding: 14px 20px; border-radius: 12px; font-weight: 800; font-size: 0.88rem; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.2); min-width: 110px; }
+      .flow-arrow { color: var(--gold); font-size: 1.2rem; }
+
+      /* ─── TRANSFORM ROW ─── */
+      .transform-row { display: flex; align-items: center; gap: 16px; padding: 14px 18px; background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); transition: border-color 0.3s, box-shadow 0.3s; }
+      .transform-row:hover { border-color: rgba(255,184,0,0.3); box-shadow: 0 8px 28px rgba(255,184,0,0.1); }
+
+      /* ─── DEPLOY / PLAN ─── */
+      .deploy-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 28px 22px; transition: all 0.35s; }
+      .deploy-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-5px); border-color: rgba(255,184,0,0.25); }
+      .impl-num { min-width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; color: var(--ink); flex-shrink: 0; box-shadow: 0 6px 18px rgba(255,184,0,0.3); }
+
+      /* ─── HIGHLIGHT CARD ─── */
+      .highlight-card { position: relative; border-radius: 28px; overflow: hidden; background: #fff; border: 1px solid rgba(255,184,0,0.15); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+      .highlight-card-header { background: linear-gradient(135deg, #0a0a0a 0%, var(--ink) 40%, #1a1a0a 100%); padding: 40px 48px 36px; position: relative; overflow: hidden; }
+      .highlight-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,184,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,184,0,0.04) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; }
+      .highlight-card-body { padding: 36px 48px; }
+      @media (max-width: 768px) { .highlight-card-header { padding: 28px 24px; } .highlight-card-body { padding: 24px; } }
+
+      .feat-item { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: var(--mist); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+      .feat-item:hover { background: #fff; border-color: rgba(255,184,0,0.25); box-shadow: 0 6px 24px rgba(255,184,0,0.08); transform: translateY(-2px); }
+
+      .stat-bar { background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.2); border-radius: 12px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
+      .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--gold); min-width: 60px; }
+
+      .partner-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
+      .partner-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: rgba(255,184,0,0.25); }
+
+      /* ─── ORG CHART ─── */
+      .org-canvas { position: relative; margin: 0 auto; }
+      .org-svg { position: absolute; top: 0; left: 0; pointer-events: none; }
+      .chart-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 16px; }
+      .card { position: absolute; border-radius: 14px; padding: 14px 10px 12px; text-align: center; animation: fadeUp 0.55s cubic-bezier(0.16,1,0.3,1) both; box-shadow: 0 4px 18px rgba(0,0,0,0.06); border: 1px solid var(--border); background: #fff; }
+      .v-ceo { background: linear-gradient(150deg, var(--ink) 0%, var(--ink-mid) 100%); border: 1px solid rgba(255,184,0,0.2); box-shadow: 0 8px 28px rgba(0,0,0,0.2); padding-top: 18px; }
+      .v-lead { background: #fff; border: 1px solid rgba(255,184,0,0.15); }
+      .v-leadgo { background: linear-gradient(150deg, var(--gold-pale) 0%, #fff 100%); border: 1px solid rgba(255,184,0,0.3); }
+      .v-sublead-red, .v-sublead-go { background: #fff; border: 1px solid rgba(255,184,0,0.2); }
+      .v-leaf-red, .v-leaf-go { background: var(--mist); border: 1px solid var(--border); }
+      .av { width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 6px; overflow: hidden; border: 2px solid var(--border); }
+      .av-wh { width: 58px; height: 58px; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,184,0,0.2); }
+      .av-cr { border-color: var(--gold-dark); }
+      .av-go { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(255,184,0,0.15); }
+      .av-gr { border-color: var(--border); width: 36px; height: 36px; }
+      .av img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .role { font-size: 7.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); margin-bottom: 3px; }
+      .role-wh { color: var(--gold-light); } .role-cr { color: var(--gold-dark); } .role-go { color: var(--gold); } .role-dim { color: var(--gray); }
+      .name { font-size: 11.5px; font-weight: 800; color: var(--ink); line-height: 1.25; }
+      .name-wh { color: #fff; }
+      .ceo-tag { display: inline-block; margin-bottom: 5px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.52); font-size: 6.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; }
+      .you { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--ink); font-size: 6.5px; font-weight: 800; letter-spacing: 0.13em; padding: 2px 10px; border-radius: 999px; white-space: nowrap; box-shadow: 0 3px 10px rgba(255,184,0,0.28); z-index: 5; }
+      .a0{animation-delay:.03s}.a1{animation-delay:.07s}.a2{animation-delay:.12s}.a3{animation-delay:.17s}
+      .a4{animation-delay:.22s}.a5{animation-delay:.27s}.a6{animation-delay:.32s}.a7{animation-delay:.37s}
+      .a8{animation-delay:.42s}.a9{animation-delay:.47s}
+
+      /* ─── MOBILE / HAMBURGER ─── */
+      #mob-menu { overflow: hidden; max-height: 0; transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease; opacity: 0; background: rgba(10,10,10,0.98); backdrop-filter: blur(24px); border-top: 1px solid rgba(255,184,0,0.15); }
+      #mob-menu.open { max-height: 680px; opacity: 1; }
+      .mob-link { display: flex; align-items: center; gap: 12px; padding: 11px 16px; font-weight: 600; color: rgba(255,255,255,0.75); font-size: 0.88rem; border-radius: 10px; transition: background 0.2s, color 0.2s; margin-bottom: 3px; text-decoration: none; }
+      .mob-link:hover { background: rgba(255,184,0,0.12); color: #fff; }
+      .ham-icon { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 38px; height: 38px; padding: 8px; background: none; border: none; cursor: pointer; border-radius: 10px; transition: background 0.2s; }
+      .ham-bar { width: 22px; height: 2px; border-radius: 2px; background: rgba(255,255,255,0.9); display: block; transform-origin: center; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s, width 0.3s; }
+      .ham-icon.open .ham-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .ham-icon.open .ham-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .ham-icon.open .ham-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      @media (max-width: 900px) { .ham-icon { display: flex; } }
+
+      /* ─── RESPONSIVE GRIDS ─── */
+      @media (max-width: 768px) {
+        .challenges-grid, .feat-panel-grid, .value-grid, .impl-grid, .cs-grid-3, .cs-grid-4 { grid-template-columns: 1fr !important; }
+        .modules-grid, .outcomes-grid, .cs-grid-2 { grid-template-columns: 1fr 1fr !important; }
+        .stepper-wrap { flex-direction: column; gap: 0; align-items: stretch; }
+        .stepper-wrap::before { top: 0; bottom: 0; right: 44px; left: auto; width: 2px; height: auto; background: linear-gradient(to bottom, rgba(0,0,0,0.05), var(--gold), var(--gold-light), rgba(255,184,0,0.1)); }
+        .step-col { flex-direction: row; text-align: right; align-items: center; gap: 16px; padding: 0 0 28px 0; }
+        .step-icon-wrap { width: 72px; height: 72px; flex-shrink: 0; margin-bottom: 0; }
+        .flow-row { flex-direction: column !important; }
+        .flow-arrow { transform: rotate(90deg); }
+      }
+      @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </head>
+  <body>
+    <div id="progress-bar"></div>
+
+    <!-- ═══ NAVBAR ═══ -->
+    <nav id="navbar">
+      <div style="max-width:1280px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(255,184,0,0.4)">
+            <i class="fa-solid fa-cloud" style="font-size:1rem;color:var(--ink)"></i>
+          </div>
+          <div>
+            <div style="font-weight:900;font-size:0.9rem;color:rgba(255,255,255,0.95);line-height:1.1">Cloudilic</div>
+            <div style="font-size:0.6rem;color:rgba(255,255,255,0.48);font-weight:500">× Baladi Mart · قطر</div>
+          </div>
+        </div>
+        <button class="ham-icon" id="ham-btn" onclick="toggleMob()" aria-label="القائمة">
+          <span class="ham-bar"></span><span class="ham-bar"></span><span class="ham-bar"></span>
+        </button>
+      </div>
+      <div id="mob-menu">
+        <div style="padding:16px 16px 24px">
+          <a href="#hero"      class="mob-link" onclick="closeMob()"><i class="fa-solid fa-house"              style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>الرئيسية</a>
+          <a href="#context"   class="mob-link" onclick="closeMob()"><i class="fa-solid fa-flag"               style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>السياق</a>
+          <a href="#problem"   class="mob-link" onclick="closeMob()"><i class="fa-solid fa-triangle-exclamation" style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>التحديات</a>
+          <a href="#solution"  class="mob-link" onclick="closeMob()"><i class="fa-solid fa-circle-check"       style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>الحل</a>
+          <a href="#modules"   class="mob-link" onclick="closeMob()"><i class="fa-solid fa-cubes"              style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>الوحدات</a>
+          <a href="#flow"      class="mob-link" onclick="closeMob()"><i class="fa-solid fa-diagram-project"    style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>التدفق</a>
+          <a href="#outcomes"  class="mob-link" onclick="closeMob()"><i class="fa-solid fa-trophy"             style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>النتائج</a>
+          <a href="#casestudy" class="mob-link" onclick="closeMob()"><i class="fa-solid fa-chart-bar"          style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>دراسة حالة</a>
+          <a href="#why"       class="mob-link" onclick="closeMob()"><i class="fa-solid fa-shield-halved"      style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>لماذا نحن</a>
+          <a href="#plan"      class="mob-link" onclick="closeMob()"><i class="fa-solid fa-calendar-check"     style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>خطة التنفيذ</a>
+          <a href="#about"     class="mob-link" onclick="closeMob()"><i class="fa-solid fa-users"              style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>من نحن</a>
+          <a href="#closing"   class="mob-link" onclick="closeMob()"><i class="fa-solid fa-star"               style="color:var(--gold);opacity:.8;width:20px;text-align:center"></i>الختام</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══ DESKTOP SIDENAV ═══ -->
+    <div id="sidenav">
+      <div class="snav-dots">
+        <div class="snav-item active" data-target="hero"><span class="snav-dot"></span><span class="snav-label">الرئيسية</span></div>
+        <div class="snav-item" data-target="context"><span class="snav-dot"></span><span class="snav-label">السياق</span></div>
+        <div class="snav-item" data-target="problem"><span class="snav-dot"></span><span class="snav-label">التحديات</span></div>
+        <div class="snav-item" data-target="solution"><span class="snav-dot"></span><span class="snav-label">الحل</span></div>
+        <div class="snav-item" data-target="modules"><span class="snav-dot"></span><span class="snav-label">الوحدات</span></div>
+        <div class="snav-item" data-target="flow"><span class="snav-dot"></span><span class="snav-label">التدفق</span></div>
+        <div class="snav-item" data-target="outcomes"><span class="snav-dot"></span><span class="snav-label">النتائج</span></div>
+        <div class="snav-item" data-target="casestudy"><span class="snav-dot"></span><span class="snav-label">دراسة حالة</span></div>
+        <div class="snav-item" data-target="why"><span class="snav-dot"></span><span class="snav-label">لماذا نحن</span></div>
+        <div class="snav-item" data-target="plan"><span class="snav-dot"></span><span class="snav-label">التنفيذ</span></div>
+        <div class="snav-item" data-target="about"><span class="snav-dot"></span><span class="snav-label">من نحن</span></div>
+        <div class="snav-item" data-target="closing"><span class="snav-dot"></span><span class="snav-label">الختام</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ MOBILE SIDENAV ═══ -->
+    <div id="mob-sidenav">
+      <button id="mob-snav-up" style="width:30px;height:30px;border-radius:50%;background:rgba(255,184,0,0.1);border:1.5px solid rgba(255,184,0,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:0.75rem;transition:all 0.25s"><i class="fa-solid fa-chevron-up"></i></button>
+      <div class="mob-snav-dots" id="mob-snav-dots">
+        <div class="mob-snav-item active" data-target="hero"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="context"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="problem"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="solution"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="modules"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="flow"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="outcomes"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="casestudy"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="why"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="plan"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="about"><span class="mob-snav-dot"></span></div>
+        <div class="mob-snav-item" data-target="closing"><span class="mob-snav-dot"></span></div>
+      </div>
+      <button id="mob-snav-down" style="width:30px;height:30px;border-radius:50%;background:rgba(255,184,0,0.1);border:1.5px solid rgba(255,184,0,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:0.75rem;transition:all 0.25s"><i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         1. HERO
+    ══════════════════════════════════════════ -->
+    <section id="hero" style="background:linear-gradient(150deg,#080808 0%,var(--ink) 40%,#1a1a0a 75%,var(--ink) 100%);position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;justify-content:center">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,184,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,184,0,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none"></div>
+      <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,184,0,0.12),transparent);top:-120px;right:-100px;pointer-events:none;animation:orb-float 9s ease-in-out infinite"></div>
+      <div style="position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(255,184,0,0.07),transparent);bottom:-80px;left:-80px;pointer-events:none;animation:orb-float 9s ease-in-out infinite;animation-delay:3.5s"></div>
+
+      <div style="max-width:900px;margin:0 auto;padding:80px 20px;text-align:center;position:relative;z-index:10">
+        <div class="ha ha-1" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);color:var(--gold-light);padding:8px 20px;border-radius:50px;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;margin-bottom:28px">
+          <i class="fa-solid fa-location-dot"></i> مُصمَّم خصيصاً لـ Baladi Mart · الدوحة · قطر
+        </div>
+
+        <h1 class="ha ha-2 shimmer-gold" style="font-size:clamp(2rem,6vw,4.2rem);font-weight:900;letter-spacing:-0.02em;margin-bottom:14px;line-height:1.15">بنيت لقطر — صُمِّمت للنمو</h1>
+
+        <div class="ha ha-3" style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px">
+          <div style="flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,184,0,0.5))"></div>
+          <i class="fa-solid fa-diamond" style="color:var(--gold);font-size:0.75rem"></i>
+          <div style="flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,rgba(255,184,0,0.5),transparent)"></div>
+        </div>
+
+        <p class="ha ha-3" style="font-size:clamp(0.95rem,2.5vw,1.3rem);font-weight:700;color:var(--gold-light);letter-spacing:0.02em;margin-bottom:16px">منظومة تشغيل لوجستي تربط الاستيراد من الصين بآخر ميل التوصيل — منصة واحدة بذكاء حقيقي</p>
+        <p class="ha ha-4" style="font-size:clamp(0.88rem,1.8vw,1rem);color:rgba(255,255,255,0.55);max-width:600px;margin:0 auto 44px;line-height:2.1;font-weight:400">بيانات حية وقرارات لحظية — بلا جداول يدوية، بلا أنظمة متشعبة، بلا غموض في الأرقام. فقط وضوح تشغيلي كامل من الشراء حتى التسليم.</p>
+
+        <div class="ha ha-4" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:40px;flex-wrap:wrap">
+          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);color:rgba(255,255,255,0.75);padding:7px 18px;border-radius:50px;font-size:0.78rem;font-weight:600"><i class="fa-solid fa-ship" style="color:var(--gold-light);margin-left:6px"></i>استيراد من الصين</div>
+          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);color:rgba(255,255,255,0.75);padding:7px 18px;border-radius:50px;font-size:0.78rem;font-weight:600"><i class="fa-solid fa-warehouse" style="color:var(--gold-light);margin-left:6px"></i>مستودعات ذكية</div>
+          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);color:rgba(255,255,255,0.75);padding:7px 18px;border-radius:50px;font-size:0.78rem;font-weight:600"><i class="fa-solid fa-truck-fast" style="color:var(--gold-light);margin-left:6px"></i>توصيل آخر ميل</div>
+          <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);color:rgba(255,255,255,0.75);padding:7px 18px;border-radius:50px;font-size:0.78rem;font-weight:600"><i class="fa-solid fa-brain" style="color:var(--gold-light);margin-left:6px"></i>ذكاء تشغيلي</div>
+        </div>
+
+        <div class="ha ha-4" style="font-size:0.7rem;color:rgba(255,255,255,0.3);letter-spacing:0.06em;margin-bottom:12px">مقدم من</div>
+        <div class="ha ha-4" style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,184,0,0.2);padding:10px 22px;border-radius:50px">
+          <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-cloud" style="color:var(--ink);font-size:0.75rem"></i></div>
+          <span style="font-weight:900;font-size:0.92rem;color:rgba(255,255,255,0.9)">Cloudilic</span>
+        </div>
+
+        <div class="ha ha-5 bounce" style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.2);cursor:pointer" onclick="document.getElementById('context').scrollIntoView({behavior:'smooth'})">
+          <span style="font-size:0.7rem;letter-spacing:0.08em">اكتشف المزيد</span>
+          <div style="width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,0.22),transparent)"></div>
+        </div>
+      </div>
+
+      <div style="position:absolute;bottom:0;left:0;right:0">
+        <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" fill="var(--smoke)" preserveAspectRatio="none" style="display:block;height:56px">
+          <path d="M0,56L60,48C120,40,240,24,360,18.7C480,13,600,21,720,28C840,35,960,40,1080,37.3C1200,35,1320,26,1380,21.3L1440,17L1440,56L0,56Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         2. السياق الاستراتيجي
+    ══════════════════════════════════════════ -->
+    <section id="context" style="padding:96px 0;background:var(--smoke)">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:60px">
+          <div class="section-tag section-tag-dark" style="display:inline-flex"><i class="fa-solid fa-flag" style="font-size:0.7rem"></i>السياق الاستراتيجي</div>
+        </div>
+        <div class="highlight-card reveal">
+          <div class="highlight-card-header">
+            <div class="highlight-grid-bg"></div>
+            <div style="position:relative;z-index:1">
+              <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,184,0,0.15);border:1px solid rgba(255,184,0,0.3);color:var(--gold-light);padding:6px 16px;border-radius:50px;font-size:0.72rem;font-weight:800;letter-spacing:0.06em;margin-bottom:14px"><i class="fa-solid fa-star"></i>رؤية قطر الوطنية 2030</div>
+              <h3 style="font-size:clamp(1.2rem,3vw,1.85rem);font-weight:900;color:#fff;line-height:1.45;max-width:720px">برنامج تسمو يضع اللوجستيات والتجارة الرقمية <span style="color:var(--gold-light)">في قلب أجندة قطر الاقتصادية</span> — والسوق يتهيأ لمن يتحرك أولاً.</h3>
+            </div>
+          </div>
+          <div class="highlight-card-body">
+            <div class="feat-panel-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div class="feat-item">
+                <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-ship" style="color:var(--ink);font-size:0.8rem"></i></div>
+                <div><div style="font-weight:700;color:var(--ink);margin-bottom:3px;font-size:0.95rem">الصين ← قطر: سلسلة توريد لا ثغرات فيها</div><div style="color:var(--gray);font-size:0.85rem;line-height:1.7">تتبع جمركي شامل من المصنع حتى باب العميل — بلا إجراءات يدوية وبلا بيانات مفقودة بين الحدود.</div></div>
+              </div>
+              <div class="feat-item">
+                <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-warehouse" style="color:var(--ink);font-size:0.8rem"></i></div>
+                <div><div style="font-weight:700;color:var(--ink);margin-bottom:3px;font-size:0.95rem">مستودعات بمعايير WMS عالمية</div><div style="color:var(--gray);font-size:0.85rem;line-height:1.7">رؤية لحظية للمخزون في كل موقع — تسليم أسرع، خسائر أقل، قرارات مبنية على بيانات فعلية.</div></div>
+              </div>
+              <div class="feat-item">
+                <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--ink),#333);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-truck-fast" style="color:var(--gold);font-size:0.8rem"></i></div>
+                <div><div style="font-weight:700;color:var(--ink);margin-bottom:3px;font-size:0.95rem">توصيل آخر ميل يبني ولاء العميل</div><div style="color:var(--gray);font-size:0.85rem;line-height:1.7">نظام TMS مع تتبع مباشر وإشعارات تلقائية — العميل يعرف موعد وصول طلبه قبل أن يسأل.</div></div>
+              </div>
+              <div class="feat-item">
+                <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--ink),#333);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-brain" style="color:var(--gold);font-size:0.8rem"></i></div>
+                <div><div style="font-weight:700;color:var(--ink);margin-bottom:3px;font-size:0.95rem">ذكاء اصطناعي تشغيلي — لا تزييني</div><div style="color:var(--gray);font-size:0.85rem;line-height:1.7">توقع الطلب، تحسين المسارات، توزيع تلقائي — قرارات بسرعة الآلة وبيانات التشغيل الفعلية.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sep" style="max-width:480px;margin:0 auto"></div>
+
+    <!-- ══════════════════════════════════════════
+         3. التحديات
+    ══════════════════════════════════════════ -->
+    <section id="problem" class="bg-dots" style="padding:96px 0">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:56px">
+          <div class="section-tag" style="display:inline-flex"><i class="fa-solid fa-triangle-exclamation" style="font-size:0.72rem"></i>التحديات الحالية</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--ink);margin-bottom:14px">ما الذي يُبطئ <span class="gt-gold">Baladi Mart</span> اليوم</h2>
+          <p style="color:var(--gray);font-size:clamp(0.88rem,2vw,1rem);max-width:560px;margin:0 auto;line-height:1.9">كل نظام منفصل يكلّف وقتاً، وكل تأخير في البيانات يُفقد فرصة. هذه ليست مشكلة أدوات — بل مشكلة ترابط.</p>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="challenges-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+          <div class="prob-card reveal d1">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold);font-size:1.1rem;box-shadow:0 6px 18px rgba(0,0,0,0.2)"><i class="fa-solid fa-boxes-stacked"></i></div>
+              <div><h3 style="font-weight:800;color:var(--ink);font-size:0.95rem;margin-bottom:6px">مخزون مبعثر، قرارات مبنية على التخمين</h3><p style="color:var(--gray);font-size:0.85rem;line-height:1.8">حين تتوزع بيانات المخزون على أنظمة متعددة، لا أحد يملك الصورة الكاملة — وهذا وحده يكلّف نسبة مئوية كاملة من الأرباح.</p></div>
+            </div>
+          </div>
+          <div class="prob-card reveal d2">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink);font-size:1.1rem;box-shadow:0 6px 18px rgba(255,184,0,0.3)"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+              <div><h3 style="font-weight:800;color:var(--ink);font-size:0.95rem;margin-bottom:6px">إغلاق مالي يستغرق أياماً</h3><p style="color:var(--gray);font-size:0.85rem;line-height:1.8">كل يوم تأخير في التسوية هو يوم تعمل فيه على أرقام قديمة. والخطأ البشري في هذه المرحلة لا تكتشفه إلا بعد فوات الأوان.</p></div>
+            </div>
+          </div>
+          <div class="prob-card reveal d3">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold);font-size:1.1rem;box-shadow:0 6px 18px rgba(0,0,0,0.2)"><i class="fa-solid fa-truck-moving"></i></div>
+              <div><h3 style="font-weight:800;color:var(--ink);font-size:0.95rem;margin-bottom:6px">توصيل بلا تتبع = ثقة تتآكل</h3><p style="color:var(--gray);font-size:0.85rem;line-height:1.8">العميل الذي يسأل "أين طلبي؟" أكثر من مرة، يبحث عن بديل بعد الثانية. التتبع ليس رفاهية — هو جزء من وعد التسليم.</p></div>
+            </div>
+          </div>
+          <div class="prob-card reveal d4">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink);font-size:1.1rem;box-shadow:0 6px 18px rgba(255,184,0,0.3)"><i class="fa-solid fa-link-slash"></i></div>
+              <div><h3 style="font-weight:800;color:var(--ink);font-size:0.95rem;margin-bottom:6px">أنظمة لا تتحدث مع بعضها</h3><p style="color:var(--gray);font-size:0.85rem;line-height:1.8">كل قسم يعمل بجزيرته الخاصة، والمدير يُجمّع البيانات يدوياً من مصادر مختلفة. هذا هدر يومي لا يظهر في الميزانية لكنه يُثقلها.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sep" style="max-width:480px;margin:0 auto"></div>
+
+    <!-- ══════════════════════════════════════════
+         4. الحل
+    ══════════════════════════════════════════ -->
+    <section id="solution" style="padding:96px 0;background:var(--smoke)">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:56px">
+          <div class="section-tag section-tag-dark" style="display:inline-flex"><i class="fa-solid fa-circle-check" style="font-size:0.72rem"></i>الحل</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--ink);margin-bottom:14px">كل تحدٍّ سابق — <span class="gt-gold">له إجابة مباشرة</span></h2>
+          <p style="color:var(--gray);font-size:clamp(0.88rem,2vw,1rem);max-width:560px;margin:0 auto;line-height:1.9">ليست ميزات إضافية. هذه الفجوات التشغيلية التي تعيشونها اليوم — وما سيُحلّها بعد التفعيل.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <div class="reveal" style="display:flex;flex-direction:column;gap:14px;max-width:800px;margin:0 auto 56px">
+          <div class="transform-row">
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-xmark" style="color:#dc2626;font-size:0.9rem"></i></div>
+            <div style="flex:1"><div style="font-size:0.65rem;color:#dc2626;font-weight:800;letter-spacing:0.05em;margin-bottom:3px">اليوم</div><div style="font-weight:700;color:var(--ink)">تقارير أسبوعية مُجمَّعة يدوياً</div></div>
+            <i class="fa-solid fa-arrow-left" style="color:var(--gold);font-size:1rem;flex-shrink:0"></i>
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.9rem"></i></div>
+            <div><div style="font-size:0.65rem;color:var(--gold-dark);font-weight:800;letter-spacing:0.05em;margin-bottom:3px">بعد التفعيل</div><div style="font-weight:700;color:var(--ink)">لوحات تحكم حية 24/7</div></div>
+          </div>
+          <div class="transform-row">
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-xmark" style="color:#dc2626;font-size:0.9rem"></i></div>
+            <div style="flex:1"><div style="font-size:0.65rem;color:#dc2626;font-weight:800;letter-spacing:0.05em;margin-bottom:3px">اليوم</div><div style="font-weight:700;color:var(--ink)">منصة البيع مفصولة عن المخزون</div></div>
+            <i class="fa-solid fa-arrow-left" style="color:var(--gold);font-size:1rem;flex-shrink:0"></i>
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.9rem"></i></div>
+            <div><div style="font-size:0.65rem;color:var(--gold-dark);font-weight:800;letter-spacing:0.05em;margin-bottom:3px">بعد التفعيل</div><div style="font-weight:700;color:var(--ink)">مزامنة فورية بلا تدخل بشري</div></div>
+          </div>
+          <div class="transform-row">
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-xmark" style="color:#dc2626;font-size:0.9rem"></i></div>
+            <div style="flex:1"><div style="font-size:0.65rem;color:#dc2626;font-weight:800;letter-spacing:0.05em;margin-bottom:3px">اليوم</div><div style="font-weight:700;color:var(--ink)">إغلاق مالي يستغرق أسبوعاً</div></div>
+            <i class="fa-solid fa-arrow-left" style="color:var(--gold);font-size:1rem;flex-shrink:0"></i>
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.9rem"></i></div>
+            <div><div style="font-size:0.65rem;color:var(--gold-dark);font-weight:800;letter-spacing:0.05em;margin-bottom:3px">بعد التفعيل</div><div style="font-weight:700;color:var(--ink)">تسوية مالية في 48 ساعة</div></div>
+          </div>
+          <div class="transform-row">
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-xmark" style="color:#dc2626;font-size:0.9rem"></i></div>
+            <div style="flex:1"><div style="font-size:0.65rem;color:#dc2626;font-weight:800;letter-spacing:0.05em;margin-bottom:3px">اليوم</div><div style="font-weight:700;color:var(--ink)">العميل لا يعرف موعد وصول طلبه</div></div>
+            <i class="fa-solid fa-arrow-left" style="color:var(--gold);font-size:1rem;flex-shrink:0"></i>
+            <div style="min-width:36px;height:36px;border-radius:10px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.9rem"></i></div>
+            <div><div style="font-size:0.65rem;color:var(--gold-dark);font-weight:800;letter-spacing:0.05em;margin-bottom:3px">بعد التفعيل</div><div style="font-weight:700;color:var(--ink)">تتبع لحظي وإشعارات تلقائية</div></div>
+          </div>
+        </div>
+
+        <div class="reveal" style="padding:0 12px">
+          <div class="stepper-wrap">
+            <div class="step-col">
+              <div class="step-icon-wrap"><div class="step-icon-bg"></div><div class="step-icon-inner"><i class="fa-solid fa-layer-group" style="font-size:1.4rem;color:var(--gold)"></i></div><div class="step-num-badge">1</div></div>
+              <div style="font-size:0.95rem;font-weight:900;color:var(--ink)">دمج العمليات</div>
+              <div style="font-size:0.78rem;color:var(--gray);margin-top:6px;line-height:1.6">مصدر واحد للحقيقة — من الشراء إلى التسليم</div>
+              <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:10px auto 0"></div>
+            </div>
+            <div class="step-col">
+              <div class="step-icon-wrap"><div class="step-icon-bg"></div><div class="step-icon-inner"><i class="fa-solid fa-robot" style="font-size:1.4rem;color:var(--gold)"></i></div><div class="step-num-badge">2</div></div>
+              <div style="font-size:0.95rem;font-weight:900;color:var(--ink)">أتمتة العمليات المتكررة</div>
+              <div style="font-size:0.78rem;color:var(--gray);margin-top:6px;line-height:1.6">تقليل التدخل البشري في كل ما يمكن أتمتته</div>
+              <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:10px auto 0"></div>
+            </div>
+            <div class="step-col">
+              <div class="step-icon-wrap"><div class="step-icon-bg"></div><div class="step-icon-inner"><i class="fa-solid fa-chart-pie" style="font-size:1.4rem;color:var(--gold)"></i></div><div class="step-num-badge">3</div></div>
+              <div style="font-size:0.95rem;font-weight:900;color:var(--ink)">رؤية تشغيلية حية</div>
+              <div style="font-size:0.78rem;color:var(--gray);margin-top:6px;line-height:1.6">لوحات تحكم تنفيذية في متناول كل قسم</div>
+              <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:10px auto 0"></div>
+            </div>
+            <div class="step-col">
+              <div class="step-icon-wrap"><div class="step-icon-bg"></div><div class="step-icon-inner step-icon-inner-gold"><i class="fa-solid fa-rocket" style="font-size:1.4rem;color:var(--ink)"></i></div><div class="step-num-badge">4</div></div>
+              <div style="font-size:0.95rem;font-weight:900;color:var(--ink)">قابلية توسع بلا سقف</div>
+              <div style="font-size:0.78rem;color:var(--gray);margin-top:6px;line-height:1.6">البنية تنمو معكم — من مستودع واحد إلى سلسلة كاملة</div>
+              <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-dark));border-radius:2px;margin:10px auto 0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         5. الوحدات
+    ══════════════════════════════════════════ -->
+    <section id="modules" class="bg-dots" style="padding:96px 0">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:56px">
+          <div class="section-tag" style="display:inline-flex"><i class="fa-solid fa-cubes" style="font-size:0.72rem"></i>الوحدات الأساسية</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--ink);margin-bottom:14px">ست وحدات — <span class="gt-gold">نظام واحد متكامل</span></h2>
+          <p style="color:var(--gray);font-size:clamp(0.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9">كل وحدة مخصصة لوظيفة بعينها، وجميعها تتغذى من نفس البيانات في الوقت الفعلي — لا ازدواجية، لا فجوات.</p>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="modules-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+          <div class="module-card reveal d1">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;box-shadow:0 6px 18px rgba(0,0,0,0.2);margin-bottom:18px"><i class="fa-solid fa-cart-shopping"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1.05rem;margin-bottom:8px">المشتريات والاستيراد</h3>
+            <p style="color:var(--gray);font-size:0.85rem;line-height:1.75;margin-bottom:14px">دورة شراء كاملة من الصين حتى المستودع — موردون، مقارنة عروض، أوامر شراء، وتتبع جمركي شامل.</p>
+            <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>توثيق كل عملية شراء بالكامل</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>إدارة علاقات الموردين</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>مقارنة عروض أسعار آلية</div>
+            </div>
+          </div>
+          <div class="module-card reveal d2">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1.2rem;box-shadow:0 6px 18px rgba(255,184,0,0.3);margin-bottom:18px"><i class="fa-solid fa-chart-bar"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1.05rem;margin-bottom:8px">المحاسبة والمالية</h3>
+            <p style="color:var(--gray);font-size:0.85rem;line-height:1.75;margin-bottom:14px">رؤية مالية في الوقت الفعلي مع إغلاق شهري سريع وتقارير جاهزة لاتخاذ القرار فور احتياجها.</p>
+            <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تسوية بنكية تلقائية</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>إغلاق مالي في 48 ساعة</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>لوحة تدفق نقدي حية</div>
+            </div>
+          </div>
+          <div class="module-card reveal d3">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;box-shadow:0 6px 18px rgba(0,0,0,0.2);margin-bottom:18px"><i class="fa-solid fa-cube"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1.05rem;margin-bottom:8px">إدارة المخزون (WMS)</h3>
+            <p style="color:var(--gray);font-size:0.85rem;line-height:1.75;margin-bottom:14px">رصيد حقيقي لحظي في كل موقع — لا تخمين، لا جرد دوري مفاجئ، لا خسائر مخفية في نهاية الشهر.</p>
+            <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تحديث فوري عند كل حركة</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تنبيهات تلقائية عند نقطة الإعادة</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تقليل الفاقد والمنتهي الصلاحية</div>
+            </div>
+          </div>
+          <div class="module-card reveal d4">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1.2rem;box-shadow:0 6px 18px rgba(255,184,0,0.3);margin-bottom:18px"><i class="fa-solid fa-building"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1.05rem;margin-bottom:8px">الأصول الثابتة</h3>
+            <p style="color:var(--gray);font-size:0.85rem;line-height:1.75;margin-bottom:14px">الأسطول والمعدات — متتبعة من الشراء حتى الاستبعاد مع جدولة صيانة وقائية تحمي رأس المال.</p>
+            <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>حساب الاستهلاك التلقائي</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>جدولة الصيانة الوقائية</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تقييم دقيق للقيمة الدفترية</div>
+            </div>
+          </div>
+          <div class="module-card reveal d5">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;box-shadow:0 6px 18px rgba(0,0,0,0.2);margin-bottom:18px"><i class="fa-solid fa-chart-line"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1.05rem;margin-bottom:8px">إدارة المبيعات</h3>
+            <p style="color:var(--gray);font-size:0.85rem;line-height:1.75;margin-bottom:14px">من عرض السعر إلى الفاتورة — آلية كاملة مرتبطة بالتوصيل والمخزون والمحاسبة دون أي إدخال مكرر.</p>
+            <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تنفيذ طلبات أسرع وأدق</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تتبع الإيرادات في الوقت الفعلي</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تجربة شراء سلسة للعميل</div>
+            </div>
+          </div>
+          <div class="module-card reveal d6">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;box-shadow:0 6px 18px rgba(0,0,0,0.2);margin-bottom:18px"><i class="fa-solid fa-globe"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1.05rem;margin-bottom:8px">تمويل التجارة</h3>
+            <p style="color:var(--gray);font-size:0.85rem;line-height:1.75;margin-bottom:14px">شيكات مؤجلة، اعتمادات مستندية، ضمانات بنكية — أدوات التمويل التجاري في مكان واحد مع سجل تدقيق كامل.</p>
+            <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>إدارة PDC والاعتمادات</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>تقليل مخاطر التمويل</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink)"><i class="fa-solid fa-check" style="color:var(--gold-dark);font-size:0.7rem;flex-shrink:0"></i>سجل تدقيق قابل للتصدير</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         6. التدفق المتكامل
+    ══════════════════════════════════════════ -->
+    <section id="flow" style="padding:96px 0;background:var(--smoke)">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:56px">
+          <div class="section-tag section-tag-dark" style="display:inline-flex"><i class="fa-solid fa-diagram-project" style="font-size:0.72rem"></i>التدفق المتكامل</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--ink);margin-bottom:14px">من المصنع في الصين <span class="gt-gold">إلى باب العميل</span> — بلا انقطاع</h2>
+          <p style="color:var(--gray);font-size:clamp(0.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9">البيانات تتدفق عبر كل مرحلة تلقائياً. لا يد بشرية بين الأنظمة، لا تأخير في الإبلاغ، لا قرارات على بيانات قديمة.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <div class="reveal" style="overflow-x:auto;padding-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;min-width:700px;flex-wrap:nowrap" class="flow-row">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="flow-node" style="background:linear-gradient(135deg,var(--ink),#222)"><i class="fa-solid fa-ship" style="color:var(--gold);display:block;font-size:1.1rem;margin-bottom:6px"></i><div style="font-size:0.78rem">استيراد</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.5);margin-top:2px">الصين ← قطر</div></div>
+            </div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="flow-node"><i class="fa-solid fa-file-invoice-dollar" style="color:var(--gold);display:block;font-size:1.1rem;margin-bottom:6px"></i><div style="font-size:0.78rem">جمارك</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.5);margin-top:2px">تمويل تجاري</div></div>
+            </div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="flow-node" style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--ink)"><i class="fa-solid fa-warehouse" style="display:block;font-size:1.1rem;margin-bottom:6px"></i><div style="font-size:0.78rem;color:var(--ink)">مستودع</div><div style="font-size:0.68rem;color:rgba(0,0,0,0.5);margin-top:2px">WMS ذكي</div></div>
+            </div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="flow-node"><i class="fa-solid fa-cart-shopping" style="color:var(--gold);display:block;font-size:1.1rem;margin-bottom:6px"></i><div style="font-size:0.78rem">طلب العميل</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.5);margin-top:2px">منصة البيع</div></div>
+            </div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="flow-node" style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--ink)"><i class="fa-solid fa-truck-fast" style="display:block;font-size:1.1rem;margin-bottom:6px"></i><div style="font-size:0.78rem;color:var(--ink)">توصيل</div><div style="font-size:0.68rem;color:rgba(0,0,0,0.5);margin-top:2px">TMS ذكي</div></div>
+            </div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="flow-node"><i class="fa-solid fa-face-smile" style="color:var(--gold);display:block;font-size:1.1rem;margin-bottom:6px"></i><div style="font-size:0.78rem">العميل</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.5);margin-top:2px">تجربة متميزة</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal" style="margin-top:40px">
+          <div style="background:linear-gradient(135deg,rgba(255,184,0,0.07),rgba(17,17,17,0.04));border:1.5px solid rgba(255,184,0,0.2);border-radius:20px;padding:28px 36px;text-align:center">
+            <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,184,0,0.12);border:1px solid rgba(255,184,0,0.25);color:var(--gold-dark);padding:6px 18px;border-radius:50px;font-size:0.75rem;font-weight:800;margin-bottom:14px"><i class="fa-solid fa-plug-circle-check"></i>تكامل مع أنظمتكم الحالية</div>
+            <h3 style="font-weight:900;color:var(--ink);font-size:clamp(1rem,2.5vw,1.3rem);margin-bottom:10px">نُعزِّز ما بنيتموه — لا نستبدله</h3>
+            <p style="color:var(--gray);font-size:0.9rem;line-height:1.85;max-width:600px;margin:0 auto">المنصة تتصل بأنظمتكم الحالية عبر واجهات API مفتوحة مع مزامنة فورية. لا توقف في العمليات، لا فقدان بيانات، لا حاجة للبدء من الصفر. تضيفون طبقة ذكاء فوق ما لديكم بالفعل.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         7. النتائج المتوقعة
+    ══════════════════════════════════════════ -->
+    <section id="outcomes" class="bg-dots" style="padding:96px 0">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:56px">
+          <div class="section-tag" style="display:inline-flex"><i class="fa-solid fa-trophy" style="font-size:0.72rem"></i>النتائج المتوقعة</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--ink);margin-bottom:14px">ما الذي سيتغيَّر <span class="gt-gold">فعلياً</span> لـ Baladi Mart</h2>
+          <p style="color:var(--gray);font-size:clamp(0.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9">أرقام مبنية على نتائج مشاريع مماثلة أطلقناها فعلاً — لا على دراسات نظرية ولا وعود بلا مرجع.</p>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="outcomes-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px">
+          <div class="outcome-card reveal d1"><div class="outcome-metric">50%↑</div><div style="font-weight:700;color:var(--ink);font-size:0.9rem;margin-bottom:6px">كفاءة العمليات اللوجستية</div><div style="width:32px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:0 auto"></div></div>
+          <div class="outcome-card reveal d2"><div class="outcome-metric">-70%</div><div style="font-weight:700;color:var(--ink);font-size:0.9rem;margin-bottom:6px">وقت الإغلاق المالي</div><div style="width:32px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:0 auto"></div></div>
+          <div class="outcome-card reveal d3"><div class="outcome-metric">100%</div><div style="font-weight:700;color:var(--ink);font-size:0.9rem;margin-bottom:6px">دقة بيانات المخزون</div><div style="width:32px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:0 auto"></div></div>
+          <div class="outcome-card reveal d4"><div class="outcome-metric">فوري</div><div style="font-weight:700;color:var(--ink);font-size:0.9rem;margin-bottom:6px">تتبع الطلبات للعميل</div><div style="width:32px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:0 auto"></div></div>
+          <div class="outcome-card reveal d1"><div class="outcome-metric">+35%</div><div style="font-weight:700;color:var(--ink);font-size:0.9rem;margin-bottom:6px">معدل الاحتفاظ بالعملاء</div><div style="width:32px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:0 auto"></div></div>
+          <div class="outcome-card reveal d2"><div class="outcome-metric">-25%</div><div style="font-weight:700;color:var(--ink);font-size:0.9rem;margin-bottom:6px">خفض الفاقد في المخزون</div><div style="width:32px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:0 auto"></div></div>
+          <div class="outcome-card reveal d3" style="grid-column:span 2"><div class="outcome-metric">بنية جاهزة للملايين</div><div style="font-weight:700;color:var(--ink);font-size:0.9rem;margin-bottom:6px">توسع بلا إعادة بناء</div><div style="width:32px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ink));border-radius:2px;margin:0 auto"></div></div>
+        </div>
+        <div class="reveal">
+          <div style="background:linear-gradient(135deg,var(--ink),#1a1a0a);border-radius:24px;padding:40px;position:relative;overflow:hidden">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,184,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,184,0,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none"></div>
+            <div style="position:relative;z-index:1">
+              <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,184,0,0.12);border:1px solid rgba(255,184,0,0.25);color:var(--gold-light);padding:5px 14px;border-radius:50px;font-size:0.72rem;font-weight:800;letter-spacing:0.06em;margin-bottom:20px"><i class="fa-solid fa-bolt"></i>القدرة التشغيلية</div>
+              <h3 style="font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:900;color:#fff;margin-bottom:24px">بنية مصمَّمة للحجم الكبير من اليوم الأول — ليس حين تصلون إليه</h3>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" class="modules-grid">
+                <div class="stat-bar"><div class="stat-val">1000+</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.6);font-weight:600">طلب/ساعة في وقت الذروة</div></div>
+                <div class="stat-bar"><div class="stat-val">∞</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.6);font-weight:600">قابلية التوسع الأفقي</div></div>
+                <div class="stat-bar"><div class="stat-val">99.9%</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.6);font-weight:600">وقت تشغيل مضمون</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         8. دراسة حالة — JOE FMCG
+    ══════════════════════════════════════════ -->
+    <section id="casestudy" class="dark-section" style="padding:96px 0">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:56px 56px;pointer-events:none"></div>
+      <div style="position:absolute;top:-60px;right:-60px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,184,0,0.07),transparent);pointer-events:none"></div>
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1">
+
+        <div class="reveal" style="text-align:center;margin-bottom:60px">
+          <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,184,0,0.12);border:1px solid rgba(255,184,0,0.28);color:var(--gold-light);padding:5px 14px;border-radius:50px;font-size:0.7rem;font-weight:800;letter-spacing:0.07em;margin-bottom:14px"><i class="fa-solid fa-chart-bar"></i>دراسة حالة موثقة</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:#fff;margin-bottom:14px">JOE FMCG — <span style="color:var(--gold-light)">250,000 طلب يومياً</span></h2>
+          <p style="color:rgba(255,255,255,0.55);font-size:clamp(0.88rem,2vw,1rem);max-width:580px;margin:0 auto;line-height:1.9">نظام توزيع شامل يعمل في بيئة الإنتاج الفعلية. صُمِّم لأحجام حقيقية، واختُبر تحت ضغط حقيقي — والأرقام أدناه تتحدث عن نفسها.</p>
+          <div style="width:52px;height:3px;background:linear-gradient(90deg,var(--gold),rgba(255,184,0,0.2));border-radius:2px;margin:18px auto 0"></div>
+        </div>
+
+        <!-- ماذا يفعل النظام -->
+        <div class="reveal" style="margin-bottom:48px">
+          <div class="dark-card">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px">
+              <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1.2rem;box-shadow:0 6px 18px rgba(255,184,0,0.35);flex-shrink:0"><i class="fa-solid fa-truck"></i></div>
+              <div>
+                <h3 style="font-weight:800;color:#fff;font-size:1.2rem;margin-bottom:4px">ماذا يفعل النظام</h3>
+                <p style="color:rgba(255,255,255,0.5);font-size:0.85rem">منظومة توزيع تربط المصنع بالموزعين ونقاط البيع في دورة عمل واحدة مترابطة</p>
+              </div>
+            </div>
+            <div class="cs-grid-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px 16px">
+                <i class="fa-solid fa-warehouse" style="color:var(--gold);font-size:1.2rem;display:block;margin-bottom:10px"></i>
+                <div style="font-weight:700;color:#fff;font-size:0.88rem;margin-bottom:6px">إدارة المستودعات</div>
+                <div style="color:rgba(255,255,255,0.5);font-size:0.8rem;line-height:1.7">رؤية فورية للمخزون عبر مستودعات متعددة مع تتبع كل حركة بضاعة بدقة</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px 16px">
+                <i class="fa-solid fa-route" style="color:var(--gold);font-size:1.2rem;display:block;margin-bottom:10px"></i>
+                <div style="font-weight:700;color:#fff;font-size:0.88rem;margin-bottom:6px">توزيع المسارات</div>
+                <div style="color:rgba(255,255,255,0.5);font-size:0.8rem;line-height:1.7">توزيع آلي للطلبات على مندوبي المبيعات بحسب المنطقة والطاقة الاستيعابية</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px 16px">
+                <i class="fa-solid fa-chart-pie" style="color:var(--gold);font-size:1.2rem;display:block;margin-bottom:10px"></i>
+                <div style="font-weight:700;color:#fff;font-size:0.88rem;margin-bottom:6px">لوحات تحكم تنفيذية</div>
+                <div style="color:rgba(255,255,255,0.5);font-size:0.8rem;line-height:1.7">تقارير المبيعات والمخزون والتحصيل متاحة لحظياً للإدارة العليا في أي وقت</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px 16px">
+                <i class="fa-solid fa-mobile-alt" style="color:var(--gold);font-size:1.2rem;display:block;margin-bottom:10px"></i>
+                <div style="font-weight:700;color:#fff;font-size:0.88rem;margin-bottom:6px">تطبيق مندوب المبيعات</div>
+                <div style="color:rgba(255,255,255,0.5);font-size:0.8rem;line-height:1.7">أداة موبايل لتسجيل الطلبات والزيارات والتحصيل ميدانياً في اللحظة ذاتها</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px 16px">
+                <i class="fa-solid fa-file-invoice-dollar" style="color:var(--gold);font-size:1.2rem;display:block;margin-bottom:10px"></i>
+                <div style="font-weight:700;color:#fff;font-size:0.88rem;margin-bottom:6px">التحصيل والفواتير</div>
+                <div style="color:rgba(255,255,255,0.5);font-size:0.8rem;line-height:1.7">دورة الفاتورة من الطلب حتى التسوية البنكية — موثقة وقابلة للتدقيق في أي وقت</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px 16px">
+                <i class="fa-solid fa-link" style="color:var(--gold);font-size:1.2rem;display:block;margin-bottom:10px"></i>
+                <div style="font-weight:700;color:#fff;font-size:0.88rem;margin-bottom:6px">تكامل سلسلة التوريد</div>
+                <div style="color:rgba(255,255,255,0.5);font-size:0.8rem;line-height:1.7">ربط المصنع بالموزعين ونقاط البيع — بيانات تتدفق بلا تدخل يدوي على الإطلاق</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="reveal" style="margin-bottom:48px">
+          <div style="text-align:center;margin-bottom:28px">
+            <div style="font-size:0.65rem;font-weight:800;color:rgba(255,255,255,0.38);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">أداء النظام في الإنتاج الفعلي — أرقام قابلة للتحقق</div>
+            <h3 style="font-weight:900;color:#fff;font-size:clamp(1rem,2.5vw,1.35rem)">ليست تقديرات. هذه ما يحققه النظام الآن.</h3>
+          </div>
+          <div class="cs-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
+            <div class="cs-stat reveal d1"><div class="cs-metric">250,000</div><div class="cs-label">طلب يومي في الذروة<br/>تُعالجها المنصة</div></div>
+            <div class="cs-stat reveal d2"><div class="cs-metric">99.97%</div><div class="cs-label">وقت التشغيل الفعلي<br/>خلال آخر 12 شهر</div></div>
+            <div class="cs-stat reveal d3"><div class="cs-metric">&lt;120ms</div><div class="cs-label">متوسط زمن الاستجابة<br/>تحت الحمل الكامل</div></div>
+            <div class="cs-stat reveal d4"><div class="cs-metric">8 دول</div><div class="cs-label">النطاق الجغرافي<br/>لعمليات النظام</div></div>
+          </div>
+          <div class="cs-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <div class="cs-stat reveal d1"><div class="cs-metric">-60%</div><div class="cs-label">أخطاء تسجيل الطلبات<br/>بعد التطبيق</div></div>
+            <div class="cs-stat reveal d2"><div class="cs-metric">-25%</div><div class="cs-label">الفاقد في المخزون<br/>خلال أول 6 أشهر</div></div>
+            <div class="cs-stat reveal d3"><div class="cs-metric">3×</div><div class="cs-label">زيادة سرعة<br/>تنفيذ الطلبات</div></div>
+            <div class="cs-stat reveal d4"><div class="cs-metric">40+</div><div class="cs-label">مستخدم متزامن<br/>في وقت واحد</div></div>
+          </div>
+        </div>
+
+        <!-- Technical Stack -->
+        <div class="reveal">
+          <div class="dark-card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+              <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,184,0,0.15);border:1px solid rgba(255,184,0,0.3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0"><i class="fa-solid fa-server"></i></div>
+              <div>
+                <h3 style="font-weight:800;color:#fff;font-size:1rem;margin-bottom:2px">البنية التقنية التي جعلت هذا الأداء ممكناً</h3>
+                <p style="color:rgba(255,255,255,0.45);font-size:0.8rem">مكدس تقني مصمم للحجم الكبير — لا للحالة الاعتيادية فحسب</p>
+              </div>
+            </div>
+            <div class="cs-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div>
+                <div style="font-size:0.62rem;font-weight:800;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Backend Stack</div>
+                <div style="display:flex;flex-wrap:wrap;gap:7px">
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">Node.js</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">NestJS</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">PostgreSQL</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">Redis Cache</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">RabbitMQ</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:0.62rem;font-weight:800;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Infrastructure</div>
+                <div style="display:flex;flex-wrap:wrap;gap:7px">
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">Docker</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">Kubernetes</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">AWS</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">Auto-scaling</span>
+                  <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.78);padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600">CI/CD</span>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08)">
+              <p style="color:rgba(255,255,255,0.55);font-size:0.85rem;line-height:1.75;font-style:italic">"250,000 طلب يومي ليس رقماً نظرياً — هذا ما تُعالجه المنصة فعلاً. بنينا البنية التحتية لهذا الحجم من اليوم الأول، لا حين وصلنا إليه."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         9. لماذا Cloudilic
+    ══════════════════════════════════════════ -->
+    <section id="why" style="padding:96px 0;background:var(--smoke)">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:56px">
+          <div class="section-tag section-tag-dark" style="display:inline-flex"><i class="fa-solid fa-shield-halved" style="font-size:0.72rem"></i>لماذا Cloudilic</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:var(--ink);margin-bottom:14px">رأيتم الأرقام — <span class="gt-gold">الآن السبب وراءها</span></h2>
+          <p style="color:var(--gray);font-size:clamp(0.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9">السوق مليء بشركات تبني أنظمة. نحن نبني محركات نمو — الفرق ليس في الكود، بل في الفهم.</p>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="value-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+          <div class="value-card reveal d1">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1.2rem;box-shadow:0 6px 18px rgba(255,184,0,0.3);margin-bottom:18px"><i class="fa-solid fa-brain"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1rem;margin-bottom:10px">نفهم اللوجستيات من الداخل</h3>
+            <p style="color:var(--gray);font-size:0.88rem;line-height:1.8">بنينا أنظمة FMCG ومستودعات وتوصيل لعشرات الشركات. حين تتحدثون عن مشكلة تشغيلية، نعرف تماماً أين تكمن.</p>
+          </div>
+          <div class="value-card reveal d2">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;box-shadow:0 6px 18px rgba(0,0,0,0.2);margin-bottom:18px"><i class="fa-solid fa-language"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1rem;margin-bottom:10px">عربي أولاً — بمعايير خليجية</h3>
+            <p style="color:var(--gray);font-size:0.88rem;line-height:1.8">واجهة عربية أصيلة صُمِّمت من البداية، وليست ترجمة لنظام غربي. شراكاتنا مع DIC Qatar وMCIT Qatar تعكس فهمنا للبيئة المحلية.</p>
+          </div>
+          <div class="value-card reveal d3">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1.2rem;box-shadow:0 6px 18px rgba(255,184,0,0.3);margin-bottom:18px"><i class="fa-solid fa-arrows-up-to-line"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1rem;margin-bottom:10px">بنية تقنية تصمد أمام النمو</h3>
+            <p style="color:var(--gray);font-size:0.88rem;line-height:1.8">Kubernetes، auto-scaling، وبنية microservices — النظام ينمو معكم دون الحاجة لإعادة البناء في كل مرحلة توسع.</p>
+          </div>
+          <div class="value-card reveal d4">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--ink),#222);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;box-shadow:0 6px 18px rgba(0,0,0,0.2);margin-bottom:18px"><i class="fa-solid fa-rocket"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1rem;margin-bottom:10px">تنفيذ منظّم بلا مفاجآت</h3>
+            <p style="color:var(--gray);font-size:0.88rem;line-height:1.8">خطة مراحل واضحة، مواعيد ملزمة، ومدير مشروع مخصص لكم من اليوم الأول حتى الإطلاق وما بعده.</p>
+          </div>
+          <div class="value-card reveal d5">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1.2rem;box-shadow:0 6px 18px rgba(255,184,0,0.3);margin-bottom:18px"><i class="fa-solid fa-headset"></i></div>
+            <h3 style="font-weight:800;color:var(--ink);font-size:1rem;margin-bottom:10px">دعم من أشخاص لا من أنظمة</h3>
+            <p style="color:var(--gray);font-size:0.88rem;line-height:1.8">تعرف اسم المهندس الذي يبني نظامك. عند أي إشكال، شخص حقيقي يرد — لا تذاكر دعم، لا ردود آلية، لا انتظار.</p>
+          </div>
+          <div class="value-card reveal d6" style="background:linear-gradient(135deg,var(--ink),#1a1a0a);border-color:rgba(255,184,0,0.2)">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,184,0,0.15);border:1px solid rgba(255,184,0,0.3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;margin-bottom:18px"><i class="fa-solid fa-medal"></i></div>
+            <h3 style="font-weight:800;color:#fff;font-size:1rem;margin-bottom:10px">150+ عميل. 50+ مشروع مُسلَّم.</h3>
+            <p style="color:rgba(255,255,255,0.55);font-size:0.88rem;line-height:1.8">Madar ERP، Casher POS، Sarih HR، Mira AI — كل مشروع كان فرصة تعلّم جعل المشروع الذي يليه أقوى.</p>
+          </div>
+        </div>
+        <div class="reveal" style="margin-top:40px;text-align:center">
+          <div style="display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-dark));padding:20px 48px;border-radius:16px;box-shadow:0 8px 32px rgba(255,184,0,0.35)">
+            <p style="font-size:clamp(1rem,2.5vw,1.2rem);font-weight:900;color:var(--ink)">"لا نبني أنظمة — نبني محركات نمو."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         10. خطة التنفيذ
+    ══════════════════════════════════════════ -->
+    <section id="plan" class="dark-section" style="padding:96px 0">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,184,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,184,0,0.03) 1px,transparent 1px);background-size:56px 56px;pointer-events:none"></div>
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1">
+        <div class="reveal" style="text-align:center;margin-bottom:60px">
+          <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,184,0,0.12);border:1px solid rgba(255,184,0,0.28);color:var(--gold-light);padding:5px 14px;border-radius:50px;font-size:0.72rem;font-weight:800;letter-spacing:0.06em;margin-bottom:14px"><i class="fa-solid fa-calendar-check"></i>خطة التنفيذ</div>
+          <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:900;color:#fff;margin-bottom:14px">أربع مراحل — <span style="color:var(--gold-light)">نتائج قابلة للقياس في كل منها</span></h2>
+          <p style="color:rgba(255,255,255,0.55);font-size:clamp(0.88rem,2vw,1rem);max-width:520px;margin:0 auto;line-height:1.9">منهجية Agile مع تقارير أسبوعية ومتابعة KPI شهرية — تعرفون أين أنتم في كل لحظة.</p>
+          <div style="width:52px;height:3px;background:linear-gradient(90deg,var(--gold),rgba(255,184,0,0.2));border-radius:2px;margin:18px auto 0"></div>
+        </div>
+        <div class="impl-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div class="deploy-card reveal d1">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div class="impl-num">1</div>
+              <div>
+                <h3 style="font-weight:800;color:#fff;font-size:1rem;margin-bottom:8px">الاكتشاف والتخطيط</h3>
+                <p style="color:rgba(255,255,255,0.55);font-size:0.85rem;line-height:1.8">ورش عمل لاستكشاف المتطلبات الفعلية، رسم خريطة العمليات الحالية، مراجعة البيانات، وتوقيع نطاق عمل محدد لا يتغير بعده السعر.</p>
+              </div>
+            </div>
+          </div>
+          <div class="deploy-card reveal d2">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div class="impl-num">2</div>
+              <div>
+                <h3 style="font-weight:800;color:#fff;font-size:1rem;margin-bottom:8px">البناء والإعداد</h3>
+                <p style="color:rgba(255,255,255,0.55);font-size:0.85rem;line-height:1.8">تطوير الوحدات الست وفق أولويات عملكم، ضبط مخطط الحسابات، تصميم سير العمل وصلاحيات المستخدمين بدقة.</p>
+              </div>
+            </div>
+          </div>
+          <div class="deploy-card reveal d3">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div class="impl-num">3</div>
+              <div>
+                <h3 style="font-weight:800;color:#fff;font-size:1rem;margin-bottom:8px">الترحيل والتدريب</h3>
+                <p style="color:rgba(255,255,255,0.55);font-size:0.85rem;line-height:1.8">ترحيل البيانات التاريخية، تدريب الفرق على كل وحدة في بيئة اختبار آمنة، والتحقق من كل مسار قبل الإطلاق.</p>
+              </div>
+            </div>
+          </div>
+          <div class="deploy-card reveal d4">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div class="impl-num">4</div>
+              <div>
+                <h3 style="font-weight:800;color:#fff;font-size:1rem;margin-bottom:8px">الإطلاق والنمو المستمر</h3>
+                <p style="color:rgba(255,255,255,0.55);font-size:0.85rem;line-height:1.8">إطلاق تدريجي مع مراقبة مباشرة، دعم فني مستمر، وتحسينات دورية مبنية على بيانات الاستخدام الفعلي — لا على افتراضات.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         11. من نحن — الفريق والشركاء
+    ══════════════════════════════════════════ -->
+    <section id="about" style="padding:96px 0;background:var(--smoke)">
+      <div style="max-width:1180px;margin:0 auto;padding:0 24px">
+        <div class="reveal" style="text-align:center;margin-bottom:60px">
+          <div class="section-tag section-tag-dark" style="display:inline-flex"><i class="fa-solid fa-circle" style="font-size:0.45rem"></i>من نحن</div>
+          <h2 style="font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;color:var(--ink);margin-bottom:14px">الفريق الذي يقف خلف هذا النظام</h2>
+          <p style="color:var(--gray);font-size:clamp(0.88rem,2vw,1rem);max-width:500px;margin:0 auto;line-height:1.9">خبرة تقنية مبنية على تسليم فعلي — نعرف الفرق بين الأنظمة التي تبدو جيدة في العروض وتلك التي تصمد تحت ضغط الإنتاج.</p>
+          <div class="gold-rule"></div>
+        </div>
+
+        <!-- Profile + Company -->
+        <div class="about-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:56px">
+          <div class="reveal">
+            <div style="background:linear-gradient(148deg,var(--ink),var(--ink-mid));border-radius:24px;padding:38px 34px;color:#fff;position:relative;overflow:hidden;height:100%">
+              <div style="position:absolute;top:-40px;left:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.04)"></div>
+              <div style="position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,184,0,0.07)"></div>
+              <div style="position:relative;z-index:1">
+                <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px">
+                  <div style="width:62px;height:62px;border-radius:50%;background:rgba(255,184,0,0.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid rgba(255,184,0,0.25)"><i class="fa-solid fa-user-tie" style="color:var(--gold)"></i></div>
+                  <div>
+                    <div style="font-size:1.2rem;font-weight:900">Ahmed Abdelrhman</div>
+                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.6)">Senior Full Stack Engineer</div>
+                  </div>
+                </div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--gold-light);font-style:italic;margin-bottom:18px">"أبني أنظمة مصممة للتوسع — تصمد تحت الضغط الحقيقي."</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+                  <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:12px 8px;text-align:center"><div style="font-size:1.35rem;font-weight:900;color:var(--gold-light)">50+</div><div style="font-size:0.62rem;color:rgba(255,255,255,0.5);margin-top:2px">مشروع مُسلَّم</div></div>
+                  <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:12px 8px;text-align:center"><div style="font-size:1.35rem;font-weight:900;color:var(--gold-light)">35+</div><div style="font-size:0.62rem;color:rgba(255,255,255,0.5);margin-top:2px">عميل</div></div>
+                  <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:12px 8px;text-align:center"><div style="font-size:1.35rem;font-weight:900;color:var(--gold-light)">6+</div><div style="font-size:0.62rem;color:rgba(255,255,255,0.5);margin-top:2px">سنوات</div></div>
+                </div>
+                <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:16px">
+                  <div style="font-size:0.62rem;font-weight:800;color:rgba(255,255,255,0.38);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px">Stack التقني</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);padding:3px 10px;border-radius:6px;font-size:0.67rem;font-weight:600">React.js</span>
+                    <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);padding:3px 10px;border-radius:6px;font-size:0.67rem;font-weight:600">Next.js</span>
+                    <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);padding:3px 10px;border-radius:6px;font-size:0.67rem;font-weight:600">NestJS</span>
+                    <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);padding:3px 10px;border-radius:6px;font-size:0.67rem;font-weight:600">TypeScript</span>
+                    <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);padding:3px 10px;border-radius:6px;font-size:0.67rem;font-weight:600">PostgreSQL</span>
+                    <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);padding:3px 10px;border-radius:6px;font-size:0.67rem;font-weight:600">Docker / AWS</span>
+                  </div>
+                </div>
+                <div style="margin-top:16px;font-size:0.78rem;color:rgba(255,255,255,0.58);line-height:1.7;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px"><strong style="color:rgba(255,255,255,0.82)">الدور في المشروع:</strong> البنية التقنية الكاملة — من الواجهة حتى الخادم والنشر</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal-l">
+            <div style="background:#fff;border:1px solid var(--border);border-radius:24px;padding:38px 34px;box-shadow:var(--shadow);height:100%">
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px">
+                <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(255,184,0,0.3)"><i class="fa-solid fa-cloud" style="color:var(--ink);font-size:1.1rem"></i></div>
+                <div><div style="font-size:1.4rem;font-weight:900;color:var(--ink)">Cloudilic</div><div style="font-size:0.8rem;color:var(--gray)">شريككم التقني للتحول الرقمي</div></div>
+              </div>
+              <p style="color:#4b5563;font-size:0.9rem;line-height:1.9;margin-bottom:20px">نساعد الشركات على توظيف التقنية في عملياتها اليومية — لا كخدمة، بل كشريك استراتيجي يفهم جانب الأعمال قبل أن يبدأ بكتابة أي كود.</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+                <div style="background:linear-gradient(135deg,rgba(255,184,0,0.05),rgba(17,17,17,0.03));border:1px solid rgba(255,184,0,0.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--gold-dark);line-height:1">150+</div><div style="font-size:0.68rem;color:var(--gray);margin-top:4px">عميل حول العالم</div></div>
+                <div style="background:linear-gradient(135deg,rgba(17,17,17,0.03),rgba(255,184,0,0.05));border:1px solid rgba(255,184,0,0.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--gold);line-height:1">$500M+</div><div style="font-size:0.68rem;color:var(--gray);margin-top:4px">أعمال مُحسَّنة</div></div>
+                <div style="background:linear-gradient(135deg,rgba(255,184,0,0.05),rgba(17,17,17,0.03));border:1px solid rgba(255,184,0,0.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--gold-dark);line-height:1">90%</div><div style="font-size:0.68rem;color:var(--gray);margin-top:4px">نمو سنوي متواصل</div></div>
+                <div style="background:linear-gradient(135deg,rgba(17,17,17,0.03),rgba(255,184,0,0.05));border:1px solid rgba(255,184,0,0.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--gold);line-height:1">50+</div><div style="font-size:0.68rem;color:var(--gray);margin-top:4px">منتج SaaS مُطلَق</div></div>
+              </div>
+              <div style="border-top:1px solid var(--border);padding-top:16px">
+                <div style="font-size:0.62rem;font-weight:800;color:var(--gray);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px">قِيَمنا</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <span style="background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.15);color:var(--gold-dark);padding:5px 14px;border-radius:50px;font-size:0.75rem;font-weight:700">الجودة أولاً</span>
+                  <span style="background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.15);color:var(--gold-dark);padding:5px 14px;border-radius:50px;font-size:0.75rem;font-weight:700">الابتكار</span>
+                  <span style="background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.15);color:var(--gold-dark);padding:5px 14px;border-radius:50px;font-size:0.75rem;font-weight:700">الالتزام بالمواعيد</span>
+                  <span style="background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.15);color:var(--gold-dark);padding:5px 14px;border-radius:50px;font-size:0.75rem;font-weight:700">رضا العميل</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Org Chart -->
+        <div class="reveal" style="text-align:center;margin-bottom:32px">
+          <div class="section-tag" style="display:inline-flex"><i class="fa-solid fa-sitemap" style="font-size:0.72rem"></i>الهيكل التنظيمي</div>
+          <h3 style="font-size:clamp(1.2rem,3vw,1.6rem);font-weight:900;color:var(--ink);margin-bottom:8px">الفريق الذي سيُنفّذ مشروعكم</h3>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="chart-scroll">
+          <div class="org-canvas" id="orgCanvas">
+            <svg class="org-svg" id="orgSvg"></svg>
+            <div class="card v-ceo a0" id="c-ceo" style="width:190px">
+              <div class="highlight-grid-bg"></div>
+              <div class="ceo-tag">Founder & Chief Executive</div>
+              <div class="av av-wh"><img src="./imgs/ahmed-al-bassyouni.jpg" style="width:58px;height:58px" alt=""/></div>
+              <div class="role role-wh">CEO</div>
+              <div class="name name-wh">Ahmed Al-Bassyouni</div>
+            </div>
+            <div class="card v-lead a2" id="c-ag" style="width:152px">
+              <div class="av av-cr"><img src="./imgs/el8rbawy.png" style="width:46px;height:46px" alt=""/></div>
+              <div class="role role-cr">Sr. Software Engineer</div>
+              <div class="name">Ahmed Gharabawy</div>
+            </div>
+            <div class="card v-leadgo a2" id="c-aa" style="width:152px;padding-top:22px">
+              <div class="you">You</div>
+              <div class="av av-go"><img src="./imgs/ahmed.png" style="width:48px;height:48px" alt=""/></div>
+              <div class="role role-go">Sr. Full Stack Engineer</div>
+              <div class="name">Ahmed Abdelrhman</div>
+            </div>
+            <div class="card v-sublead-red a4" id="c-fa" style="width:136px">
+              <div class="av av-cr"><img src="https://ui-avatars.com/api/?name=Farid+A&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width:40px;height:40px" alt=""/></div>
+              <div class="role role-cr" style="font-size:6.5px">Sr. Software Engineer</div>
+              <div class="name" style="font-size:10.5px">Farid Azzam</div>
+            </div>
+            <div class="card v-sublead-red a4" id="c-mat" style="width:136px">
+              <div class="av av-cr"><img src="./imgs/madatef.png" style="width:40px;height:40px" alt=""/></div>
+              <div class="role role-cr" style="font-size:6.5px">AI Engineer</div>
+              <div class="name" style="font-size:10.5px">Mohamed Atef</div>
+            </div>
+            <div class="card v-leaf-red a7" id="c-mal" style="width:118px">
+              <div class="av av-gr"><img src="./imgs/mahmoud-ali.png" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">Software Engineer</div>
+              <div class="name" style="font-size:9.5px">Mahmoud Ali</div>
+            </div>
+            <div class="card v-leaf-red a7" id="c-km" style="width:118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=Kareem+M&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">AI Engineer</div>
+              <div class="name" style="font-size:9.5px">Kareem Mohamed</div>
+            </div>
+            <div class="card v-leaf-red a8" id="c-ms" style="width:118px">
+              <div class="av av-gr"><img src="./imgs/mahmoud-shoieb.png" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">AI Engineer</div>
+              <div class="name" style="font-size:9.5px">Mahmoud Shoeib</div>
+            </div>
+            <div class="card v-leaf-red a9" id="c-ye" style="width:118px">
+              <div class="av av-gr"><img src="./imgs/yousef-eslam.png" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">AI Engineer</div>
+              <div class="name" style="font-size:9.5px">Youssef Essam</div>
+            </div>
+            <div class="card v-sublead-go a4" id="c-mt" style="width:136px">
+              <div class="av av-go"><img src="https://ui-avatars.com/api/?name=M+T&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width:40px;height:40px" alt=""/></div>
+              <div class="role role-go" style="font-size:6.5px">Full Stack Developer</div>
+              <div class="name" style="font-size:10.5px">Mostafa Tamer</div>
+            </div>
+            <div class="card v-sublead-go a4" id="c-yo" style="width:136px">
+              <div class="av av-go"><img src="https://ui-avatars.com/api/?name=Yosra&background=a07840&color=fff&size=80&bold=true&font-size=0.38" style="width:40px;height:40px" alt=""/></div>
+              <div class="role role-go" style="font-size:6.5px">UI/UX Designer</div>
+              <div class="name" style="font-size:10.5px">Yosra</div>
+            </div>
+            <div class="card v-leaf-go a7" id="c-mab" style="width:118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=M+As&background=c0b8b0&color=3a1018&size=56&bold=true&font-size=0.42" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">Frontend Developer</div>
+              <div class="name" style="font-size:9.5px">Mahmoud Abdelrhman</div>
+            </div>
+            <div class="card v-leaf-go a8" id="c-hh" style="width:118px">
+              <div class="av av-gr"><img src="./imgs/hossam-hassan.png" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">Backend Developer</div>
+              <div class="name" style="font-size:9.5px">Hossam Hassan</div>
+            </div>
+            <div class="card v-leaf-go a7" id="c-me2" style="width:118px">
+              <div class="av av-gr"><img src="./imgs/mohammed-essam.png" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">Mobile Developer</div>
+              <div class="name" style="font-size:9.5px">Mohamed Essam</div>
+            </div>
+            <div class="card v-leaf-go a8" id="c-km2" style="width:118px">
+              <div class="av av-gr"><img src="https://ui-avatars.com/api/?name=Kareem+M&background=d4c4a8&color=4a2a10&size=56&bold=true&font-size=0.42" style="width:32px;height:32px" alt=""/></div>
+              <div class="role role-dim" style="font-size:6.5px">QA Engineer</div>
+              <div class="name" style="font-size:9.5px">Kareem Mohamed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Partners -->
+        <div class="reveal" style="margin-top:64px;text-align:center;margin-bottom:32px">
+          <div class="section-tag" style="display:inline-flex"><i class="fa-solid fa-handshake" style="font-size:0.72rem"></i>شركاؤنا ومؤسساتنا</div>
+          <h3 style="font-size:clamp(1.2rem,3vw,1.6rem);font-weight:900;color:var(--ink);margin-bottom:8px">جهات تثق بعملنا وتدعمه</h3>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="reveal" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+          <div class="partner-card"><div style="width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,rgba(255,184,0,0.08),rgba(17,17,17,0.05));border:1px solid rgba(255,184,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-building" style="color:var(--gold-dark);font-size:0.85rem"></i></div><div style="text-align:right"><div style="font-weight:800;font-size:0.86rem;color:var(--ink)">Flat6Labs</div><div style="font-size:0.65rem;color:var(--gray);font-weight:600;margin-top:1px">مسرّع أعمال عالمي</div></div></div>
+          <div class="partner-card"><div style="width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,rgba(255,184,0,0.08),rgba(17,17,17,0.05));border:1px solid rgba(255,184,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:0.52rem;font-weight:900;color:var(--gold-dark)">DIC</span></div><div style="text-align:right"><div style="font-weight:800;font-size:0.86rem;color:var(--ink)">DIC Qatar</div><div style="font-size:0.65rem;color:var(--gray);font-weight:600;margin-top:1px">مركز الابتكار الرقمي · قطر</div></div></div>
+          <div class="partner-card"><div style="width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,rgba(255,184,0,0.08),rgba(17,17,17,0.05));border:1px solid rgba(255,184,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:0.48rem;font-weight:900;color:var(--gold-dark)">MCIT</span></div><div style="text-align:right"><div style="font-weight:800;font-size:0.86rem;color:var(--ink)">MCIT Qatar</div><div style="font-size:0.65rem;color:var(--gray);font-weight:600;margin-top:1px">وزارة الاتصالات والتقنية · قطر</div></div></div>
+          <div class="partner-card"><div style="width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,rgba(255,184,0,0.08),rgba(17,17,17,0.05));border:1px solid rgba(255,184,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-graduation-cap" style="color:var(--gold-dark);font-size:0.85rem"></i></div><div style="text-align:right"><div style="font-weight:800;font-size:0.86rem;color:var(--ink)">Onsi Sawiris School</div><div style="font-size:0.65rem;color:var(--gray);font-weight:600;margin-top:1px">جامعة النيل · إدارة أعمال</div></div></div>
+          <div class="partner-card"><div style="width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,rgba(255,184,0,0.08),rgba(17,17,17,0.05));border:1px solid rgba(255,184,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:0.48rem;font-weight:900;color:var(--gold-dark);text-align:center;line-height:1.3">IDRC<br/>CRDI</span></div><div style="text-align:right"><div style="font-weight:800;font-size:0.86rem;color:var(--ink)">IDRC Canada</div><div style="font-size:0.65rem;color:var(--gray);font-weight:600;margin-top:1px">بحث وتنمية دولية</div></div></div>
+          <div class="partner-card"><div style="width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,rgba(255,184,0,0.08),rgba(17,17,17,0.05));border:1px solid rgba(255,184,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-earth-africa" style="color:var(--gold-dark);font-size:0.85rem"></i></div><div style="text-align:right"><div style="font-weight:800;font-size:0.86rem;color:var(--ink)">MENA AI Observatory</div><div style="font-size:0.65rem;color:var(--gray);font-weight:600;margin-top:1px">مرصد الذكاء الاصطناعي للمنطقة</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         12. الختام
+    ══════════════════════════════════════════ -->
+    <section id="closing" style="background:linear-gradient(150deg,#080808 0%,var(--ink) 50%,#1a1a0a 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0;position:relative;overflow:hidden">
+      <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(255,184,0,0.1),transparent);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none"></div>
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,184,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,184,0,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none"></div>
+
+      <div style="max-width:860px;width:100%;margin:0 auto;padding:60px 24px;text-align:center;position:relative;z-index:1">
+        <div class="reveal" style="display:flex;align-items:center;justify-content:center;gap:10px;max-width:160px;margin:0 auto 40px">
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,184,0,0.5))"></div>
+          <i class="fa-solid fa-star" style="color:var(--gold);font-size:0.9rem"></i>
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,184,0,0.5),transparent)"></div>
+        </div>
+
+        <div class="reveal d1" style="margin-bottom:28px">
+          <div style="width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 8px 32px rgba(255,184,0,0.4)">
+            <i class="fa-solid fa-cloud" style="color:var(--ink);font-size:1.4rem"></i>
+          </div>
+        </div>
+
+        <div class="reveal d1" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,184,0,0.12);border:1px solid rgba(255,184,0,0.25);color:var(--gold-light);padding:8px 20px;border-radius:50px;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;margin-bottom:24px">
+          <i class="fa-solid fa-handshake-simple"></i> Cloudilic × Baladi Mart · قطر 2026
+        </div>
+
+        <h2 class="reveal d2" style="font-size:clamp(1.7rem,5vw,3.2rem);font-weight:900;color:#fff;line-height:1.4;margin-bottom:20px">
+          لنبنِ معاً<br/><span style="color:var(--gold-light)">أقوى منظومة لوجستية في قطر</span>
+        </h2>
+        <p class="reveal d3" style="color:rgba(255,255,255,0.6);font-size:clamp(0.9rem,2vw,1.1rem);line-height:2;max-width:640px;margin:0 auto 40px;font-weight:400">هذه المنظومة ليست مجرد أداة تشغيل — بل العمود الفقري الذي يمكّن Baladi Mart من التوسع بثقة وخدمة السوق القطري بالمستوى الذي تستحقه رؤية 2030.</p>
+
+        <div class="reveal d4" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(14px,3vw,32px);margin-bottom:48px">
+          <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.5);font-size:clamp(0.78rem,2vw,0.9rem);font-weight:600"><i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i>بنية آمنة وموثوقة</div>
+          <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.5);font-size:clamp(0.78rem,2vw,0.9rem);font-weight:600"><i class="fa-solid fa-clock" style="color:var(--gold)"></i>التزام كامل بمواعيد التسليم</div>
+          <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.5);font-size:clamp(0.78rem,2vw,0.9rem);font-weight:600"><i class="fa-solid fa-headset" style="color:var(--gold)"></i>دعم مستمر بعد الإطلاق</div>
+          <div style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.5);font-size:clamp(0.78rem,2vw,0.9rem);font-weight:600"><i class="fa-solid fa-users" style="color:var(--gold)"></i>فريق متخصص بخبرة فعلية</div>
+        </div>
+
+        <div class="reveal d5" style="border-top:1px solid rgba(255,255,255,0.08);padding-top:36px">
+          <div style="font-size:0.7rem;color:rgba(255,255,255,0.2)">© 2026 Cloudilic — جميع الحقوق محفوظة · Dubai, UAE · Malmö, Sweden</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ORG CHART LAYOUT ═══ -->
+    <script>
+      (function(){
+        const HG=14,VG=48,VGS=10;
+        const $=id=>document.getElementById(id);
+        const W=id=>$(id).offsetWidth;
+        const H=id=>$(id).offsetHeight;
+        const TREE={id:'c-ceo',rows:[[
+          {id:'c-ag',rows:[[
+            {id:'c-fa',rows:[[{id:'c-mal',rows:[]}]]},
+            {id:'c-mat',rows:[[{id:'c-km',rows:[]},{id:'c-ms',rows:[]},{id:'c-ye',rows:[]}]]}
+          ]]},
+          {id:'c-aa',rows:[[
+            {id:'c-mt',rows:[[{id:'c-mab',rows:[]},{id:'c-hh',rows:[]}]]},
+            {id:'c-yo',rows:[[{id:'c-me2',rows:[]},{id:'c-km2',rows:[]}]]}
+          ]]}
+        ]]};
+        function subW(node){const self=W(node.id);if(!node.rows.length)return self;let m=0;node.rows.forEach(r=>{const rw=r.reduce((s,c,i)=>s+subW(c)+(i>0?HG:0),0);if(rw>m)m=rw;});return Math.max(self,m);}
+        function place(node,cx,top){const e=$(node.id);e.style.left=Math.round(cx-W(node.id)/2)+'px';e.style.top=Math.round(top)+'px';e.__cx=cx;if(!node.rows.length)return;let rt=top+H(node.id)+VG;node.rows.forEach((row,ri)=>{const rw=row.reduce((s,c,i)=>s+subW(c)+(i>0?HG:0),0);let x=cx-rw/2;row.forEach(child=>{const nw=subW(child);place(child,x+nw/2,rt);x+=nw+HG;});if(ri<node.rows.length-1){const mh=Math.max(...row.map(c=>H(c.id)));rt+=mh+VGS;}});}
+        function extents(node,acc){const e=$(node.id);acc.r=Math.max(acc.r,e.offsetLeft+e.offsetWidth);acc.b=Math.max(acc.b,e.offsetTop+e.offsetHeight);node.rows.forEach(r=>r.forEach(c=>extents(c,acc)));return acc;}
+        const C_LINE='#cfc5bb',C_GOLD='#e6a600';
+        function seg(svg,x1,y1,x2,y2,color,dash){const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',Math.round(x1));l.setAttribute('y1',Math.round(y1));l.setAttribute('x2',Math.round(x2));l.setAttribute('y2',Math.round(y2));l.setAttribute('stroke',color);l.setAttribute('stroke-width','1.4');l.setAttribute('stroke-linecap','round');if(dash)l.setAttribute('stroke-dasharray','5 3');svg.appendChild(l);}
+        function cbot(id){const e=$(id);return{x:e.offsetLeft+e.offsetWidth/2,y:e.offsetTop+e.offsetHeight};}
+        function ctop(id){const e=$(id);return{x:e.offsetLeft+e.offsetWidth/2,y:e.offsetTop};}
+        const goldBranch=new Set(['c-aa','c-mt','c-yo','c-mab','c-hh','c-me2','c-km2']);
+        const lineColor=id=>goldBranch.has(id)?C_GOLD:C_LINE;
+        const isDash=id=>goldBranch.has(id);
+        function fanout(svg,pBot,childIds,color,dash){if(!childIds.length)return;if(childIds.length===1){const t=ctop(childIds[0]);const my=Math.round((pBot.y+t.y)/2);seg(svg,pBot.x,pBot.y,pBot.x,my,color,dash);seg(svg,pBot.x,my,t.x,my,color,dash);seg(svg,t.x,my,t.x,t.y,color,dash);return;}const tops=childIds.map(id=>ctop(id));const busY=Math.round(pBot.y+(tops[0].y-pBot.y)*0.46);seg(svg,pBot.x,pBot.y,pBot.x,busY,color,dash);const lx=Math.min(...tops.map(t=>t.x));const rx=Math.max(...tops.map(t=>t.x));seg(svg,lx,busY,rx,busY,color,dash);tops.forEach(t=>seg(svg,t.x,busY,t.x,t.y,color,dash));}
+        function drawNode(svg,node){if(!node.rows.length)return;const color=lineColor(node.id);const dash=isDash(node.id);node.rows.forEach((row,ri)=>{const childIds=row.map(c=>c.id);if(ri===0){fanout(svg,cbot(node.id),childIds,color,dash);}else{const prevRow=node.rows[ri-1];const prevMaxBot=Math.max(...prevRow.map(c=>$(c.id).offsetTop+$(c.id).offsetHeight));const tops=childIds.map(id=>ctop(id));const busY=Math.round(prevMaxBot+VGS/2);const cx=$(node.id).__cx;seg(svg,cx,prevMaxBot,cx,busY,color,dash);if(childIds.length>1){const lx=Math.min(...tops.map(t=>t.x));const rx=Math.max(...tops.map(t=>t.x));seg(svg,lx,busY,rx,busY,color,dash);tops.forEach(t=>seg(svg,t.x,busY,t.x,t.y,color,dash));}else{seg(svg,cx,busY,tops[0].x,busY,color,dash);seg(svg,tops[0].x,busY,tops[0].x,tops[0].y,color,dash);}}row.forEach(child=>drawNode(svg,child));});}
+        function layout(){const canvas=$('orgCanvas');const svg=$('orgSvg');const PAD=32;const totalW=subW(TREE);const canvasW=totalW+PAD*2;place(TREE,canvasW/2,PAD/2);const ext=extents(TREE,{r:0,b:0});const canvasH=ext.b+PAD;canvas.style.width=canvasW+'px';canvas.style.height=canvasH+'px';svg.setAttribute('width',canvasW);svg.setAttribute('height',canvasH);svg.setAttribute('viewBox',`0 0 ${canvasW} ${canvasH}`);svg.innerHTML='';const t1ids=TREE.rows[0].map(c=>c.id);fanout(svg,cbot('c-ceo'),t1ids,C_LINE,false);TREE.rows[0].forEach(child=>drawNode(svg,child));}
+        requestAnimationFrame(()=>requestAnimationFrame(layout));
+        let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(layout,80);});
+      })();
+    </script>
+
+    <!-- ═══ MAIN SCRIPT ═══ -->
+    <script>
+      const SECTIONS=['hero','context','problem','solution','modules','flow','outcomes','casestudy','why','plan','about','closing'];
+
+      let mobOpen=false;
+      function toggleMob(){mobOpen=!mobOpen;document.getElementById('mob-menu').classList.toggle('open',mobOpen);document.getElementById('ham-btn').classList.toggle('open',mobOpen);}
+      function closeMob(){mobOpen=false;document.getElementById('mob-menu').classList.remove('open');document.getElementById('ham-btn').classList.remove('open');}
+
+      const navbar=document.getElementById('navbar');
+      let lastY=0,ticking=false;
+      function handleNavScroll(){const y=window.scrollY;navbar.classList.toggle('scrolled',y>60);if(y>lastY&&y>80){navbar.classList.add('hide-nav');}else{navbar.classList.remove('hide-nav');}if(y>lastY&&y>80)closeMob();lastY=y;ticking=false;}
+      window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(handleNavScroll);ticking=true;}},{passive:true});
+
+      const pbar=document.getElementById('progress-bar');
+      window.addEventListener('scroll',()=>{const total=document.body.scrollHeight-window.innerHeight;pbar.style.transform=`scaleX(${window.scrollY/total})`;},{passive:true});
+
+      const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -36px 0px'});
+      document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>revObs.observe(el));
+
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
+
+      const snavItems=document.querySelectorAll('.snav-item');
+      const mobSnavItems=document.querySelectorAll('.mob-snav-item');
+      function getCurrentSection(){let cur=SECTIONS[0];SECTIONS.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-180)cur=id;});return cur;}
+      function updateActive(){const cur=getCurrentSection();snavItems.forEach(i=>i.classList.toggle('active',i.dataset.target===cur));mobSnavItems.forEach(i=>i.classList.toggle('active',i.dataset.target===cur));}
+      window.addEventListener('scroll',updateActive,{passive:true});
+      updateActive();
+      snavItems.forEach(i=>{i.addEventListener('click',()=>{const t=document.getElementById(i.dataset.target);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
+      mobSnavItems.forEach(i=>{i.addEventListener('click',()=>{const t=document.getElementById(i.dataset.target);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
+
+      function scrollToIdx(idx){const id=SECTIONS[Math.max(0,Math.min(idx,SECTIONS.length-1))];const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+      document.getElementById('mob-snav-up').addEventListener('click',()=>scrollToIdx(SECTIONS.indexOf(getCurrentSection())-1));
+      document.getElementById('mob-snav-down').addEventListener('click',()=>scrollToIdx(SECTIONS.indexOf(getCurrentSection())+1));
+      document.addEventListener('keydown',e=>{if(e.key==='ArrowUp'){e.preventDefault();scrollToIdx(SECTIONS.indexOf(getCurrentSection())-1);}else if(e.key==='ArrowDown'){e.preventDefault();scrollToIdx(SECTIONS.indexOf(getCurrentSection())+1);}});
+    </script>
+  </body>
+</html>
